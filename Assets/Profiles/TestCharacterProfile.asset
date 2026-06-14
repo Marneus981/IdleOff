@@ -16,5 +16,31 @@ MonoBehaviour:
   characters:
   - characterName: Apprentice
     gender: 0
-    level: 1
-    speed: 5
+    characterClass:
+      className: Wandering Soul
+      levelNumber: 1
+      currentXP: 0
+      maxXP: 100
+      passiveAbilities: []
+      activeAbilities: []
+    mainStats:
+      str: 0
+      agi: 0
+      wis: 0
+      luck: 0
+    secondaryStats:
+      accuracy: 2
+      mastery: 0.35
+      weaponPower: 0
+      unarmedWeaponPower: 5
+      defense: 0
+      hp: 10
+      mp: 5
+      damageFlatBonus: 0
+      damageMultiplier: 1
+      critChance: 0.025
+      critDamage: 0
+      bossDamage: 0
+      dropRate: 0
+      classXPRate: 0
+      speed: 5

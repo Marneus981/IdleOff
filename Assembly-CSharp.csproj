@@ -54,6 +54,7 @@
     <Compile Include="Assets\Scripts\Profiles\CharacterGender.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterProfile.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterData.cs" />
+    <Compile Include="Assets\Scripts\Profiles\CharacterClass.cs" />
     <Compile Include="Assets\Scripts\World\LadderZone.cs" />
   </ItemGroup>
   <ItemGroup>
