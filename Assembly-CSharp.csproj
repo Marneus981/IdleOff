@@ -50,11 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\PlayerMovement2D.cs" />
+    <Compile Include="Assets\Scripts\Profiles\MainStats.cs" />
     <Compile Include="Assets\Scripts\World\DropThroughPlatform.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterGender.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterProfile.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterData.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterClass.cs" />
+    <Compile Include="Assets\Scripts\Profiles\SecondaryStats.cs" />
     <Compile Include="Assets\Scripts\World\LadderZone.cs" />
   </ItemGroup>
   <ItemGroup>
