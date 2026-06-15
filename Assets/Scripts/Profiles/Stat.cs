@@ -97,7 +97,7 @@ namespace IdleOff.Profiles
             for (int i = 0; i < formulaParts; i++) formulaValuesList.Add(0f);
             foreach (var id in validModifierIDs)
             {
-               var tuple = CharacterData.GetModifier(id).AppliedIncrease(statID);////TBA///
+               var tuple = CharacterData.GetModifier(id).AppliedIncrease(statID);////TBA///CharacterData.GetModifier(id) gets modifier by ID
                formulaValuesList[tuple.Item1] = formulaValuesList[tuple.Item1] + tuple.Item2;
             }
             SetValue(Formula(formulaValuesList));

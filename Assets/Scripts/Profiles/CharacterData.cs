@@ -68,7 +68,7 @@ namespace IdleOff.Profiles
 
         public void UpdateStats()
         {
-            LoadStats();
+            LoadStats(); //may reset saved values for the character
             mainStats.Update();
             secondaryStats.Update();
         }

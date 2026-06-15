@@ -6,7 +6,7 @@ namespace IdleOff.Profiles
     [Serializable]
     public sealed class SecondaryStats
     {
-        [SerializeField] private string statsJsonPath = "Assets/Tables/DummyStats.json";
+        [SerializeField] private string statsJsonPath = "Assets/Tables/Stats.json";
         [SerializeField] private Accuracy accuracy;
         [SerializeField] private Mastery mastery;
         [SerializeField] private WeaponPower weaponPower;

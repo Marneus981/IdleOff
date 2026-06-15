@@ -1,146 +1,146 @@
 {
   "str": {
-    "statID": -1,
+    "statID": 1001,
     "defaultValue": 0,
     "minValue": 0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "agi": {
-    "statID": -1,
+    "statID": 1002,
     "defaultValue": 0,
     "minValue": 0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "wis": {
-    "statID": -1,
+    "statID": 1003,
     "defaultValue": 0,
     "minValue": 0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "luck": {
-    "statID": -1,
+    "statID": 1004,
     "defaultValue": 0,
     "minValue": 0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "accuracy": {
-    "statID": -1,
+    "statID": 1005,
     "defaultValue": 2.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "mastery": {
-    "statID": -1,
+    "statID": 1006,
     "defaultValue": 0.35,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "weaponPower": {
-    "statID": -1,
+    "statID": 1007,
     "defaultValue": 0.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "unarmedWeaponPower": {
-    "statID": -1,
+    "statID": 1008,
     "defaultValue": 5.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "defense": {
-    "statID": -1,
+    "statID": 1009,
     "defaultValue": 0.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "hp": {
-    "statID": -1,
+    "statID": 1010,
     "defaultValue": 10.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "maxHp": {
-    "statID": -1,
+    "statID": 1011,
     "defaultValue": 10.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "mp": {
-    "statID": -1,
+    "statID": 1012,
     "defaultValue": 5.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "maxMp": {
-    "statID": -1,
+    "statID": 1013,
     "defaultValue": 5.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "damageFlatBonus": {
-    "statID": -1,
+    "statID": 1014,
     "defaultValue": 0.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "damageMultiplier": {
-    "statID": -1,
+    "statID": 1015,
     "defaultValue": 1.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "critChance": {
-    "statID": -1,
+    "statID": 1016,
     "defaultValue": 0.025,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "critDamage": {
-    "statID": -1,
+    "statID": 1017,
     "defaultValue": 0.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "bossDamage": {
-    "statID": -1,
+    "statID": 1018,
     "defaultValue": 0.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "dropRate": {
-    "statID": -1,
+    "statID": 1019,
     "defaultValue": 0.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "classXPRate": {
-    "statID": -1,
+    "statID": 1020,
     "defaultValue": 0.0,
     "minValue": 0.0,
     "validModifierIDs": [],
     "formulaParts": 2
   },
   "speed": {
-    "statID": -1,
+    "statID": 1021,
     "defaultValue": 5.0,
     "minValue": 0.0,
     "validModifierIDs": [],

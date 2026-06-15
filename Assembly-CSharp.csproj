@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\WeaponPower.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Mastery.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Luck.cs" />
+    <Compile Include="Assets\Scripts\Profiles\Active.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\CritDamage.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterGender.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\BossDamage.cs" />

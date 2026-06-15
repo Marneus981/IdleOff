@@ -11,11 +11,11 @@ namespace IdleOff.Profiles
         [SerializeField, Min(1)] private int levelNumber = 1;
         [SerializeField, Min(0f)] private float currentXP;
         [SerializeField, Min(0f)] private float maxXP = 100f;
-        [SerializeField] private List<PassiveAbility> passiveAbilities = new();
-        [SerializeField] private List<ActiveAbility> activeAbilities = new();
+        [SerializeField] private List<Modifier> modifiers = new();
+        [SerializeField] private List<Active> actives = new();
 
-        public IReadOnlyList<PassiveAbility> PassiveAbilities => passiveAbilities;
-        public IReadOnlyList<ActiveAbility> ActiveAbilities => activeAbilities;
+        public IReadOnlyList<Modifier> PassiveAbilities => modifiers;
+        public IReadOnlyList<Active> ActiveAbilities => actives;
 
         public CharacterClass()
         {
@@ -94,15 +94,14 @@ namespace IdleOff.Profiles
         {
             maxXP = Mathf.Max(0f, value);
         }
+        private void LoadModifiers()
+        {
+            ////TO BE IMPLEMENTED
+        }
+        private void LoadActives()
+        {
+            ////TO BE IMPLEMENTED
+        }
     }
 
-    [Serializable]
-    public sealed class PassiveAbility
-    {
-    }
-
-    [Serializable]
-    public sealed class ActiveAbility
-    {
-    }
 }

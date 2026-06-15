@@ -6,7 +6,7 @@ namespace IdleOff.Profiles
     [Serializable]
     public sealed class MainStats
     {
-        [SerializeField] private string statsJsonPath = "Assets/Tables/DummyStats.json";
+        [SerializeField] private string statsJsonPath = "Assets/Tables/Stats.json";
         [SerializeField] private Str str;
         [SerializeField] private Agi agi;
         [SerializeField] private Wis wis;

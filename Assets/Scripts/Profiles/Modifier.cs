@@ -45,7 +45,7 @@ namespace IdleOff.Profiles
                 level = level + change;
                 foreach(var indexIncr in indexIncreaseByStatID)
                 {
-                    CharacterData.UpdateByStatID(indexIncr.Key);////TBA///
+                    CharacterData.UpdateByStatID(indexIncr.Key);////TBA///CharacterData.UpdateByStatID calls update method corresponding to the stat ID in question
                 }
                 return 0;
             }

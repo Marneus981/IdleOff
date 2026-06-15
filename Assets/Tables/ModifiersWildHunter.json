@@ -1,0 +1,288 @@
+{
+  "2001": {
+    "name": "WanderingSoul01",
+    "description": "This is the description for Modifier WanderingSoul01",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2002": {
+    "name": "WanderingSoul02",
+    "description": "This is the description for Modifier WanderingSoul02",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2003": {
+    "name": "WanderingSoul03",
+    "description": "This is the description for Modifier WanderingSoul03",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2004": {
+    "name": "WanderingSoul04",
+    "description": "This is the description for Modifier WanderingSoul04",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2005": {
+    "name": "WanderingSoul05",
+    "description": "This is the description for Modifier WanderingSoul05",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2006": {
+    "name": "WanderingSoul06",
+    "description": "This is the description for Modifier WanderingSoul06",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2007": {
+    "name": "WanderingSoul07",
+    "description": "This is the description for Modifier WanderingSoul07",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2008": {
+    "name": "WanderingSoul08",
+    "description": "This is the description for Modifier WanderingSoul08",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2009": {
+    "name": "WanderingSoul09",
+    "description": "This is the description for Modifier WanderingSoul09",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2010": {
+    "name": "WanderingSoul10",
+    "description": "This is the description for Modifier WanderingSoul10",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2011": {
+    "name": "WanderingSoul11",
+    "description": "This is the description for Modifier WanderingSoul11",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2023": {
+    "name": "WildHunter01",
+    "description": "This is the description for Modifier WildHunter01",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2024": {
+    "name": "WildHunter02",
+    "description": "This is the description for Modifier WildHunter02",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2025": {
+    "name": "WildHunter03",
+    "description": "This is the description for Modifier WildHunter03",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2026": {
+    "name": "WildHunter04",
+    "description": "This is the description for Modifier WildHunter04",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2027": {
+    "name": "WildHunter05",
+    "description": "This is the description for Modifier WildHunter05",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2028": {
+    "name": "WildHunter06",
+    "description": "This is the description for Modifier WildHunter06",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2029": {
+    "name": "WildHunter07",
+    "description": "This is the description for Modifier WildHunter07",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2030": {
+    "name": "WildHunter08",
+    "description": "This is the description for Modifier WildHunter08",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2031": {
+    "name": "WildHunter09",
+    "description": "This is the description for Modifier WildHunter09",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2032": {
+    "name": "WildHunter10",
+    "description": "This is the description for Modifier WildHunter10",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  },
+  "2033": {
+    "name": "WildHunter11",
+    "description": "This is the description for Modifier WildHunter11",
+    "level": 0,
+    "maxLevel": 100,
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0.2 },
+      "1002": { "index": 0, "increase": 0.2 },
+      "1003": { "index": 0, "increase": 0.2 },
+      "1004": { "index": 0, "increase": 0.2 },
+      "1005": { "index": 0, "increase": 0.2 }
+    }
+  }
+}
