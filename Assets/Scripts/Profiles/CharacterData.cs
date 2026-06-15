@@ -16,16 +16,41 @@ namespace IdleOff.Profiles
         public CharacterGender Gender => gender;
         public CharacterClass CharacterClass => GetCharacterClass();
         public int Level => GetCharacterClass().GetLevelNumber();
-        public MainStats MainStats => mainStats;
-        public SecondaryStats SecondaryStats => secondaryStats;
-        public float Speed => secondaryStats.GetSpeed();
+        public MainStats MainStats
+        {
+            get
+            {
+                LoadStats();
+                return mainStats;
+            }
+        }
+
+        public SecondaryStats SecondaryStats
+        {
+            get
+            {
+                LoadStats();
+                return secondaryStats;
+            }
+        }
+
+        public float Speed
+        {
+            get
+            {
+                LoadStats();
+                return secondaryStats.GetSpeed();
+            }
+        }
 
         public CharacterData()
         {
+            LoadStats();
         }
 
         public CharacterData(string characterName, CharacterGender gender, int level, float speed)
         {
+            LoadStats();
             this.characterName = characterName;
             this.gender = gender;
             GetCharacterClass().SetLevelNumber(level);
@@ -34,6 +59,7 @@ namespace IdleOff.Profiles
 
         public CharacterData(string characterName, CharacterGender gender, CharacterClass characterClass, float speed)
         {
+            LoadStats();
             this.characterName = characterName;
             this.gender = gender;
             this.characterClass = characterClass ?? CharacterClass.CreateWanderingSoul();
@@ -42,6 +68,7 @@ namespace IdleOff.Profiles
 
         public void UpdateStats()
         {
+            LoadStats();
             mainStats.Update();
             secondaryStats.Update();
         }
@@ -50,6 +77,30 @@ namespace IdleOff.Profiles
         {
             characterClass ??= CharacterClass.CreateWanderingSoul();
             return characterClass;
+        }
+        public static Modifier GetModifier(int modifierID)
+        {
+            ////TO BE IMPLEMENTED
+            throw new NotImplementedException($"Modifier lookup is not implemented for modifier ID {modifierID}.");
+        }        
+        public static void UpdateByStatID(int statID)
+        {
+            ////TO BE IMPLEMENTED
+        }
+        private void LoadStats()
+        {
+            mainStats ??= new MainStats();
+            secondaryStats ??= new SecondaryStats();
+
+            if (!mainStats.IsLoaded())
+            {
+                mainStats.LoadMainStats();
+            }
+
+            if (!secondaryStats.IsLoaded())
+            {
+                secondaryStats.LoadSecondaryStats();
+            }
         }
     }
 }

@@ -6,324 +6,104 @@ namespace IdleOff.Profiles
     [Serializable]
     public sealed class SecondaryStats
     {
-        [SerializeField, Min(0f)] private float accuracy = 2f;
-        [SerializeField, Min(0f)] private float mastery = 0.35f;
-        [SerializeField, Min(0f)] private float weaponPower;
-        [SerializeField, Min(0f)] private float unarmedWeaponPower = 5f;
-        [SerializeField, Min(0f)] private float defense;
-        [SerializeField, Min(0f)] private float hp = 10f;
-        [SerializeField, Min(0f)] private float mp = 5f;
-        [SerializeField, Min(0f)] private float damageFlatBonus;
-        [SerializeField, Min(0f)] private float damageMultiplier = 1f;
-        [SerializeField, Min(0f)] private float critChance = 0.025f;
-        [SerializeField, Min(0f)] private float critDamage;
-        [SerializeField, Min(0f)] private float bossDamage;
-        [SerializeField, Min(0f)] private float dropRate;
-        [SerializeField, Min(0f)] private float classXPRate;
-        [SerializeField, Min(0f)] private float speed = 5f;
+        [SerializeField] private string statsJsonPath = "Assets/Tables/DummyStats.json";
+        [SerializeField] private Accuracy accuracy;
+        [SerializeField] private Mastery mastery;
+        [SerializeField] private WeaponPower weaponPower;
+        [SerializeField] private UnarmedWeaponPower unarmedWeaponPower;
+        [SerializeField] private Defense defense;
+        [SerializeField] private Hp hp;
+        [SerializeField] private MaxHp maxHp;
+        [SerializeField] private Mp mp;
+        [SerializeField] private MaxMp maxMp;
+        [SerializeField] private DamageFlatBonus damageFlatBonus;
+        [SerializeField] private DamageMultiplier damageMultiplier;
+        [SerializeField] private CritChance critChance;
+        [SerializeField] private CritDamage critDamage;
+        [SerializeField] private BossDamage bossDamage;
+        [SerializeField] private DropRate dropRate;
+        [SerializeField] private ClassXPRate classXPRate;
+        [SerializeField] private Speed speed;
 
-        public float GetAccuracy()
+
+        public void Update()
         {
-            return accuracy;
+            if (!IsLoaded())
+            {
+                LoadSecondaryStats();
+            }
+
+            accuracy.UpdateStat();
+            mastery.UpdateStat();
+            weaponPower.UpdateStat();
+            unarmedWeaponPower.UpdateStat();
+            defense.UpdateStat();
+            hp.UpdateStat();
+            maxHp.UpdateStat();
+            mp.UpdateStat();
+            maxMp.UpdateStat();
+            damageFlatBonus.UpdateStat();
+            damageMultiplier.UpdateStat();
+            critChance.UpdateStat();
+            critDamage.UpdateStat();
+            bossDamage.UpdateStat();
+            dropRate.UpdateStat();
+            classXPRate.UpdateStat();
+            speed.UpdateStat();
         }
-
-        public void SetAccuracy(float value)
+        public void LoadSecondaryStats()
         {
-            accuracy = Mathf.Max(0f, value);
-        }
-
-        public void AddAccuracy(float value)
-        {
-            SetAccuracy(accuracy + value);
-        }
-
-        public void UpdateAccuracy()
-        {
-        }
-
-        public float GetMastery()
-        {
-            return mastery;
-        }
-
-        public void SetMastery(float value)
-        {
-            mastery = Mathf.Max(0f, value);
-        }
-
-        public void AddMastery(float value)
-        {
-            SetMastery(mastery + value);
-        }
-
-        public void UpdateMastery()
-        {
-        }
-
-        public float GetWeaponPower()
-        {
-            return weaponPower;
-        }
-
-        public void SetWeaponPower(float value)
-        {
-            weaponPower = Mathf.Max(0f, value);
-        }
-
-        public void AddWeaponPower(float value)
-        {
-            SetWeaponPower(weaponPower + value);
-        }
-
-        public void UpdateWeaponPower()
-        {
-        }
-
-        public float GetUnarmedWeaponPower()
-        {
-            return unarmedWeaponPower;
-        }
-
-        public void SetUnarmedWeaponPower(float value)
-        {
-            unarmedWeaponPower = Mathf.Max(0f, value);
-        }
-
-        public void AddUnarmedWeaponPower(float value)
-        {
-            SetUnarmedWeaponPower(unarmedWeaponPower + value);
-        }
-
-        public void UpdateUnarmedWeaponPower()
-        {
-        }
-
-        public float GetDefense()
-        {
-            return defense;
-        }
-
-        public void SetDefense(float value)
-        {
-            defense = Mathf.Max(0f, value);
-        }
-
-        public void AddDefense(float value)
-        {
-            SetDefense(defense + value);
-        }
-
-        public void UpdateDefense()
-        {
-        }
-
-        public float GetHP()
-        {
-            return hp;
-        }
-
-        public void SetHP(float value)
-        {
-            hp = Mathf.Max(0f, value);
-        }
-
-        public void AddHP(float value)
-        {
-            SetHP(hp + value);
-        }
-
-        public void UpdateHP()
-        {
-        }
-
-        public float GetMP()
-        {
-            return mp;
-        }
-
-        public void SetMP(float value)
-        {
-            mp = Mathf.Max(0f, value);
-        }
-
-        public void AddMP(float value)
-        {
-            SetMP(mp + value);
-        }
-
-        public void UpdateMP()
-        {
-        }
-
-        public float GetDamageFlatBonus()
-        {
-            return damageFlatBonus;
-        }
-
-        public void SetDamageFlatBonus(float value)
-        {
-            damageFlatBonus = Mathf.Max(0f, value);
-        }
-
-        public void AddDamageFlatBonus(float value)
-        {
-            SetDamageFlatBonus(damageFlatBonus + value);
-        }
-
-        public void UpdateDamageFlatBonus()
-        {
-        }
-
-        public float GetDamageMultiplier()
-        {
-            return damageMultiplier;
-        }
-
-        public void SetDamageMultiplier(float value)
-        {
-            damageMultiplier = Mathf.Max(0f, value);
-        }
-
-        public void AddDamageMultiplier(float value)
-        {
-            SetDamageMultiplier(damageMultiplier + value);
-        }
-
-        public void UpdateDamageMultiplier()
-        {
-        }
-
-        public float GetCritChance()
-        {
-            return critChance;
-        }
-
-        public void SetCritChance(float value)
-        {
-            critChance = Mathf.Max(0f, value);
-        }
-
-        public void AddCritChance(float value)
-        {
-            SetCritChance(critChance + value);
-        }
-
-        public void UpdateCritChance()
-        {
-        }
-
-        public float GetCritDamage()
-        {
-            return critDamage;
-        }
-
-        public void SetCritDamage(float value)
-        {
-            critDamage = Mathf.Max(0f, value);
-        }
-
-        public void AddCritDamage(float value)
-        {
-            SetCritDamage(critDamage + value);
-        }
-
-        public void UpdateCritDamage()
-        {
-        }
-
-        public float GetBossDamage()
-        {
-            return bossDamage;
-        }
-
-        public void SetBossDamage(float value)
-        {
-            bossDamage = Mathf.Max(0f, value);
-        }
-
-        public void AddBossDamage(float value)
-        {
-            SetBossDamage(bossDamage + value);
-        }
-
-        public void UpdateBossDamage()
-        {
-        }
-
-        public float GetDropRate()
-        {
-            return dropRate;
-        }
-
-        public void SetDropRate(float value)
-        {
-            dropRate = Mathf.Max(0f, value);
-        }
-
-        public void AddDropRate(float value)
-        {
-            SetDropRate(dropRate + value);
-        }
-
-        public void UpdateDropRate()
-        {
-        }
-
-        public float GetClassXPRate()
-        {
-            return classXPRate;
-        }
-
-        public void SetClassXPRate(float value)
-        {
-            classXPRate = Mathf.Max(0f, value);
-        }
-
-        public void AddClassXPRate(float value)
-        {
-            SetClassXPRate(classXPRate + value);
-        }
-
-        public void UpdateClassXPRate()
-        {
+            var statsTable = Stat.LoadStatsTable(statsJsonPath);
+            accuracy = Stat.CreateFromTable<Accuracy>("accuracy", statsTable);
+            mastery = Stat.CreateFromTable<Mastery>("mastery", statsTable);
+            weaponPower = Stat.CreateFromTable<WeaponPower>("weaponPower", statsTable);
+            unarmedWeaponPower = Stat.CreateFromTable<UnarmedWeaponPower>("unarmedWeaponPower", statsTable);
+            defense = Stat.CreateFromTable<Defense>("defense", statsTable);
+            hp = Stat.CreateFromTable<Hp>("hp", statsTable);
+            maxHp = Stat.CreateFromTable<MaxHp>("maxHp", statsTable);
+            mp = Stat.CreateFromTable<Mp>("mp", statsTable);
+            maxMp = Stat.CreateFromTable<MaxMp>("maxMp", statsTable);
+            damageFlatBonus = Stat.CreateFromTable<DamageFlatBonus>("damageFlatBonus", statsTable);
+            damageMultiplier = Stat.CreateFromTable<DamageMultiplier>("damageMultiplier", statsTable);
+            critChance = Stat.CreateFromTable<CritChance>("critChance", statsTable);
+            critDamage = Stat.CreateFromTable<CritDamage>("critDamage", statsTable);
+            bossDamage = Stat.CreateFromTable<BossDamage>("bossDamage", statsTable);
+            dropRate = Stat.CreateFromTable<DropRate>("dropRate", statsTable);
+            classXPRate = Stat.CreateFromTable<ClassXPRate>("classXPRate", statsTable);
+            speed = Stat.CreateFromTable<Speed>("speed", statsTable);
         }
 
         public float GetSpeed()
         {
-            return speed;
+            speed ??= Stat.CreateFromTable<Speed>("speed", Stat.LoadStatsTable(statsJsonPath));
+            return speed.GetValue();
         }
 
         public void SetSpeed(float value)
         {
-            speed = Mathf.Max(0f, value);
+            speed ??= Stat.CreateFromTable<Speed>("speed", Stat.LoadStatsTable(statsJsonPath));
+            speed.SetValue(value);
         }
 
-        public void AddSpeed(float value)
+        public bool IsLoaded()
         {
-            SetSpeed(speed + value);
-        }
-
-        public void UpdateSpeed()
-        {
-        }
-
-        public void Update()
-        {
-            UpdateAccuracy();
-            UpdateMastery();
-            UpdateWeaponPower();
-            UpdateUnarmedWeaponPower();
-            UpdateDefense();
-            UpdateHP();
-            UpdateMP();
-            UpdateDamageFlatBonus();
-            UpdateDamageMultiplier();
-            UpdateCritChance();
-            UpdateCritDamage();
-            UpdateBossDamage();
-            UpdateDropRate();
-            UpdateClassXPRate();
-            UpdateSpeed();
+            return accuracy != null
+                && mastery != null
+                && weaponPower != null
+                && unarmedWeaponPower != null
+                && defense != null
+                && hp != null
+                && maxHp != null
+                && mp != null
+                && maxMp != null
+                && damageFlatBonus != null
+                && damageMultiplier != null
+                && critChance != null
+                && critDamage != null
+                && bossDamage != null
+                && dropRate != null
+                && classXPRate != null
+                && speed != null;
         }
     }
 }
