@@ -34,12 +34,12 @@ namespace IdleOff.Profiles
             }
         }
 
-        public float Speed
+        public Speed Speed
         {
             get
             {
                 LoadStats();
-                return secondaryStats.GetSpeed();
+                return secondaryStats.Speed;
             }
         }
 
@@ -48,22 +48,20 @@ namespace IdleOff.Profiles
             LoadStats();
         }
 
-        public CharacterData(string characterName, CharacterGender gender, int level, float speed)
+        public CharacterData(string characterName, CharacterGender gender, int level)
         {
             LoadStats();
             this.characterName = characterName;
             this.gender = gender;
             GetCharacterClass().SetLevelNumber(level);
-            secondaryStats.SetSpeed(speed);
         }
 
-        public CharacterData(string characterName, CharacterGender gender, CharacterClass characterClass, float speed)
+        public CharacterData(string characterName, CharacterGender gender, CharacterClass characterClass)
         {
             LoadStats();
             this.characterName = characterName;
             this.gender = gender;
             this.characterClass = characterClass ?? CharacterClass.CreateWanderingSoul();
-            secondaryStats.SetSpeed(speed);
         }
 
         public void UpdateStats()

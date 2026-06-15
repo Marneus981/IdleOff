@@ -21,26 +21,312 @@ MonoBehaviour:
       levelNumber: 1
       currentXP: 0
       maxXP: 100
-      passiveAbilities: []
-      activeAbilities: []
     mainStats:
-      str: 0
-      agi: 0
-      wis: 0
-      luck: 0
+      statsJsonPath: Assets/Tables/Stats.json
+      str:
+        statName: str
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      agi:
+        statName: agi
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      wis:
+        statName: wis
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      luck:
+        statName: luck
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
     secondaryStats:
-      accuracy: 2
-      mastery: 0.35
-      weaponPower: 0
-      unarmedWeaponPower: 5
-      defense: 0
-      hp: 10
-      mp: 5
-      damageFlatBonus: 0
-      damageMultiplier: 1
-      critChance: 0.025
-      critDamage: 0
-      bossDamage: 0
-      dropRate: 0
-      classXPRate: 0
-      speed: 5
+      statsJsonPath: Assets/Tables/Stats.json
+      accuracy:
+        statName: accuracy
+        validModifierIDs: 
+        formulaParts: 2
+        value: 2
+        defaultValue: 2
+        minValue: 0
+      mastery:
+        statName: mastery
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0.35
+        defaultValue: 0.35
+        minValue: 0
+      weaponPower:
+        statName: weaponPower
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      unarmedWeaponPower:
+        statName: unarmedWeaponPower
+        validModifierIDs: 
+        formulaParts: 2
+        value: 5
+        defaultValue: 5
+        minValue: 0
+      defense:
+        statName: defense
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      hp:
+        statName: hp
+        validModifierIDs: 
+        formulaParts: 2
+        value: 10
+        defaultValue: 10
+        minValue: 0
+      maxHp:
+        statName: maxHp
+        validModifierIDs: 
+        formulaParts: 2
+        value: 10
+        defaultValue: 10
+        minValue: 0
+      mp:
+        statName: mp
+        validModifierIDs: 
+        formulaParts: 2
+        value: 5
+        defaultValue: 5
+        minValue: 0
+      maxMp:
+        statName: maxMp
+        validModifierIDs: 
+        formulaParts: 2
+        value: 5
+        defaultValue: 5
+        minValue: 0
+      damageFlatBonus:
+        statName: damageFlatBonus
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      damageMultiplier:
+        statName: damageMultiplier
+        validModifierIDs: 
+        formulaParts: 2
+        value: 1
+        defaultValue: 1
+        minValue: 0
+      critChance:
+        statName: critChance
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0.025
+        defaultValue: 0.025
+        minValue: 0
+      critDamage:
+        statName: critDamage
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      bossDamage:
+        statName: bossDamage
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      dropRate:
+        statName: dropRate
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      classXPRate:
+        statName: classXPRate
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      speed:
+        statName: speed
+        validModifierIDs: 
+        formulaParts: 2
+        value: 5
+        defaultValue: 5
+        minValue: 0
+  - characterName: Apprentice
+    gender: 0
+    characterClass:
+      className: Wandering Soul
+      levelNumber: 1
+      currentXP: 0
+      maxXP: 100
+    mainStats:
+      statsJsonPath: Assets/Tables/Stats.json
+      str:
+        statName: str
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      agi:
+        statName: agi
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      wis:
+        statName: wis
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      luck:
+        statName: luck
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+    secondaryStats:
+      statsJsonPath: Assets/Tables/Stats.json
+      accuracy:
+        statName: accuracy
+        validModifierIDs: 
+        formulaParts: 2
+        value: 2
+        defaultValue: 2
+        minValue: 0
+      mastery:
+        statName: mastery
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0.35
+        defaultValue: 0.35
+        minValue: 0
+      weaponPower:
+        statName: weaponPower
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      unarmedWeaponPower:
+        statName: unarmedWeaponPower
+        validModifierIDs: 
+        formulaParts: 2
+        value: 5
+        defaultValue: 5
+        minValue: 0
+      defense:
+        statName: defense
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      hp:
+        statName: hp
+        validModifierIDs: 
+        formulaParts: 2
+        value: 10
+        defaultValue: 10
+        minValue: 0
+      maxHp:
+        statName: maxHp
+        validModifierIDs: 
+        formulaParts: 2
+        value: 10
+        defaultValue: 10
+        minValue: 0
+      mp:
+        statName: mp
+        validModifierIDs: 
+        formulaParts: 2
+        value: 5
+        defaultValue: 5
+        minValue: 0
+      maxMp:
+        statName: maxMp
+        validModifierIDs: 
+        formulaParts: 2
+        value: 5
+        defaultValue: 5
+        minValue: 0
+      damageFlatBonus:
+        statName: damageFlatBonus
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      damageMultiplier:
+        statName: damageMultiplier
+        validModifierIDs: 
+        formulaParts: 2
+        value: 1
+        defaultValue: 1
+        minValue: 0
+      critChance:
+        statName: critChance
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0.025
+        defaultValue: 0.025
+        minValue: 0
+      critDamage:
+        statName: critDamage
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      bossDamage:
+        statName: bossDamage
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      dropRate:
+        statName: dropRate
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      classXPRate:
+        statName: classXPRate
+        validModifierIDs: 
+        formulaParts: 2
+        value: 0
+        defaultValue: 0
+        minValue: 0
+      speed:
+        statName: speed
+        validModifierIDs: 
+        formulaParts: 2
+        value: 5
+        defaultValue: 5
+        minValue: 0

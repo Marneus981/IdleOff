@@ -35,10 +35,10 @@ namespace IdleOff.Profiles
         public void LoadMainStats()
         {
             var statsTable = Stat.LoadStatsTable(statsJsonPath);
-            str = Stat.CreateFromTable<Str>("str", statsTable);
-            agi = Stat.CreateFromTable<Agi>("agi", statsTable);
-            wis = Stat.CreateFromTable<Wis>("wis", statsTable);
-            luck = Stat.CreateFromTable<Luck>("luck", statsTable);
+            str = Stat.CreateFromTable<Str>(1001, statsTable);
+            agi = Stat.CreateFromTable<Agi>(1002, statsTable);
+            wis = Stat.CreateFromTable<Wis>(1003, statsTable);
+            luck = Stat.CreateFromTable<Luck>(1004, statsTable);
         }
     }
 }

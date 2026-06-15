@@ -39,7 +39,7 @@ namespace IdleOff.Player
         private Vector2 lastSafePosition;
 
         private float CurrentSpeed => profile != null && profile.ActiveCharacter != null
-            ? profile.ActiveCharacter.Speed
+            ? profile.ActiveCharacter.Speed.GetValue()
             : fallbackSpeed;
 
         private bool IsOnLadder => ladderContacts > 0;

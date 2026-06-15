@@ -25,6 +25,18 @@ namespace IdleOff.Profiles
         [SerializeField] private ClassXPRate classXPRate;
         [SerializeField] private Speed speed;
 
+        public Speed Speed
+        {
+            get
+            {
+                if (!IsLoaded())
+                {
+                    LoadSecondaryStats();
+                }
+
+                return speed;
+            }
+        }
 
         public void Update()
         {
@@ -54,35 +66,23 @@ namespace IdleOff.Profiles
         public void LoadSecondaryStats()
         {
             var statsTable = Stat.LoadStatsTable(statsJsonPath);
-            accuracy = Stat.CreateFromTable<Accuracy>("accuracy", statsTable);
-            mastery = Stat.CreateFromTable<Mastery>("mastery", statsTable);
-            weaponPower = Stat.CreateFromTable<WeaponPower>("weaponPower", statsTable);
-            unarmedWeaponPower = Stat.CreateFromTable<UnarmedWeaponPower>("unarmedWeaponPower", statsTable);
-            defense = Stat.CreateFromTable<Defense>("defense", statsTable);
-            hp = Stat.CreateFromTable<Hp>("hp", statsTable);
-            maxHp = Stat.CreateFromTable<MaxHp>("maxHp", statsTable);
-            mp = Stat.CreateFromTable<Mp>("mp", statsTable);
-            maxMp = Stat.CreateFromTable<MaxMp>("maxMp", statsTable);
-            damageFlatBonus = Stat.CreateFromTable<DamageFlatBonus>("damageFlatBonus", statsTable);
-            damageMultiplier = Stat.CreateFromTable<DamageMultiplier>("damageMultiplier", statsTable);
-            critChance = Stat.CreateFromTable<CritChance>("critChance", statsTable);
-            critDamage = Stat.CreateFromTable<CritDamage>("critDamage", statsTable);
-            bossDamage = Stat.CreateFromTable<BossDamage>("bossDamage", statsTable);
-            dropRate = Stat.CreateFromTable<DropRate>("dropRate", statsTable);
-            classXPRate = Stat.CreateFromTable<ClassXPRate>("classXPRate", statsTable);
-            speed = Stat.CreateFromTable<Speed>("speed", statsTable);
-        }
-
-        public float GetSpeed()
-        {
-            speed ??= Stat.CreateFromTable<Speed>("speed", Stat.LoadStatsTable(statsJsonPath));
-            return speed.GetValue();
-        }
-
-        public void SetSpeed(float value)
-        {
-            speed ??= Stat.CreateFromTable<Speed>("speed", Stat.LoadStatsTable(statsJsonPath));
-            speed.SetValue(value);
+            accuracy = Stat.CreateFromTable<Accuracy>(1005, statsTable);
+            mastery = Stat.CreateFromTable<Mastery>(1006, statsTable);
+            weaponPower = Stat.CreateFromTable<WeaponPower>(1007, statsTable);
+            unarmedWeaponPower = Stat.CreateFromTable<UnarmedWeaponPower>(1008, statsTable);
+            defense = Stat.CreateFromTable<Defense>(1009, statsTable);
+            hp = Stat.CreateFromTable<Hp>(1010, statsTable);
+            maxHp = Stat.CreateFromTable<MaxHp>(1011, statsTable);
+            mp = Stat.CreateFromTable<Mp>(1012, statsTable);
+            maxMp = Stat.CreateFromTable<MaxMp>(1013, statsTable);
+            damageFlatBonus = Stat.CreateFromTable<DamageFlatBonus>(1014, statsTable);
+            damageMultiplier = Stat.CreateFromTable<DamageMultiplier>(1015, statsTable);
+            critChance = Stat.CreateFromTable<CritChance>(1016, statsTable);
+            critDamage = Stat.CreateFromTable<CritDamage>(1017, statsTable);
+            bossDamage = Stat.CreateFromTable<BossDamage>(1018, statsTable);
+            dropRate = Stat.CreateFromTable<DropRate>(1019, statsTable);
+            classXPRate = Stat.CreateFromTable<ClassXPRate>(1020, statsTable);
+            speed = Stat.CreateFromTable<Speed>(1021, statsTable);
         }
 
         public bool IsLoaded()
