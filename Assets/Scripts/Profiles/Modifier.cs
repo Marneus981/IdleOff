@@ -1,14 +1,12 @@
 //System for Passive effects (Talents in IdleOn) + others (might include food, etc.)
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace IdleOff.Profiles
 {
-    public sealed class Modifier
+    [Serializable]
+    public class Modifier
     {
         
         public struct IndexIncrease
@@ -27,25 +25,46 @@ namespace IdleOff.Profiles
         public string description;
         public int level;
         public int maxLevel;
+        [NonSerialized] private CharacterData owner;
+
+        public void SetOwner(CharacterData owner)
+        {
+            this.owner = owner;
+        }
 
         public  (int,float) AppliedIncrease(int statID)
         {
             //These Modifiers have linear scaling thus applied increse is a simple multiplication
+            if (indexIncreaseByStatID == null || !indexIncreaseByStatID.TryGetValue(statID, out var indexIncrease))
+            {
+                throw new KeyNotFoundException($"Modifier ID {modifierID} does not define an increase for stat ID {statID}.");
+            }
 
-            var index = indexIncreaseByStatID[statID].index;
-            var increase = indexIncreaseByStatID[statID].increase;
+            var index = indexIncrease.index;
+            var increase = indexIncrease.increase;
             return (index,increase*(float)level);
 
         }
         public int ModifierLevelChange(int change)
         {
             //Returns -1 on failed level change
-            if(level + change <= maxLevel && level + change >= 0)
+            var newLevel = level + change;
+            if(newLevel <= maxLevel && newLevel >= 0)
             {
-                level = level + change;
+                level = newLevel;
+                if (owner == null)
+                {
+                    throw new InvalidOperationException($"Modifier ID {modifierID} is not bound to a character and cannot update stats.");
+                }
+
+                if (indexIncreaseByStatID == null)
+                {
+                    throw new InvalidOperationException($"Modifier ID {modifierID} has no stat mappings to update.");
+                }
+
                 foreach(var indexIncr in indexIncreaseByStatID)
                 {
-                    CharacterData.UpdateByStatID(indexIncr.Key);////TBA///CharacterData.UpdateByStatID calls update method corresponding to the stat ID in question
+                    owner.UpdateByStatID(indexIncr.Key);
                 }
                 return 0;
             }

@@ -65,7 +65,7 @@ namespace IdleOff.Editor
             }
 
             profile = ScriptableObject.CreateInstance<CharacterProfile>();
-            profile.TryAddCharacter(new CharacterData("Apprentice", CharacterGender.Unspecified, 1, 5f));
+            profile.TryAddCharacter(new CharacterData("Apprentice", CharacterGender.Unspecified, 1));
             AssetDatabase.CreateAsset(profile, ProfilePath);
             return profile;
         }

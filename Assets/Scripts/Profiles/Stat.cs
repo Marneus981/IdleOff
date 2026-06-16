@@ -37,6 +37,7 @@ namespace IdleOff.Profiles
         [SerializeField, Min(0)] private int statID;
         [SerializeField, Min(0)] private float defaultValue;
         [SerializeField, Min(0)] private float minValue;
+        [NonSerialized] private CharacterData owner;
 
         public static Dictionary<int, StatValues> LoadStatsTable(string statsJsonPath)
         {
@@ -57,14 +58,24 @@ namespace IdleOff.Profiles
 
                 var values = entry.Value;
                 values.statID = statID;
+                if (statsTable.ContainsKey(statID))
+                {
+                    throw new InvalidOperationException($"Stats table contains duplicate stat ID {statID}.");
+                }
+
                 statsTable.Add(statID, values);
             }
 
             return statsTable;
         }
 
-        public static T CreateFromTable<T>(int statID, Dictionary<int, StatValues> statsTable) where T : Stat, new()
+        public static T CreateFromTable<T>(int statID, Dictionary<int, StatValues> statsTable, CharacterData owner = null) where T : Stat, new()
         {
+            if (statID <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(statID), statID, "Stat ID must be positive.");
+            }
+
             if (!statsTable.TryGetValue(statID, out var values))
             {
                 throw new KeyNotFoundException($"Stat ID '{statID}' was not found in the stats table.");
@@ -72,11 +83,22 @@ namespace IdleOff.Profiles
 
             var stat = new T();
             stat.Initialize(values);
+            stat.SetOwner(owner);
             return stat;
         }
 
         public void Initialize(StatValues values)
         {
+            if (values.statID <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), values.statID, "Stat values must contain a positive stat ID.");
+            }
+
+            if (values.formulaParts < 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), values.formulaParts, $"Stat ID {values.statID} must define at least 2 formula parts.");
+            }
+
             statName = values.name;
             statID = values.statID;
             defaultValue = values.defaultValue;
@@ -84,6 +106,16 @@ namespace IdleOff.Profiles
             validModifierIDs = values.validModifierIDs ?? new List<int>();
             formulaParts = values.formulaParts;
             SetValue(defaultValue);
+        }
+
+        public void SetOwner(CharacterData owner)
+        {
+            this.owner = owner;
+        }
+
+        public int GetStatID()
+        {
+            return statID;
         }
         
         public float GetValue()
@@ -112,9 +144,21 @@ namespace IdleOff.Profiles
             //Update gets recalculated on every stat change, if this gets heavy I will implement a better more surgical update system
             var formulaValuesList = new List<float>();
             for (int i = 0; i < formulaParts; i++) formulaValuesList.Add(0f);
+            formulaValuesList[1] = 1f;
+
             foreach (var id in validModifierIDs)
             {
-               var tuple = CharacterData.GetModifier(id).AppliedIncrease(statID);////TBA///CharacterData.GetModifier(id) gets modifier by ID
+               if (id <= 0)
+               {
+                   throw new ArgumentOutOfRangeException(nameof(validModifierIDs), id, $"Stat ID {statID} contains an invalid modifier ID.");
+               }
+
+               if (owner == null)
+               {
+                   throw new InvalidOperationException($"Stat ID {statID} is not bound to a character and cannot resolve modifier ID {id}.");
+               }
+
+               var tuple = owner.GetModifier(id).AppliedIncrease(statID);
                if (tuple.Item1 < 0 || tuple.Item1 >= formulaValuesList.Count)
                {
                    throw new IndexOutOfRangeException($"Modifier ID {id} returned formula index {tuple.Item1} for stat ID {statID}, but this stat has {formulaParts} formula parts.");

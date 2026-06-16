@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace IdleOff.Profiles
@@ -74,30 +75,47 @@ namespace IdleOff.Profiles
         private CharacterClass GetCharacterClass()
         {
             characterClass ??= CharacterClass.CreateWanderingSoul();
+            characterClass.SetOwner(this);
             return characterClass;
         }
-        public static Modifier GetModifier(int modifierID)
+
+        public Modifier GetModifier(int modifierID)
         {
-            ////TO BE IMPLEMENTED
-            throw new NotImplementedException($"Modifier lookup is not implemented for modifier ID {modifierID}.");
+            return GetCharacterClass().GetModifier(modifierID);
         }        
-        public static void UpdateByStatID(int statID)
+
+        public void UpdateByStatID(int statID)
         {
-            ////TO BE IMPLEMENTED
+            if (statID <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(statID), statID, "Stat ID must be positive.");
+            }
+
+            LoadStats();
+            if (mainStats.UpdateByStatID(statID) || secondaryStats.UpdateByStatID(statID))
+            {
+                return;
+            }
+
+            throw new KeyNotFoundException($"Stat ID {statID} was not found in main or secondary stats.");
         }
+
         private void LoadStats()
         {
             mainStats ??= new MainStats();
             secondaryStats ??= new SecondaryStats();
+            GetCharacterClass().SetOwner(this);
+            mainStats.SetOwner(this);
+            secondaryStats.SetOwner(this);
 
             if (!mainStats.IsLoaded())
             {
-                mainStats.LoadMainStats();
+                mainStats.LoadMainStats(this);
             }
 
             if (!secondaryStats.IsLoaded())
             {
-                secondaryStats.LoadSecondaryStats();
+                secondaryStats.LoadSecondaryStats(this);
             }
         }
     }

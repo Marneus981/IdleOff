@@ -77,6 +77,7 @@
     <Compile Include="Assets\Scripts\Profiles\CharacterClass.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Agi.cs" />
+    <Compile Include="Assets\Scripts\Profiles\ClassModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Speed.cs" />
     <Compile Include="Assets\Scripts\World\LadderZone.cs" />
     <Compile Include="Assets\Scripts\Profiles\Modifier.cs" />

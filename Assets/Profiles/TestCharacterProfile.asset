@@ -18,9 +18,68 @@ MonoBehaviour:
     gender: 0
     characterClass:
       className: Wandering Soul
+      classModifiersPath: Assets/Tables/ModifiersWanderingSoul.json
       levelNumber: 1
       currentXP: 0
       maxXP: 100
+      BaseTalentPoints: 3
+      ClassTalentPoints: 3
+      ClassModifiers:
+      - modifierID: 2001
+        name: WanderingSoul01
+        description: This is the description for Modifier WanderingSoul01
+        level: 0
+        maxLevel: 100
+      - modifierID: 2002
+        name: WanderingSoul02
+        description: This is the description for Modifier WanderingSoul02
+        level: 0
+        maxLevel: 100
+      - modifierID: 2003
+        name: WanderingSoul03
+        description: This is the description for Modifier WanderingSoul03
+        level: 0
+        maxLevel: 100
+      - modifierID: 2004
+        name: WanderingSoul04
+        description: This is the description for Modifier WanderingSoul04
+        level: 0
+        maxLevel: 100
+      - modifierID: 2005
+        name: WanderingSoul05
+        description: This is the description for Modifier WanderingSoul05
+        level: 0
+        maxLevel: 100
+      - modifierID: 2006
+        name: WanderingSoul06
+        description: This is the description for Modifier WanderingSoul06
+        level: 0
+        maxLevel: 100
+      - modifierID: 2007
+        name: WanderingSoul07
+        description: This is the description for Modifier WanderingSoul07
+        level: 0
+        maxLevel: 100
+      - modifierID: 2008
+        name: WanderingSoul08
+        description: This is the description for Modifier WanderingSoul08
+        level: 0
+        maxLevel: 100
+      - modifierID: 2009
+        name: WanderingSoul09
+        description: This is the description for Modifier WanderingSoul09
+        level: 0
+        maxLevel: 100
+      - modifierID: 2010
+        name: WanderingSoul10
+        description: This is the description for Modifier WanderingSoul10
+        level: 0
+        maxLevel: 100
+      - modifierID: 2011
+        name: WanderingSoul11
+        description: This is the description for Modifier WanderingSoul11
+        level: 0
+        maxLevel: 100
     mainStats:
       statsJsonPath: Assets/Tables/Stats.json
       str:
@@ -28,6 +87,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1001
         defaultValue: 0
         minValue: 0
       agi:
@@ -35,6 +95,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1002
         defaultValue: 0
         minValue: 0
       wis:
@@ -42,6 +103,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1003
         defaultValue: 0
         minValue: 0
       luck:
@@ -49,6 +111,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1004
         defaultValue: 0
         minValue: 0
     secondaryStats:
@@ -58,6 +121,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 2
+        statID: 1005
         defaultValue: 2
         minValue: 0
       mastery:
@@ -65,6 +129,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0.35
+        statID: 1006
         defaultValue: 0.35
         minValue: 0
       weaponPower:
@@ -72,6 +137,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1007
         defaultValue: 0
         minValue: 0
       unarmedWeaponPower:
@@ -79,6 +145,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 5
+        statID: 1008
         defaultValue: 5
         minValue: 0
       defense:
@@ -86,6 +153,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1009
         defaultValue: 0
         minValue: 0
       hp:
@@ -93,6 +161,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 10
+        statID: 1010
         defaultValue: 10
         minValue: 0
       maxHp:
@@ -100,6 +169,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 10
+        statID: 1011
         defaultValue: 10
         minValue: 0
       mp:
@@ -107,6 +177,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 5
+        statID: 1012
         defaultValue: 5
         minValue: 0
       maxMp:
@@ -114,6 +185,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 5
+        statID: 1013
         defaultValue: 5
         minValue: 0
       damageFlatBonus:
@@ -121,6 +193,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1014
         defaultValue: 0
         minValue: 0
       damageMultiplier:
@@ -128,6 +201,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 1
+        statID: 1015
         defaultValue: 1
         minValue: 0
       critChance:
@@ -135,6 +209,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0.025
+        statID: 1016
         defaultValue: 0.025
         minValue: 0
       critDamage:
@@ -142,6 +217,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1017
         defaultValue: 0
         minValue: 0
       bossDamage:
@@ -149,6 +225,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1018
         defaultValue: 0
         minValue: 0
       dropRate:
@@ -156,6 +233,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1019
         defaultValue: 0
         minValue: 0
       classXPRate:
@@ -163,6 +241,7 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 0
+        statID: 1020
         defaultValue: 0
         minValue: 0
       speed:
@@ -170,163 +249,6 @@ MonoBehaviour:
         validModifierIDs: 
         formulaParts: 2
         value: 5
-        defaultValue: 5
-        minValue: 0
-  - characterName: Apprentice
-    gender: 0
-    characterClass:
-      className: Wandering Soul
-      levelNumber: 1
-      currentXP: 0
-      maxXP: 100
-    mainStats:
-      statsJsonPath: Assets/Tables/Stats.json
-      str:
-        statName: str
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      agi:
-        statName: agi
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      wis:
-        statName: wis
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      luck:
-        statName: luck
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-    secondaryStats:
-      statsJsonPath: Assets/Tables/Stats.json
-      accuracy:
-        statName: accuracy
-        validModifierIDs: 
-        formulaParts: 2
-        value: 2
-        defaultValue: 2
-        minValue: 0
-      mastery:
-        statName: mastery
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0.35
-        defaultValue: 0.35
-        minValue: 0
-      weaponPower:
-        statName: weaponPower
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      unarmedWeaponPower:
-        statName: unarmedWeaponPower
-        validModifierIDs: 
-        formulaParts: 2
-        value: 5
-        defaultValue: 5
-        minValue: 0
-      defense:
-        statName: defense
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      hp:
-        statName: hp
-        validModifierIDs: 
-        formulaParts: 2
-        value: 10
-        defaultValue: 10
-        minValue: 0
-      maxHp:
-        statName: maxHp
-        validModifierIDs: 
-        formulaParts: 2
-        value: 10
-        defaultValue: 10
-        minValue: 0
-      mp:
-        statName: mp
-        validModifierIDs: 
-        formulaParts: 2
-        value: 5
-        defaultValue: 5
-        minValue: 0
-      maxMp:
-        statName: maxMp
-        validModifierIDs: 
-        formulaParts: 2
-        value: 5
-        defaultValue: 5
-        minValue: 0
-      damageFlatBonus:
-        statName: damageFlatBonus
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      damageMultiplier:
-        statName: damageMultiplier
-        validModifierIDs: 
-        formulaParts: 2
-        value: 1
-        defaultValue: 1
-        minValue: 0
-      critChance:
-        statName: critChance
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0.025
-        defaultValue: 0.025
-        minValue: 0
-      critDamage:
-        statName: critDamage
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      bossDamage:
-        statName: bossDamage
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      dropRate:
-        statName: dropRate
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      classXPRate:
-        statName: classXPRate
-        validModifierIDs: 
-        formulaParts: 2
-        value: 0
-        defaultValue: 0
-        minValue: 0
-      speed:
-        statName: speed
-        validModifierIDs: 
-        formulaParts: 2
-        value: 5
+        statID: 1021
         defaultValue: 5
         minValue: 0
