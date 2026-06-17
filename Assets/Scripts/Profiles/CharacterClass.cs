@@ -285,7 +285,7 @@ namespace IdleOff.Profiles
             ////TO BE IMPLEMENTED
         }
 
-        private static string NormalizeClassName(string className)
+        public static string NormalizeClassName(string className)
         {
             return string.IsNullOrWhiteSpace(className)
                 ? string.Empty

@@ -28,16 +28,16 @@ namespace IdleOff.Profiles
                 this.formulaParts = formulaParts;
             }
         }
-        [SerializeField] private string statName =  "default"; /*Every MainStat, SubStat will have its own different statName set here 
+        [SerializeField] protected string statName =  "default"; /*Every MainStat, SubStat will have its own different statName set here 
                                                 (for example, subclasss critChance will have the "critChance" statName)*/
-        [SerializeField] private List<int> validModifierIDs = new List<int>();
-        [SerializeField] private int formulaParts;/*Every MainStat, SubStat will have its own different formulaParts set here 
+        [SerializeField] protected List<int> validModifierIDs = new List<int>();
+        [SerializeField] protected int formulaParts;/*Every MainStat, SubStat will have its own different formulaParts set here 
                                     ; these will affect the magnitude and order of applied modifiers inside their own Formula*/
-        [SerializeField] private float value;
-        [SerializeField, Min(0)] private int statID;
-        [SerializeField, Min(0)] private float defaultValue;
-        [SerializeField, Min(0)] private float minValue;
-        [NonSerialized] private CharacterData owner;
+        [SerializeField] protected float value;
+        [SerializeField, Min(0)] protected int statID;
+        [SerializeField, Min(0)] protected float defaultValue;
+        [SerializeField, Min(0)] protected float minValue;
+        [NonSerialized] protected CharacterData owner;
 
         public static Dictionary<int, StatValues> LoadStatsTable(string statsJsonPath)
         {
@@ -131,12 +131,24 @@ namespace IdleOff.Profiles
             SetValue(this.value  + value);
         }
 
-        public virtual float Formula(List<float> formulaValuesList)
+        public float Formula(List<float> formulaValuesList)
+        /*Standard Formula for Stat Updates, can be changed inside each subclass
+        */
         {
-            //Standard formula, can be changed inside each subclass
-            float flat = formulaValuesList[0];
-            float percentile = formulaValuesList[1];
-            float result = (defaultValue + flat) * percentile;
+            float flatClass = formulaValuesList[0];
+            float percentClass = formulaValuesList[1];
+            float flatSign = formulaValuesList[2];
+            float percentSign = formulaValuesList[3];
+            float flatEquip = formulaValuesList[4];
+            float percentEquip = formulaValuesList[5];
+            float flatFamily = formulaValuesList[6];
+            float percentFamily = formulaValuesList[7];
+            float generalPercentile = formulaValuesList[8];
+            float result = (defaultValue + (flatClass * (1 + percentClass))
+                                         + (flatSign * (1 + percentSign))
+                                         + (flatEquip * (1 + percentEquip))
+                                         + (flatFamily * (1 + percentFamily))
+                                         ) * generalPercentile;
             return result;
         }
         public void UpdateStat()
@@ -144,7 +156,6 @@ namespace IdleOff.Profiles
             //Update gets recalculated on every stat change, if this gets heavy I will implement a better more surgical update system
             var formulaValuesList = new List<float>();
             for (int i = 0; i < formulaParts; i++) formulaValuesList.Add(0f);
-            formulaValuesList[1] = 1f;
 
             foreach (var id in validModifierIDs)
             {
@@ -170,7 +181,7 @@ namespace IdleOff.Profiles
 
         }
 
-        private static string ResolveStatsPath(string statsJsonPath)
+        protected static string ResolveStatsPath(string statsJsonPath)
         {
             if (Path.IsPathRooted(statsJsonPath))
             {

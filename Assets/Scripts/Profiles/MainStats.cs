@@ -82,5 +82,21 @@ namespace IdleOff.Profiles
                     return false;
             }
         }
+        public float GetStatValueByID(int statID)
+        {
+            switch (statID)
+            {
+                case 1001:
+                    return str.GetValue();
+                case 1002:
+                    return agi.GetValue();
+                case 1003:
+                    return wis.GetValue();
+                case 1004:
+                    return luck.GetValue();
+                default:
+                    throw new ArgumentException($"Unknown statID '{statID}'.", nameof(statID));
+            }
+        }
     }
 }

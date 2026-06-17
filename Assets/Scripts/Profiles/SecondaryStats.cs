@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace IdleOff.Profiles
 {
@@ -24,6 +26,7 @@ namespace IdleOff.Profiles
         [SerializeField] private DropRate dropRate;
         [SerializeField] private ClassXPRate classXPRate;
         [SerializeField] private Speed speed;
+        [SerializeField] private Damage damage;
         [NonSerialized] private CharacterData owner;
 
         public Speed Speed
@@ -45,24 +48,29 @@ namespace IdleOff.Profiles
             {
                 LoadSecondaryStats();
             }
-
-            accuracy.UpdateStat();
-            mastery.UpdateStat();
+            //These stats are independent in this version
+            mastery.UpdateStat(); //If we introduce Mastery changing passives we could update its overloading logic
             weaponPower.UpdateStat();
             unarmedWeaponPower.UpdateStat();
             defense.UpdateStat();
-            hp.UpdateStat();
-            maxHp.UpdateStat();
-            mp.UpdateStat();
-            maxMp.UpdateStat();
             damageFlatBonus.UpdateStat();
             damageMultiplier.UpdateStat();
+
+            //These stats are dependent in this version, thus loaded next
+            accuracy.UpdateStat();
+            maxHp.UpdateStat();
+            maxMp.UpdateStat();
             critChance.UpdateStat();
             critDamage.UpdateStat();
             bossDamage.UpdateStat();
             dropRate.UpdateStat();
             classXPRate.UpdateStat();
             speed.UpdateStat();
+            damage.UpdateStat();
+
+            //These depend on their max values and other game systems
+            mp.UpdateStat();
+            hp.UpdateStat();
         }
         public void LoadSecondaryStats()
         {
@@ -73,23 +81,30 @@ namespace IdleOff.Profiles
         {
             var statsTable = Stat.LoadStatsTable(statsJsonPath);
             this.owner = owner;
-            accuracy = Stat.CreateFromTable<Accuracy>(1005, statsTable, owner);
-            mastery = Stat.CreateFromTable<Mastery>(1006, statsTable, owner);
+            //These stats are independent in this version
+            mastery = Stat.CreateFromTable<Mastery>(1006, statsTable, owner);//If we introduce Mastery changing passives we could update its overloading logic
             weaponPower = Stat.CreateFromTable<WeaponPower>(1007, statsTable, owner);
             unarmedWeaponPower = Stat.CreateFromTable<UnarmedWeaponPower>(1008, statsTable, owner);
             defense = Stat.CreateFromTable<Defense>(1009, statsTable, owner);
-            hp = Stat.CreateFromTable<Hp>(1010, statsTable, owner);
-            maxHp = Stat.CreateFromTable<MaxHp>(1011, statsTable, owner);
-            mp = Stat.CreateFromTable<Mp>(1012, statsTable, owner);
-            maxMp = Stat.CreateFromTable<MaxMp>(1013, statsTable, owner);
             damageFlatBonus = Stat.CreateFromTable<DamageFlatBonus>(1014, statsTable, owner);
             damageMultiplier = Stat.CreateFromTable<DamageMultiplier>(1015, statsTable, owner);
+
+            //These stats are dependent in this version, thus loaded next
+            accuracy = Stat.CreateFromTable<Accuracy>(1005, statsTable, owner);
+            maxHp = Stat.CreateFromTable<MaxHp>(1011, statsTable, owner);
+            maxMp = Stat.CreateFromTable<MaxMp>(1013, statsTable, owner);
             critChance = Stat.CreateFromTable<CritChance>(1016, statsTable, owner);
             critDamage = Stat.CreateFromTable<CritDamage>(1017, statsTable, owner);
             bossDamage = Stat.CreateFromTable<BossDamage>(1018, statsTable, owner);
             dropRate = Stat.CreateFromTable<DropRate>(1019, statsTable, owner);
             classXPRate = Stat.CreateFromTable<ClassXPRate>(1020, statsTable, owner);
             speed = Stat.CreateFromTable<Speed>(1021, statsTable, owner);
+            damage = Stat.CreateFromTable<Damage>(1022, statsTable, owner);
+
+            //These depend on their max values and other game systems
+            hp = Stat.CreateFromTable<Hp>(1010, statsTable, owner);
+            mp = Stat.CreateFromTable<Mp>(1012, statsTable, owner);
+
         }
 
         public void SetOwner(CharacterData owner)
@@ -112,6 +127,7 @@ namespace IdleOff.Profiles
             dropRate?.SetOwner(owner);
             classXPRate?.SetOwner(owner);
             speed?.SetOwner(owner);
+            damage?.SetOwner(owner);
         }
 
         public bool UpdateByStatID(int statID)
@@ -174,6 +190,9 @@ namespace IdleOff.Profiles
                 case 1021:
                     speed.UpdateStat();
                     return true;
+                case 1022:
+                    damage.UpdateStat();
+                    return true;
                 default:
                     return false;
             }
@@ -197,7 +216,52 @@ namespace IdleOff.Profiles
                 && bossDamage != null
                 && dropRate != null
                 && classXPRate != null
-                && speed != null;
+                && speed != null
+                && damage != null;
+        }
+        public float GetStatValueByID(int statID)
+        {
+            switch (statID)
+            {
+                case 1005:
+                    return accuracy.GetValue();
+                case 1006:
+                    return mastery.GetValue();
+                case 1007:
+                    return weaponPower.GetValue();
+                case 1008:
+                    return unarmedWeaponPower.GetValue();
+                case 1009:
+                    return defense.GetValue();
+                case 1010:
+                    return hp.GetValue();
+                case 1011:
+                    return maxHp.GetValue();
+                case 1012:
+                    return mp.GetValue();
+                case 1013:
+                    return maxMp.GetValue();
+                case 1014:
+                    return damageFlatBonus.GetValue();
+                case 1015:
+                    return damageMultiplier.GetValue();
+                case 1016:
+                    return critChance.GetValue();
+                case 1017:
+                    return critDamage.GetValue();
+                case 1018:
+                    return bossDamage.GetValue();
+                case 1019:
+                    return dropRate.GetValue();
+                case 1020:
+                    return classXPRate.GetValue();
+                case 1021:
+                    return speed.GetValue();
+                case 1022:
+                    return damage.GetValue();
+                default:
+                    throw new ArgumentException($"Unknown statID '{statID}'.", nameof(statID));
+            }
         }
     }
 }

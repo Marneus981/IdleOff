@@ -118,5 +118,13 @@ namespace IdleOff.Profiles
                 secondaryStats.LoadSecondaryStats(this);
             }
         }
+        public float GetStatValueByID(int statID)
+        {
+            if (statID < 1005)
+            {
+                return MainStats.GetStatValueByID(statID);
+            }
+            return SecondaryStats.GetStatValueByID(statID);
+        }
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\Profiles\MainStats.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\MaxMp.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Wis.cs" />
+    <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Damage.cs" />
     <Compile Include="Assets\Scripts\World\DropThroughPlatform.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\WeaponPower.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Mastery.cs" />
