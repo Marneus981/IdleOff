@@ -1,145 +1,102 @@
 {
   "2001": {
-    "name": "WanderingSoul01",
-    "description": "This is the description for Modifier WanderingSoul01",
+    "name": "Wanderer's Body",
+    "description": "Increase HP by +3 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1011": { "index": 0, "increase": 3 }
     }
   },
   "2002": {
-    "name": "WanderingSoul02",
-    "description": "This is the description for Modifier WanderingSoul02",
+    "name": "Wanderer's Mind",
+    "description": "Increase MP by +1.5 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1013": { "index": 0, "increase": 1.5 }
     }
   },
   "2003": {
-    "name": "WanderingSoul03",
-    "description": "This is the description for Modifier WanderingSoul03",
+    "name": "Wanderer's Resolve",
+    "description": "Increase total Defense by +1% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1009": { "index": 8, "increase": 0.01}
     }
   },
   "2004": {
-    "name": "WanderingSoul04",
-    "description": "This is the description for Modifier WanderingSoul04",
+    "name": "Wanderer's Force",
+    "description": "Increase base Damage by +1 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1014": { "index": 0, "increase": 1 }
     }
   },
   "2005": {
-    "name": "WanderingSoul05",
-    "description": "This is the description for Modifier WanderingSoul05",
+    "name": "Wanderer's Might",
+    "description": "Increase STR by +1 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 0, "increase": 1 }
     }
   },
   "2006": {
-    "name": "WanderingSoul06",
-    "description": "This is the description for Modifier WanderingSoul06",
+    "name": "Wanderer's Nimbleness",
+    "description": "Increase AGI by +1 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1002": { "index": 0, "increase": 1 }
     }
   },
   "2007": {
-    "name": "WanderingSoul07",
-    "description": "This is the description for Modifier WanderingSoul07",
+    "name": "Wanderer's Wisdom",
+    "description": "Increase WIS by +1 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1003": { "index": 0, "increase": 1 }
     }
   },
   "2008": {
-    "name": "WanderingSoul08",
-    "description": "This is the description for Modifier WanderingSoul08",
+    "name": "Wanderer's Fortune",
+    "description": "Increase LUCK by +1 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1004": { "index": 0, "increase": 1 }
     }
   },
   "2009": {
-    "name": "WanderingSoul09",
-    "description": "This is the description for Modifier WanderingSoul09",
+    "name": "Wanderer's Aggravation",
+    "description": "Increase total Damage multiplier by +1.5% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1015": { "index": 0, "increase": 0.015 }
     }
   },
   "2010": {
-    "name": "WanderingSoul10",
-    "description": "This is the description for Modifier WanderingSoul10",
+    "name": "Wanderer's Memory",
+    "description": "Increase main damage-scaling stat effective scaling by 0.015% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1022": { "index": 9, "increase": 0.015 }
     }
   },
   "2011": {
-    "name": "WanderingSoul11",
-    "description": "This is the description for Modifier WanderingSoul11",
+    "name": "Wanderer's Edge",
+    "description": "Increase Critical Damage Chance by 0.15% and Damage by 0.30% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1016": { "index": 0, "increase": 0.0015 },
+      "1017": { "index": 0, "increase": 0.003 }
     }
   }
 }

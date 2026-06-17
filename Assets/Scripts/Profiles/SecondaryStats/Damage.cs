@@ -29,6 +29,7 @@ namespace IdleOff.Profiles
             float percentEquip = formulaValuesList[6];
             float flatFamily = formulaValuesList[7];
             float percentFamily = formulaValuesList[8];
+            float mainScalingStatMultiplier = formulaValuesList[9];
             float mainScalingStatValue;
             switch (currentClass)
             {
@@ -49,12 +50,12 @@ namespace IdleOff.Profiles
             }
             float result = (defaultValue + damageFlatBonus
                                          + (1f /9f) * (WP * (1+ WPScaling) * WP * (1 + WPScaling))
-                                         + (2f * mainScalingStatValue)
+                                         + (mainScalingStatMultiplier * (2f * mainScalingStatValue))
                                          + (flatClass * (1 + percentClass))
                                          + (flatSign * (1 + percentSign))
                                          + (flatEquip * (1 + percentEquip))
                                          + (flatFamily * (1 + percentFamily))
-                                         ) * damageMultiplier;
+                                         ) * (1 + damageMultiplier);
             return result;
         }
     }

@@ -25,7 +25,7 @@ namespace IdleOff.Profiles
                                          + (flatEquip * (1 + percentEquip))
                                          + (flatFamily * (1 + percentFamily))
                                          + (2f * mainScalingStatValue)
-                                         ) * generalPercentile;
+                                         ) * (1 + generalPercentile);
             return result;
         }
     }

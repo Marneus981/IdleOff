@@ -148,7 +148,7 @@ namespace IdleOff.Profiles
                                          + (flatSign * (1 + percentSign))
                                          + (flatEquip * (1 + percentEquip))
                                          + (flatFamily * (1 + percentFamily))
-                                         ) * generalPercentile;
+                                         ) * ( 1 + generalPercentile);
             return result;
         }
         public void UpdateStat()

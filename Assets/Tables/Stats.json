@@ -3,28 +3,28 @@
     "name": "str",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2005],
     "formulaParts": 9
   },
   "1002": {
     "name": "agi",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2006],
     "formulaParts": 9
   },
   "1003": {
     "name": "wis",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2007],
     "formulaParts": 9
   },
   "1004": {
     "name": "luck",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2008],
     "formulaParts": 9
   },
   "1005": {
@@ -59,7 +59,7 @@
     "name": "defense",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2003],
     "formulaParts": 9
   },
   "1010": {
@@ -73,7 +73,7 @@
     "name": "maxHp",
     "defaultValue": 10.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2001],
     "formulaParts": 9
   },
   "1012": {
@@ -87,35 +87,35 @@
     "name": "maxMp",
     "defaultValue": 5.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2002],
     "formulaParts": 9
   },
   "1014": {
     "name": "damageFlatBonus",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2004],
     "formulaParts": 9
   },
   "1015": {
     "name": "damageMultiplier",
     "defaultValue": 1.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2009],
     "formulaParts": 9
   },
   "1016": {
     "name": "critChance",
     "defaultValue": 0.025,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2011],
     "formulaParts": 9
   },
   "1017": {
     "name": "critDamage",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [2011],
     "formulaParts": 9
   },
   "1018": {
@@ -150,7 +150,7 @@
     "name": "damage",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
-    "formulaParts": 9
+    "validModifierIDs": [2010],
+    "formulaParts": 10
   }
 }
