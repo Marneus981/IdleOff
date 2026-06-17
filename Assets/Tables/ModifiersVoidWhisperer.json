@@ -100,146 +100,75 @@
     }
   },
   "2034": {
-    "name": "VoidWhisperer01",
-    "description": "This is the description for Modifier VoidWhisperer01",
+    "name": "Soul Expansion",
+    "description": "Increase Maximum MP by 1% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1013": { "index": 8, "increase": 0.01 }
     }
   },
   "2035": {
     "name": "VoidWhisperer02",
-    "description": "This is the description for Modifier VoidWhisperer02",
+    "description": "Disabled",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 0, "increase": 0 }
     }
   },
   "2036": {
-    "name": "VoidWhisperer03",
-    "description": "This is the description for Modifier VoidWhisperer03",
+    "name": "Madness Release",
+    "description": "Increase WIS impact on damage by 2% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1022": { "index": 9, "increase": 0.02 }
     }
   },
   "2037": {
-    "name": "VoidWhisperer04",
-    "description": "This is the description for Modifier VoidWhisperer04",
+    "name": "Whispers of the Immaterial",
+    "description": "Increase WIS given by equipment by 2% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1003": { "index": 6, "increase": 0.02 }
     }
   },
   "2038": {
-    "name": "VoidWhisperer05",
-    "description": "This is the description for Modifier VoidWhisperer05",
+    "name": "Otherworldly Calling",
+    "description": "Increase Weapon Power impact on damage by 1.5% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1022": { "index": 0, "increase": 0.015 }
     }
   },
   "2039": {
-    "name": "VoidWhisperer06",
-    "description": "This is the description for Modifier VoidWhisperer06",
+    "name": "Whispers of the Void",
+    "description": "Increase WIS by 1 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1003": { "index": 0, "increase": 1 }
     }
   },
   "2040": {
     "name": "VoidWhisperer07",
-    "description": "This is the description for Modifier VoidWhisperer07",
+    "description": "Disabled",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 0, "increase": 0 }
     }
   },
   "2041": {
     "name": "VoidWhisperer08",
-    "description": "This is the description for Modifier VoidWhisperer08",
+    "description": "Disabled",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
-    }
-  },
-  "2042": {
-    "name": "VoidWhisperer09",
-    "description": "This is the description for Modifier VoidWhisperer09",
-    "level": 0,
-    "maxLevel": 100,
-    "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
-    }
-  },
-  "2043": {
-    "name": "VoidWhisperer10",
-    "description": "This is the description for Modifier VoidWhisperer10",
-    "level": 0,
-    "maxLevel": 100,
-    "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
-    }
-  },
-  "2044": {
-    "name": "VoidWhisperer11",
-    "description": "This is the description for Modifier VoidWhisperer11",
-    "level": 0,
-    "maxLevel": 100,
-    "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 0, "increase": 0 }
     }
   }
 }

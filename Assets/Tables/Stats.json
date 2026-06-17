@@ -17,7 +17,7 @@
     "name": "wis",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2007],
+    "validModifierIDs": [2007,2037,2039],
     "formulaParts": 9
   },
   "1004": {
@@ -87,7 +87,7 @@
     "name": "maxMp",
     "defaultValue": 5.0,
     "minValue": 0.0,
-    "validModifierIDs": [2002],
+    "validModifierIDs": [2002,2034],
     "formulaParts": 9
   },
   "1014": {
@@ -150,7 +150,7 @@
     "name": "damage",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2010],
+    "validModifierIDs": [2010,2036,2038],
     "formulaParts": 10
   }
 }
