@@ -100,12 +100,13 @@
     }
   },
   "2023": {
-    "name": "Soul Expansion",
-    "description": "Increase Maximum MP by 1% per level",
+    "name": "Body and Mind",
+    "description": "Increase Maximum MP and Maximum HP by 0.5% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1013": { "index": 8, "increase": 0.01 }
+      "1011": { "index": 8, "increase": 0.005 },
+      "1013": { "index": 8, "increase": 0.005 }
     }
   },
   "2024": {
@@ -118,8 +119,8 @@
     }
   },
   "2025": {
-    "name": "Madness Release",
-    "description": "Increase WIS impact on damage by 2% per level",
+    "name": "Acrobatic Shots",
+    "description": "Increase AGI impact on damage by 2% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
@@ -127,16 +128,16 @@
     }
   },
   "2026": {
-    "name": "Whispers of the Immaterial",
-    "description": "Increase WIS given by equipment by 2% per level",
+    "name": "Material Attunement",
+    "description": "Increase AGI given by equipment by 2% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1003": { "index": 6, "increase": 0.02 }
+      "1002": { "index": 6, "increase": 0.02 }
     }
   },
   "2027": {
-    "name": "Otherworldly Calling",
+    "name": "Magicked Quiver",
     "description": "Increase Weapon Power impact on damage by 1.5% per level",
     "level": 0,
     "maxLevel": 100,
@@ -145,12 +146,12 @@
     }
   },
   "2028": {
-    "name": "Whispers of the Void",
-    "description": "Increase WIS by 1 per level",
+    "name": "Whispering Wyld",
+    "description": "Increase AGI by 1 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1003": { "index": 0, "increase": 1 }
+      "1002": { "index": 0, "increase": 1 }
     }
   },
   "2029": {
