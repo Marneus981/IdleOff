@@ -100,146 +100,75 @@
     }
   },
   "2012": {
-    "name": "ErrantKnight01",
-    "description": "This is the description for Modifier ErrantKnight01",
+    "name": "Resilient Flesh",
+    "description": "Increase Maximum HP by 1% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1011": { "index": 8, "increase": 0.01 }
     }
   },
   "2013": {
     "name": "ErrantKnight02",
-    "description": "This is the description for Modifier ErrantKnight02",
+    "description": "Disabled",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 0, "increase": 0 }
     }
   },
   "2014": {
-    "name": "ErrantKnight03",
-    "description": "This is the description for Modifier ErrantKnight03",
+    "name": "Weaponized Body",
+    "description": "Increase STR impact on damage by 2% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1022": { "index": 9, "increase": 0.02 }
     }
   },
   "2015": {
-    "name": "ErrantKnight04",
-    "description": "This is the description for Modifier ErrantKnight04",
+    "name": "Ceaseless Training",
+    "description": "Increase STR given by equipment by 2% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 6, "increase": 0.02 }
     }
   },
   "2016": {
-    "name": "ErrantKnight05",
-    "description": "This is the description for Modifier ErrantKnight05",
+    "name": "Honed Weapons",
+    "description": "Increase Weapon Power impact on damage by 1.5% per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1022": { "index": 0, "increase": 0.015 }
     }
   },
   "2017": {
-    "name": "ErrantKnight06",
-    "description": "This is the description for Modifier ErrantKnight06",
+    "name": "Monster Made Man",
+    "description": "Increase STR by 1 per level",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 0, "increase": 1 }
     }
   },
   "2018": {
     "name": "ErrantKnight07",
-    "description": "This is the description for Modifier ErrantKnight07",
+    "description": "Disabled",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 0, "increase": 0 }
     }
   },
   "2019": {
     "name": "ErrantKnight08",
-    "description": "This is the description for Modifier ErrantKnight08",
+    "description": "Disabled",
     "level": 0,
     "maxLevel": 100,
     "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
-    }
-  },
-  "2020": {
-    "name": "ErrantKnight09",
-    "description": "This is the description for Modifier ErrantKnight09",
-    "level": 0,
-    "maxLevel": 100,
-    "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
-    }
-  },
-  "2021": {
-    "name": "ErrantKnight10",
-    "description": "This is the description for Modifier ErrantKnight10",
-    "level": 0,
-    "maxLevel": 100,
-    "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
-    }
-  },
-  "2022": {
-    "name": "ErrantKnight11",
-    "description": "This is the description for Modifier ErrantKnight11",
-    "level": 0,
-    "maxLevel": 100,
-    "indexIncreaseByStatID": {
-      "1001": { "index": 0, "increase": 0.2 },
-      "1002": { "index": 0, "increase": 0.2 },
-      "1003": { "index": 0, "increase": 0.2 },
-      "1004": { "index": 0, "increase": 0.2 },
-      "1005": { "index": 0, "increase": 0.2 }
+      "1001": { "index": 0, "increase": 0 }
     }
   }
 }

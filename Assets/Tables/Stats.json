@@ -3,7 +3,7 @@
     "name": "str",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2005],
+    "validModifierIDs": [2005,2015,2017],
     "formulaParts": 9
   },
   "1002": {
@@ -73,7 +73,7 @@
     "name": "maxHp",
     "defaultValue": 10.0,
     "minValue": 0.0,
-    "validModifierIDs": [2001],
+    "validModifierIDs": [2001,2012],
     "formulaParts": 9
   },
   "1012": {
@@ -150,7 +150,7 @@
     "name": "damage",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2010,2036,2038],
+    "validModifierIDs": [2010,2036,2038,2014,2016],
     "formulaParts": 10
   }
 }
