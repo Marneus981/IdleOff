@@ -3,28 +3,28 @@
     "name": "str",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2005,2015,2017],
+    "validModifierIDs": [2005,2015,2017,3001],
     "formulaParts": 9
   },
   "1002": {
     "name": "agi",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2006,2026,2028],
+    "validModifierIDs": [2006,2026,2028,3001],
     "formulaParts": 9
   },
   "1003": {
     "name": "wis",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2007,2037,2039],
+    "validModifierIDs": [2007,2037,2039,3001],
     "formulaParts": 9
   },
   "1004": {
     "name": "luck",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2008],
+    "validModifierIDs": [2008,3001],
     "formulaParts": 9
   },
   "1005": {
@@ -45,7 +45,7 @@
     "name": "weaponPower",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [4001],
     "formulaParts": 9
   },
   "1008": {

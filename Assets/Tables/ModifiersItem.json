@@ -1,0 +1,12 @@
+{
+  "4001": {
+    "name": "Dummy Item Bonus",
+    "description": "Dummy item modifier for testing item bonus loading.",
+    "level": 0,
+    "maxLevel": 1,
+    "tags": [ "item" ],
+    "indexIncreaseByStatID": {
+      "1007": { "index": 4, "increase": 1 }
+    }
+  }
+}

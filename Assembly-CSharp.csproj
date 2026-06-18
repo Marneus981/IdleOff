@@ -74,11 +74,15 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\UnarmedWeaponPower.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Mp.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterData.cs" />
+    <Compile Include="Assets\Scripts\Profiles\FamilyBonusModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Stat.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterClass.cs" />
+    <Compile Include="Assets\Scripts\Profiles\GlobalModifierCatalog.cs" />
+    <Compile Include="Assets\Scripts\Profiles\ItemModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Agi.cs" />
     <Compile Include="Assets\Scripts\Profiles\ClassModifier.cs" />
+    <Compile Include="Assets\Scripts\Profiles\StarSignModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Speed.cs" />
     <Compile Include="Assets\Scripts\World\LadderZone.cs" />
     <Compile Include="Assets\Scripts\Profiles\Modifier.cs" />

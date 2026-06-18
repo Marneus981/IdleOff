@@ -131,7 +131,7 @@ namespace IdleOff.Profiles
             SetValue(this.value  + value);
         }
 
-        public float Formula(List<float> formulaValuesList)
+        public virtual float Formula(List<float> formulaValuesList)
         /*Standard Formula for Stat Updates, can be changed inside each subclass
         */
         {
@@ -151,7 +151,7 @@ namespace IdleOff.Profiles
                                          ) * ( 1 + generalPercentile);
             return result;
         }
-        public void UpdateStat()
+        public virtual void UpdateStat()
         {
             //Update gets recalculated on every stat change, if this gets heavy I will implement a better more surgical update system
             var formulaValuesList = new List<float>();

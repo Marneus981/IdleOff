@@ -6,7 +6,7 @@ namespace IdleOff.Profiles
     [System.Serializable]
     public sealed class Str : Stat
     {
-        public new void UpdateStat()
+        public override void UpdateStat()
         {
             //Update gets recalculated on every stat change, if this gets heavy I will implement a better more surgical update system
             var formulaValuesList = new List<float>();

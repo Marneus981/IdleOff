@@ -25,6 +25,8 @@ namespace IdleOff.Profiles
             }
 
             characters.Add(character);
+            character.SetParentProfile(this);
+            character.UpdateStats();
             return true;
         }
 
@@ -41,6 +43,21 @@ namespace IdleOff.Profiles
             }
 
             activeCharacterIndex = Mathf.Clamp(activeCharacterIndex, 0, Mathf.Max(0, characters.Count - 1));
+            BindCharactersToProfile();
+        }
+
+        private void OnEnable()
+        {
+            BindCharactersToProfile();
+        }
+
+        private void BindCharactersToProfile()
+        {
+            // Serialized CharacterData instances need their runtime parent profile restored after load/domain reload.
+            foreach (var character in characters)
+            {
+                character?.SetParentProfile(this);
+            }
         }
     }
 }

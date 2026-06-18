@@ -6,7 +6,7 @@ namespace IdleOff.Profiles
     [System.Serializable]
     public sealed class Damage : Stat
     {
-        public new float Formula(List<float> formulaValuesList)
+        public override float Formula(List<float> formulaValuesList)
         {
             var currentClass = CharacterClass.NormalizeClassName(owner.CharacterClass.GetClassName());
             float WP;

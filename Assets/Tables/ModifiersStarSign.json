@@ -1,0 +1,12 @@
+{
+  "3002": {
+    "name": "Dummy Star Sign",
+    "description": "Dummy star sign modifier for testing star sign bonus loading.",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "starSign" ],
+    "indexIncreaseByStatID": {
+      "1004": { "index": 2, "increase": 1 }
+    }
+  }
+}

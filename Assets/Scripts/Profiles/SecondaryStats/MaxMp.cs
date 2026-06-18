@@ -5,7 +5,7 @@ namespace IdleOff.Profiles
     [System.Serializable]
     public sealed class MaxMp : Stat
     {
-        public new float Formula(List<float> formulaValuesList)
+        public override float Formula(List<float> formulaValuesList)
         /*Standard Formula for Stat Updates, can be changed inside each subclass
         */
         {

@@ -26,15 +26,16 @@ namespace IdleOff.Profiles
         public int level;
         public int maxLevel;
         [SerializeField] protected List<string> tags = new List<string>();
-        [NonSerialized] private CharacterData owner;
+        [NonSerialized] protected CharacterData owner;
 
         public IReadOnlyList<string> GetTags()
         {
             return tags;
         }
 
-        protected void SetTags(List<string> tags)
+        internal void SetTags(List<string> tags)
         {
+            // Modifier table loaders assign tags through this method while keeping the serialized field protected.
             this.tags = tags ?? new List<string>();
         }
 
@@ -43,7 +44,7 @@ namespace IdleOff.Profiles
             this.owner = owner;
         }
 
-        public  (int,float) AppliedIncrease(int statID)
+        public virtual (int,float) AppliedIncrease(int statID)
         {
             //These Modifiers have linear scaling thus applied increse is a simple multiplication
             if (indexIncreaseByStatID == null || !indexIncreaseByStatID.TryGetValue(statID, out var indexIncrease))
