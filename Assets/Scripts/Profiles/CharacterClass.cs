@@ -17,6 +17,7 @@ namespace IdleOff.Profiles
             public string description;
             public int level;
             public int maxLevel;
+            public List<string> tags;
             public Dictionary<string, Modifier.IndexIncrease> indexIncreaseByStatID;
         }
 #pragma warning restore CS0649
@@ -309,7 +310,7 @@ namespace IdleOff.Profiles
                 throw new ArgumentOutOfRangeException(nameof(values), values.level, $"Modifier ID {modifierID} has a level outside 0..maxLevel.");
             }
 
-            var modifier = new ClassModifier
+            var modifier = new ClassModifier(values.tags)
             {
                 modifierID = modifierID,
                 name = values.name,

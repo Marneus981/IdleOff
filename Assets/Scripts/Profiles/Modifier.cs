@@ -25,7 +25,18 @@ namespace IdleOff.Profiles
         public string description;
         public int level;
         public int maxLevel;
+        [SerializeField] protected List<string> tags = new List<string>();
         [NonSerialized] private CharacterData owner;
+
+        public IReadOnlyList<string> GetTags()
+        {
+            return tags;
+        }
+
+        protected void SetTags(List<string> tags)
+        {
+            this.tags = tags ?? new List<string>();
+        }
 
         public void SetOwner(CharacterData owner)
         {
