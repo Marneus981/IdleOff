@@ -101,6 +101,19 @@ namespace IdleOff.Combat
 
         private static bool IsBossLike(IMobCombatant mob)
         {
+            Debug.Log("IsBossLike called");
+            if (mob.Tags == null)
+            {
+                
+            }
+            else
+            {
+                Debug.Log("mob.Tags is not null");
+                foreach(var tag in mob.Tags)
+                {
+                    Debug.Log("Current tag: " + tag);
+                }
+            }
             if (mob.MobType == MobType.Boss || mob.Tags == null)
             {
                 return mob.MobType == MobType.Boss;
@@ -108,6 +121,7 @@ namespace IdleOff.Combat
 
             foreach (var tag in mob.Tags)
             {
+                Debug.Log("Current tag:" + tag);
                 if (tag == "boss")
                 {
                     return true;
