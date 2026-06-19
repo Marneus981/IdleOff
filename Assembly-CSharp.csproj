@@ -55,6 +55,7 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DropRate.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionOwnerType.cs" />
     <Compile Include="Assets\Scripts\Profiles\Inventory.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerActionDriver.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DamageFlatBonus.cs" />
     <Compile Include="Assets\Scripts\Combat\CombatStatIDs.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Accuracy.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Assets\Scripts\Mobs\MobBossAI.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Str.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\CritChance.cs" />
+    <Compile Include="Assets\Scripts\Actions\MeleeActionHitbox.cs" />
     <Compile Include="Assets\Scripts\Combat\IMobCombatant.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DamageMultiplier.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Assets\Scripts\Combat\ICombatant.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Damage.cs" />
     <Compile Include="Assets\Scripts\Combat\CombatResolver.cs" />
+    <Compile Include="Assets\Scripts\Controls\Keybind.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobRuntimeData.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobMinibossAI.cs" />
     <Compile Include="Assets\Scripts\Profiles\GlobalModifierCatalog.cs" />
@@ -81,6 +84,7 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\WeaponPower.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Mastery.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobBasicAI.cs" />
+    <Compile Include="Assets\Scripts\Actions\ActionController.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Luck.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\CritDamage.cs" />
     <Compile Include="Assets\Scripts\Profiles\ItemModifier.cs" />
@@ -97,10 +101,12 @@
     <Compile Include="Assets\Scripts\Profiles\Item.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterData.cs" />
     <Compile Include="Assets\Scripts\Profiles\Stat.cs" />
+    <Compile Include="Assets\Scripts\Actions\ActionRuntimeState.cs" />
     <Compile Include="Assets\Scripts\Drops\WorldDropSpawner.cs" />
     <Compile Include="Assets\Scripts\Combat\DamageResult.cs" />
     <Compile Include="Assets\Scripts\Combat\IRandomSource.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobCatalog.cs" />
+    <Compile Include="Assets\Scripts\Actions\ActionUseRequest.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterClass.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats.cs" />
     <Compile Include="Assets\Scripts\Profiles\GlobalItemCatalog.cs" />
@@ -116,9 +122,11 @@
     <Compile Include="Assets\Scripts\Profiles\StarSignModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Modifier.cs" />
     <Compile Include="Assets\Scripts\Combat\UnityRandomSource.cs" />
+    <Compile Include="Assets\Scripts\Controls\KeybindManager.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobItemDrop.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Defense.cs" />
     <Compile Include="Assets\Scripts\Profiles\FamilyBonusModifier.cs" />
+    <Compile Include="Assets\Scripts\Controls\KeybindActions.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobMoneyDrop.cs" />
     <Compile Include="Assets\Scripts\Profiles\Storage.cs" />
     <Compile Include="Assets\Scripts\Combat\PlayerCombatant.cs" />

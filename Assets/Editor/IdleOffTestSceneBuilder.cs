@@ -1,4 +1,7 @@
 using System.IO;
+using IdleOff.Actions;
+using IdleOff.Combat;
+using IdleOff.Mobs;
 using IdleOff.Player;
 using IdleOff.Profiles;
 using IdleOff.World;
@@ -20,6 +23,7 @@ namespace IdleOff.Editor
         private const string PlatformObjectLayer = "Platform";
         private const string LadderObjectLayer = "Ladder";
         private const string PlayerObjectLayer = "Player";
+        private const string MobObjectLayer = "Mob";
 
         [MenuItem("IdleOff/Create Test Scene")]
         public static void CreateTestScene()
@@ -27,6 +31,7 @@ namespace IdleOff.Editor
             EnsureObjectLayer(PlatformObjectLayer);
             EnsureObjectLayer(LadderObjectLayer);
             EnsureObjectLayer(PlayerObjectLayer);
+            EnsureObjectLayer(MobObjectLayer);
 
             EnsureFolder("Assets/Art");
             EnsureFolder(PlaceholderFolder);
@@ -34,6 +39,7 @@ namespace IdleOff.Editor
             EnsureFolder("Assets/Scenes");
 
             Sprite playerSprite = GetOrCreatePlaceholderSprite("Player_Box", new Color32(79, 159, 255, 255));
+            Sprite mobSprite = GetOrCreatePlaceholderSprite("Mob_Box", new Color32(232, 90, 86, 255));
             Sprite platformSprite = GetOrCreatePlaceholderSprite("Platform_Box", new Color32(96, 91, 83, 255));
             Sprite ladderSprite = GetOrCreatePlaceholderSprite("Ladder_Box", new Color32(201, 142, 69, 255));
 
@@ -47,6 +53,7 @@ namespace IdleOff.Editor
             CreatePlatform("Upper Platform", new Vector2(2.75f, 1f), new Vector2(5.5f, 0.5f), platformSprite);
             CreateLadder("Ladder", new Vector2(2.75f, -0.5f), new Vector2(0.55f, 3.5f), ladderSprite);
             CreatePlayer(profile, playerSprite);
+            CreateDummyMob(mobSprite);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             AssetDatabase.SaveAssets();
@@ -94,6 +101,29 @@ namespace IdleOff.Editor
 
             PlayerMovement2D movement = player.AddComponent<PlayerMovement2D>();
             movement.SetProfile(profile);
+
+            PlayerCombatant combatant = player.AddComponent<PlayerCombatant>();
+            combatant.SetProfile(profile);
+
+            player.AddComponent<ActionController>();
+
+            PlayerActionDriver actionDriver = player.AddComponent<PlayerActionDriver>();
+            actionDriver.SetProfile(profile);
+        }
+
+        private static void CreateDummyMob(Sprite sprite)
+        {
+            GameObject mob = CreateBox("Training Slime Dummy", new Vector2(0.5f, -1.75f), new Vector2(0.75f, 0.75f), sprite, new Color32(232, 90, 86, 255));
+            SetSorting(mob, CharactersSortingLayer, 15);
+            SetLayer(mob, MobObjectLayer);
+            mob.AddComponent<BoxCollider2D>();
+
+            Rigidbody2D body = mob.AddComponent<Rigidbody2D>();
+            body.gravityScale = 3f;
+            body.freezeRotation = true;
+
+            MobEntity entity = mob.AddComponent<MobEntity>();
+            entity.Initialize(6001);
         }
 
         private static void CreatePlatform(string name, Vector2 position, Vector2 size, Sprite sprite)
@@ -156,7 +186,7 @@ namespace IdleOff.Editor
 
         private static Sprite GetOrCreatePlaceholderSprite(string name, Color color)
         {
-            string path = PlaceholderFolder + "/" + name + ".asset";
+            string path = PlaceholderFolder + "/" + name + ".png";
             Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
             if (sprite != null)
             {
@@ -168,12 +198,20 @@ namespace IdleOff.Editor
             texture.Apply();
             texture.name = name + "_Texture";
 
-            sprite = Sprite.Create(texture, new Rect(0f, 0f, 1f, 1f), new Vector2(0.5f, 0.5f), 1f);
-            sprite.name = name;
-            AssetDatabase.CreateAsset(texture, path);
-            AssetDatabase.AddObjectToAsset(sprite, texture);
+            File.WriteAllBytes(path, texture.EncodeToPNG());
+            Object.DestroyImmediate(texture);
             AssetDatabase.ImportAsset(path);
-            return sprite;
+
+            TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
+            if (importer != null)
+            {
+                importer.textureType = TextureImporterType.Sprite;
+                importer.spritePixelsPerUnit = 1f;
+                importer.mipmapEnabled = false;
+                importer.SaveAndReimport();
+            }
+
+            return AssetDatabase.LoadAssetAtPath<Sprite>(path);
         }
 
         private static void EnsureFolder(string path)

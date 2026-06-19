@@ -1,8 +1,8 @@
+using IdleOff.Controls;
 using IdleOff.Profiles;
 using IdleOff.World;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace IdleOff.Player
 {
@@ -37,6 +37,8 @@ namespace IdleOff.Player
         private Collider2D ignoredPlatform;
         private readonly List<Collider2D> climbIgnoredPlatforms = new();
         private Vector2 lastSafePosition;
+
+        public Vector2 FacingDirection { get; private set; } = Vector2.right;
 
         private float CurrentSpeed => profile != null && profile.ActiveCharacter != null
             ? profile.ActiveCharacter.Speed.GetValue()
@@ -76,6 +78,10 @@ namespace IdleOff.Player
         {
             Vector2 velocity = body.linearVelocity;
             velocity.x = horizontalInput * CurrentSpeed;
+            if (Mathf.Abs(horizontalInput) > 0.01f)
+            {
+                FacingDirection = horizontalInput < 0f ? Vector2.left : Vector2.right;
+            }
 
             if (IsClimbing)
             {
@@ -94,32 +100,24 @@ namespace IdleOff.Player
 
         private void ReadKeyboardInput()
         {
-            Keyboard keyboard = Keyboard.current;
-            if (keyboard == null)
-            {
-                horizontalInput = 0f;
-                verticalInput = 0f;
-                return;
-            }
-
             horizontalInput = 0f;
-            if (keyboard.leftArrowKey.isPressed || keyboard.aKey.isPressed)
+            if (KeybindManager.IsPressed(KeybindActions.MoveLeft))
             {
                 horizontalInput -= 1f;
             }
 
-            if (keyboard.rightArrowKey.isPressed || keyboard.dKey.isPressed)
+            if (KeybindManager.IsPressed(KeybindActions.MoveRight))
             {
                 horizontalInput += 1f;
             }
 
             verticalInput = 0f;
-            if (keyboard.downArrowKey.isPressed || keyboard.sKey.isPressed)
+            if (KeybindManager.IsPressed(KeybindActions.MoveDown))
             {
                 verticalInput -= 1f;
             }
 
-            if (keyboard.upArrowKey.isPressed || keyboard.wKey.isPressed)
+            if (KeybindManager.IsPressed(KeybindActions.MoveUp))
             {
                 verticalInput += 1f;
             }
