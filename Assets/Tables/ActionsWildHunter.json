@@ -1,0 +1,16 @@
+{
+  "2201": {
+    "name": "Hunter Shot",
+    "description": "A basic Wild Hunter attack.",
+    "tags": ["attack", "ranged", "physical"],
+    "level": 1,
+    "maxLevel": 100,
+    "cooldown": 0.85,
+    "range": 5.0,
+    "attackScaling": 0.95,
+    "attackScalingPerLevel": 0.02,
+    "ownerType": "Player",
+    "targetingType": "Projectile",
+    "hitboxType": "Projectile"
+  }
+}

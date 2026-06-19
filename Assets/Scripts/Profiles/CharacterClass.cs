@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using UnityEngine;
+using GameAction = IdleOff.Actions.Action;
+using ActionCatalog = IdleOff.Actions.ActionCatalog;
 
 namespace IdleOff.Profiles
 {
@@ -25,47 +27,49 @@ namespace IdleOff.Profiles
         #region Variables
         [SerializeField] private string className = "Wandering Soul";
         [SerializeField] private string classModifiersPath = "Assets/Tables/ModifiersWanderingSoul.json";
+        [SerializeField] private string classActionsPath = "Assets/Tables/ActionsWanderingSoul.json";
         [SerializeField, Min(1)] private int levelNumber = 1;
         [SerializeField, Min(0f)] private float currentXP;
         [SerializeField, Min(0f)] private float maxXP = 100f;
         [SerializeField, Min(0)] private int BaseTalentPoints = 3;
         [SerializeField, Min(0)] private int ClassTalentPoints = 3;
         [SerializeField] private List<ClassModifier> ClassModifiers = new();
+        [SerializeField] private List<GameAction> classActions = new();
         private Dictionary<int, ClassModifier> classModifiersByID = new();
-        [SerializeField] private Dictionary<int,Active> classActives = new();
+        private Dictionary<int, GameAction> classActionsByID = new();
         [NonSerialized] private CharacterData owner;
-        ///public IReadOnlyList<Modifier> PassiveAbilities => ClassModifiers;
-        ///public IReadOnlyList<Active> ActiveAbilities => classActives;
         #endregion
         #region Constructors and Class Creators
         public CharacterClass()
         {
         }
-        private CharacterClass(string className, string path)
+        private CharacterClass(string className, string modifiersPath, string actionsPath)
         {
             this.className = className;
-            this.classModifiersPath = path;
+            this.classModifiersPath = modifiersPath;
+            this.classActionsPath = actionsPath;
             LoadClassModifiers();
+            LoadClassActions();
         }
 
         public static CharacterClass CreateWanderingSoul()
         {
-            return new CharacterClass("Wandering Soul", "Assets/Tables/ModifiersWanderingSoul.json");
+            return new CharacterClass("Wandering Soul", "Assets/Tables/ModifiersWanderingSoul.json", "Assets/Tables/ActionsWanderingSoul.json");
         }
 
         public static CharacterClass CreateErrantKnight()
         {
-            return new CharacterClass("Errant Knight","Assets/Tables/ModifiersErrantKnight.json");
+            return new CharacterClass("Errant Knight","Assets/Tables/ModifiersErrantKnight.json", "Assets/Tables/ActionsErrantKnight.json");
         }
 
         public static CharacterClass CreateWildHunter()
         {
-            return new CharacterClass("Wild Hunter", "Assets/Tables/ModifiersWildHunter.json");
+            return new CharacterClass("Wild Hunter", "Assets/Tables/ModifiersWildHunter.json", "Assets/Tables/ActionsWildHunter.json");
         }
 
         public static CharacterClass CreateVoidWhisperer()
         {
-            return new CharacterClass("Void Whisperer","Assets/Tables/ModifiersVoidWhisperer.json");
+            return new CharacterClass("Void Whisperer","Assets/Tables/ModifiersVoidWhisperer.json", "Assets/Tables/ActionsVoidWhisperer.json");
         }
         #endregion
         #region Set/Get
@@ -139,6 +143,12 @@ namespace IdleOff.Profiles
             EnsureClassModifiersLoaded();
             return ClassModifiers;
         }
+
+        public IReadOnlyList<GameAction> GetClassActions()
+        {
+            EnsureClassActionsLoaded();
+            return classActions;
+        }
         #endregion
         public void LevelUp(CharacterData characterData)
         {
@@ -180,36 +190,40 @@ namespace IdleOff.Profiles
 
         private void ChangeToWanderingSoul()
         {
-            ChangeToClass("Wandering Soul", "Assets/Tables/ModifiersWanderingSoul.json");
+            ChangeToClass("Wandering Soul", "Assets/Tables/ModifiersWanderingSoul.json", "Assets/Tables/ActionsWanderingSoul.json");
         }
 
         private void ChangeToErrantKnight()
         {
-            ChangeToClass("Errant Knight", "Assets/Tables/ModifiersErrantKnight.json");
+            ChangeToClass("Errant Knight", "Assets/Tables/ModifiersErrantKnight.json", "Assets/Tables/ActionsErrantKnight.json");
         }
 
         private void ChangeToWildHunter()
         {
-            ChangeToClass("Wild Hunter", "Assets/Tables/ModifiersWildHunter.json");
+            ChangeToClass("Wild Hunter", "Assets/Tables/ModifiersWildHunter.json", "Assets/Tables/ActionsWildHunter.json");
         }
 
         private void ChangeToVoidWhisperer()
         {
-            ChangeToClass("Void Whisperer", "Assets/Tables/ModifiersVoidWhisperer.json");
+            ChangeToClass("Void Whisperer", "Assets/Tables/ModifiersVoidWhisperer.json", "Assets/Tables/ActionsVoidWhisperer.json");
         }
 
-        private void ChangeToClass(string targetClassName, string targetClassModifiersPath)
+        private void ChangeToClass(string targetClassName, string targetClassModifiersPath, string targetClassActionsPath)
         {
-            if (className == targetClassName && classModifiersPath == targetClassModifiersPath)
+            if (className == targetClassName && classModifiersPath == targetClassModifiersPath && classActionsPath == targetClassActionsPath)
             {
                 return;
             }
 
             EnsureClassModifiersLoaded();
+            EnsureClassActionsLoaded();
             var previousModifiers = new Dictionary<int, ClassModifier>(classModifiersByID);
+            var previousActions = new Dictionary<int, GameAction>(classActionsByID);
             className = targetClassName;
             classModifiersPath = targetClassModifiersPath;
+            classActionsPath = targetClassActionsPath;
             LoadClassModifiers();
+            LoadClassActions();
 
             var refundedClassTalentPoints = 0;
             foreach (var previousModifier in previousModifiers)
@@ -224,6 +238,14 @@ namespace IdleOff.Profiles
             }
 
             ClassTalentPoints += refundedClassTalentPoints;
+
+            foreach (var previousAction in previousActions)
+            {
+                if (classActionsByID.TryGetValue(previousAction.Key, out var loadedAction))
+                {
+                    loadedAction.level = previousAction.Value.level;
+                }
+            }
         }
 
         public void SetOwner(CharacterData owner)
@@ -250,6 +272,17 @@ namespace IdleOff.Profiles
             }
 
             return modifier;
+        }
+
+        public GameAction GetAction(int actionID)
+        {
+            if (actionID <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(actionID), actionID, "Action ID must be positive.");
+            }
+
+            EnsureClassActionsLoaded();
+            return classActionsByID.TryGetValue(actionID, out var action) ? action : null;
         }
 
         private void LoadClassModifiers()
@@ -282,10 +315,28 @@ namespace IdleOff.Profiles
             }
         }
 
-        private void LoadActives()
+        private void LoadClassActions()
         {
-            ////TO BE IMPLEMENTED
+            classActionsPath = string.IsNullOrWhiteSpace(classActionsPath)
+                ? GetDefaultActionsPath(className)
+                : classActionsPath;
+
+            var loadedActions = ActionCatalog.LoadActions(classActionsPath, $"{className} action");
+            classActions = new List<GameAction>();
+            classActionsByID = new Dictionary<int, GameAction>();
+            foreach (var entry in loadedActions)
+            {
+                var action = entry.Value.Clone();
+                classActions.Add(action);
+                if (classActionsByID.ContainsKey(action.actionID))
+                {
+                    throw new InvalidOperationException($"Class action table '{classActionsPath}' contains duplicate action ID {action.actionID}.");
+                }
+
+                classActionsByID.Add(action.actionID, action);
+            }
         }
+
 
         public static string NormalizeClassName(string className)
         {
@@ -350,6 +401,17 @@ namespace IdleOff.Profiles
             RebuildClassModifierLookup();
         }
 
+        private void EnsureClassActionsLoaded()
+        {
+            if (classActions == null || classActions.Count == 0)
+            {
+                LoadClassActions();
+                return;
+            }
+
+            RebuildClassActionLookup();
+        }
+
         private void RebuildClassModifierLookup()
         {
             classModifiersByID = new Dictionary<int, ClassModifier>();
@@ -373,6 +435,41 @@ namespace IdleOff.Profiles
                 modifier.SetOwner(owner);
                 classModifiersByID.Add(modifier.modifierID, modifier);
             }
+        }
+
+        private void RebuildClassActionLookup()
+        {
+            classActionsByID = new Dictionary<int, GameAction>();
+            foreach (var action in classActions)
+            {
+                if (action == null)
+                {
+                    throw new InvalidOperationException($"Class '{className}' contains a null action.");
+                }
+
+                if (action.actionID <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(classActions), action.actionID, $"Class '{className}' contains an invalid action ID.");
+                }
+
+                if (classActionsByID.ContainsKey(action.actionID))
+                {
+                    throw new InvalidOperationException($"Class '{className}' contains duplicate action ID {action.actionID}.");
+                }
+
+                classActionsByID.Add(action.actionID, action);
+            }
+        }
+
+        private static string GetDefaultActionsPath(string className)
+        {
+            return NormalizeClassName(className) switch
+            {
+                "errantknight" => "Assets/Tables/ActionsErrantKnight.json",
+                "wildhunter" => "Assets/Tables/ActionsWildHunter.json",
+                "voidwhisperer" => "Assets/Tables/ActionsVoidWhisperer.json",
+                _ => "Assets/Tables/ActionsWanderingSoul.json"
+            };
         }
 
         private static string ResolveClassModifiersPath(string modifiersPath)

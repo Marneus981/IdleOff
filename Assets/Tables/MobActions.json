@@ -1,0 +1,30 @@
+{
+  "7001": {
+    "name": "Basic Strike",
+    "description": "A simple close-range mob attack.",
+    "tags": ["attack", "melee", "physical"],
+    "level": 1,
+    "maxLevel": 1,
+    "cooldown": 1.2,
+    "range": 1.25,
+    "attackScaling": 1.0,
+    "attackScalingPerLevel": 0.0,
+    "ownerType": "Mob",
+    "targetingType": "ForwardMelee",
+    "hitboxType": "Box"
+  },
+  "7002": {
+    "name": "Long Range Strike",
+    "description": "A simple long-range boss attack.",
+    "tags": ["attack", "ranged", "physical"],
+    "level": 1,
+    "maxLevel": 1,
+    "cooldown": 2.0,
+    "range": 8.0,
+    "attackScaling": 1.0,
+    "attackScalingPerLevel": 0.0,
+    "ownerType": "Mob",
+    "targetingType": "Projectile",
+    "hitboxType": "Projectile"
+  }
+}
