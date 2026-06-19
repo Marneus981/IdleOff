@@ -3,7 +3,7 @@
     "name": "str",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2005,2015,2017,3001,3002,4002,4005,4008.4011,4016],
+    "validModifierIDs": [2005,2015,2017,3001,3002,4002,4005,4008,4011,4016],
     "formulaParts": 9
   },
   "1002": {
@@ -45,7 +45,7 @@
     "name": "weaponPower",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [4001,4014,4015,4016,4017,4018],
+    "validModifierIDs": [4014,4015,4016,4017,4018],
     "formulaParts": 9
   },
   "1008": {

@@ -15,6 +15,12 @@ namespace IdleOff.Profiles
         [SerializeField] private int starSignModifierID = 3002;
         [SerializeField] private StarSignModifier starSignModifier;
         [SerializeField] private FamilyBonusModifier familyBonusModifier;
+        [SerializeField] private Equipment equipment = new();
+        [SerializeField] private Inventory inventory = new();
+        [SerializeField] private Storage storage = new();
+        [SerializeField] private Dictionary<int, ItemModifier> equipmentModifiers = new();
+        private Dictionary<int, StarSignModifier> inactiveStarSignModifiers = new();
+        private Dictionary<int, ItemModifier> inactiveItemModifiers = new();
         [NonSerialized] private CharacterProfile parentProfile;
 
         public string CharacterName => characterName;
@@ -24,6 +30,10 @@ namespace IdleOff.Profiles
         public int Level => GetCharacterClass().GetLevelNumber();
         public StarSignModifier StarSignModifier => GetStarSignModifier();
         public FamilyBonusModifier FamilyBonusModifier => GetFamilyModifier();
+        public Equipment Equipment => equipment;
+        public Inventory Inventory => inventory;
+        public Storage Storage => storage;
+        public IReadOnlyDictionary<int, ItemModifier> EquipmentModifiers => equipmentModifiers;
         public MainStats MainStats
         {
             get
@@ -57,31 +67,33 @@ namespace IdleOff.Profiles
         }
 
         public CharacterData(string characterName, CharacterGender gender, int level)
-            : this(characterName, gender, level, 3002)
+            : this(characterName, gender, level, 3002, 5001)
         {
         }
 
-        public CharacterData(string characterName, CharacterGender gender, int level, int starSignModifierID)
+        public CharacterData(string characterName, CharacterGender gender, int level, int starSignModifierID, int startingHatItemID = 5001)
         {
             this.characterName = characterName;
             this.gender = gender;
             this.starSignModifierID = starSignModifierID;
             GetCharacterClass().SetLevelNumber(level);
             LoadStats();
+            EquipStartingItem(startingHatItemID);
         }
 
         public CharacterData(string characterName, CharacterGender gender, CharacterClass characterClass)
-            : this(characterName, gender, characterClass, 3002)
+            : this(characterName, gender, characterClass, 3002, 5001)
         {
         }
 
-        public CharacterData(string characterName, CharacterGender gender, CharacterClass characterClass, int starSignModifierID)
+        public CharacterData(string characterName, CharacterGender gender, CharacterClass characterClass, int starSignModifierID, int startingHatItemID = 5001)
         {
             this.characterName = characterName;
             this.gender = gender;
             this.characterClass = characterClass ?? CharacterClass.CreateWanderingSoul();
             this.starSignModifierID = starSignModifierID;
             LoadStats();
+            EquipStartingItem(startingHatItemID);
         }
 
         public void UpdateStats()
@@ -120,18 +132,21 @@ namespace IdleOff.Profiles
 
             if (modifierID >= 3002 && modifierID < 4000)
             {
-                return GetStarSignModifier(modifierID);
+                var activeStarSign = GetStarSignModifier();
+                return activeStarSign.modifierID == modifierID
+                    ? activeStarSign
+                    : GetInactiveStarSignModifier(modifierID);
             }
 
             if (modifierID >= 4001)
             {
-                GlobalModifierCatalog.EnsureLoaded();
-                if (GlobalModifierCatalog.ItemBonuses.TryGetValue(modifierID, out var itemModifier))
+                EnsureBagsLoaded();
+                if (equipmentModifiers.TryGetValue(modifierID, out var itemModifier))
                 {
                     return itemModifier;
                 }
 
-                throw new KeyNotFoundException($"Item modifier ID {modifierID} was not found.");
+                return GetInactiveItemModifier(modifierID);
             }
 
             return GetCharacterClass().GetModifier(modifierID);
@@ -141,17 +156,6 @@ namespace IdleOff.Profiles
         {
             EnsureCharacterModifiersLoaded();
             return starSignModifier;
-        }
-
-        private StarSignModifier GetStarSignModifier(int modifierID)
-        {
-            var modifier = GetStarSignModifier();
-            if (modifier.modifierID != modifierID)
-            {
-                throw new KeyNotFoundException($"Character is using star sign modifier ID {modifier.modifierID}, not requested ID {modifierID}.");
-            }
-
-            return modifier;
         }
 
         public FamilyBonusModifier GetFamilyModifier()
@@ -176,10 +180,116 @@ namespace IdleOff.Profiles
             throw new KeyNotFoundException($"Stat ID {statID} was not found in main or secondary stats.");
         }
 
+        public bool AddItem(int itemID, int quantity)
+        {
+            EnsureBagsLoaded();
+            return inventory.AddItem(itemID, quantity);
+        }
+
+        public bool MoveItem(int itemID, Bag departureBag, Bag destinationBag)
+        {
+            if (departureBag == null || destinationBag == null)
+            {
+                return false;
+            }
+
+            var quantity = departureBag.GetItemQuantity(itemID);
+            if (quantity <= 0 || !departureBag.TryRemoveItem(itemID, quantity, out var movedItem))
+            {
+                return false;
+            }
+
+            if (destinationBag.AddItem(movedItem, movedItem.quantity))
+            {
+                RebuildEquipmentModifiers();
+                UpdateStats();
+                return true;
+            }
+
+            departureBag.AddItem(movedItem, movedItem.quantity);
+            return false;
+        }
+
+        public bool AddMoney(Money moneyObj)
+        {
+            EnsureBagsLoaded();
+            return inventory.AddMoney(moneyObj);
+        }
+
+        public bool MoveMoney(Money moneyObj, Bag departureBag, Bag destinationBag)
+        {
+            if (departureBag == null || destinationBag == null || !departureBag.TryRemoveMoney(moneyObj))
+            {
+                return false;
+            }
+
+            if (destinationBag.AddMoney(moneyObj))
+            {
+                return true;
+            }
+
+            departureBag.AddMoney(moneyObj);
+            return false;
+        }
+
+        public bool EquipItem(int itemID)
+        {
+            EnsureBagsLoaded();
+            if (!inventory.TryRemoveItem(itemID, 1, out var itemToEquip) || itemToEquip == null || !itemToEquip.IsEquipment)
+            {
+                return false;
+            }
+
+            var equipmentSlot = equipment.FindSlotFor(itemToEquip);
+            if (equipmentSlot == null)
+            {
+                inventory.AddItem(itemToEquip, itemToEquip.quantity);
+                return false;
+            }
+
+            var previouslyEquipped = equipmentSlot.item;
+            if (previouslyEquipped != null && !inventory.AddItem(previouslyEquipped, previouslyEquipped.quantity))
+            {
+                inventory.AddItem(itemToEquip, itemToEquip.quantity);
+                return false;
+            }
+
+            equipmentSlot.item = itemToEquip;
+            RebuildEquipmentModifiers();
+            UpdateStats();
+            return true;
+        }
+
+        public bool UnequipItem(int itemID)
+        {
+            EnsureBagsLoaded();
+            foreach (var slot in equipment.Slots)
+            {
+                if (slot.IsEmpty || slot.item.itemID != itemID)
+                {
+                    continue;
+                }
+
+                var item = slot.item;
+                if (!inventory.AddItem(item, item.quantity))
+                {
+                    return false;
+                }
+
+                slot.item = null;
+                RebuildEquipmentModifiers();
+                UpdateStats();
+                return true;
+            }
+
+            return false;
+        }
+
         private void LoadStats()
         {
             mainStats ??= new MainStats();
             secondaryStats ??= new SecondaryStats();
+            EnsureBagsLoaded();
             GetCharacterClass().SetOwner(this);
             EnsureCharacterModifiersLoaded();
             mainStats.SetOwner(this);
@@ -209,13 +319,25 @@ namespace IdleOff.Profiles
 
             if (starSignModifier == null || starSignModifier.modifierID != starSignModifierID)
             {
-                starSignModifier = CreateCharacterStarSignModifier(starSignModifierID);
+                starSignModifier = CreateCharacterStarSignModifier(starSignModifierID, 1);
             }
 
             starSignModifier.SetOwner(this);
         }
 
-        private static StarSignModifier CreateCharacterStarSignModifier(int modifierID)
+        private StarSignModifier GetInactiveStarSignModifier(int modifierID)
+        {
+            inactiveStarSignModifiers ??= new Dictionary<int, StarSignModifier>();
+            if (!inactiveStarSignModifiers.TryGetValue(modifierID, out var modifier))
+            {
+                modifier = CreateCharacterStarSignModifier(modifierID, 0);
+                inactiveStarSignModifiers.Add(modifierID, modifier);
+            }
+
+            return modifier;
+        }
+
+        private static StarSignModifier CreateCharacterStarSignModifier(int modifierID, int modifierLevel)
         {
             if (!GlobalModifierCatalog.StarSignBonuses.TryGetValue(modifierID, out var source))
             {
@@ -228,11 +350,92 @@ namespace IdleOff.Profiles
                 modifierID = source.modifierID,
                 name = source.name,
                 description = source.description,
-                level = source.level,
+                level = modifierLevel,
                 maxLevel = source.maxLevel,
                 indexIncreaseByStatID = new Dictionary<int, Modifier.IndexIncrease>(source.indexIncreaseByStatID)
             };
             modifier.SetTags(new List<string>(source.GetTags()));
+            return modifier;
+        }
+
+        private void EnsureBagsLoaded()
+        {
+            equipment ??= new Equipment();
+            inventory ??= new Inventory();
+            storage ??= new Storage();
+            equipmentModifiers ??= new Dictionary<int, ItemModifier>();
+            inactiveItemModifiers ??= new Dictionary<int, ItemModifier>();
+            RebuildEquipmentModifiers();
+        }
+
+        private void EquipStartingItem(int startingItemID)
+        {
+            if (startingItemID < 5001 || startingItemID > 5004)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startingItemID), startingItemID, "Starting item must be one of the first four hat item IDs.");
+            }
+
+            EnsureBagsLoaded();
+            if (equipment.GetItemQuantity(startingItemID) > 0)
+            {
+                return;
+            }
+
+            AddItem(startingItemID, 1);
+            EquipItem(startingItemID);
+        }
+
+        private void RebuildEquipmentModifiers()
+        {
+            equipmentModifiers ??= new Dictionary<int, ItemModifier>();
+            equipmentModifiers.Clear();
+            if (equipment == null)
+            {
+                return;
+            }
+
+            foreach (var slot in equipment.Slots)
+            {
+                if (slot.IsEmpty || slot.item.modifier <= 0)
+                {
+                    continue;
+                }
+
+                equipmentModifiers[slot.item.modifier] = CreateCharacterItemModifier(slot.item.modifier, 1);
+            }
+        }
+
+        private ItemModifier GetInactiveItemModifier(int modifierID)
+        {
+            inactiveItemModifiers ??= new Dictionary<int, ItemModifier>();
+            if (!inactiveItemModifiers.TryGetValue(modifierID, out var modifier))
+            {
+                modifier = CreateCharacterItemModifier(modifierID, 0);
+                inactiveItemModifiers.Add(modifierID, modifier);
+            }
+
+            return modifier;
+        }
+
+        private ItemModifier CreateCharacterItemModifier(int modifierID, int modifierLevel)
+        {
+            GlobalModifierCatalog.EnsureLoaded();
+            if (!GlobalModifierCatalog.ItemBonuses.TryGetValue(modifierID, out var source))
+            {
+                throw new KeyNotFoundException($"Item modifier ID {modifierID} was not found.");
+            }
+
+            var modifier = new ItemModifier
+            {
+                modifierID = source.modifierID,
+                name = source.name,
+                description = source.description,
+                level = modifierLevel,
+                maxLevel = source.maxLevel,
+                indexIncreaseByStatID = new Dictionary<int, Modifier.IndexIncrease>(source.indexIncreaseByStatID)
+            };
+            modifier.SetTags(new List<string>(source.GetTags()));
+            modifier.SetOwner(this);
             return modifier;
         }
         public float GetStatValueByID(int statID)

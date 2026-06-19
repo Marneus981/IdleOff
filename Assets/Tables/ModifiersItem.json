@@ -114,7 +114,7 @@
     "tags": [ "item", "shoes" ],
     "indexIncreaseByStatID": {
       "1001": { "index": 4, "increase": 5 },
-      "1005": { "index": 8, "increase": 0.01 }
+      "1021": { "index": 8, "increase": 0.01 }
     }
   },
     "4012": {
@@ -125,7 +125,7 @@
     "tags": [ "item", "shoes" ],
     "indexIncreaseByStatID": {
       "1002": { "index": 4, "increase": 5 },
-      "1005": { "index": 8, "increase": 0.01 }
+      "1021": { "index": 8, "increase": 0.01 }
     }
   },
     "4013": {
@@ -136,7 +136,7 @@
     "tags": [ "item", "shoes" ],
     "indexIncreaseByStatID": {
       "1003": { "index": 4, "increase": 5 },
-      "1005": { "index": 8, "increase": 0.01 }
+      "1021": { "index": 8, "increase": 0.01 }
     }
   },
   "4014": {
