@@ -1,12 +1,46 @@
 {
   "3002": {
-    "name": "Dummy Star Sign",
-    "description": "Dummy star sign modifier for testing star sign bonus loading.",
+    "name": "The Beast",
+    "description": "Increase final Damage multiplier by 10%, increase STR by 3",
     "level": 1,
     "maxLevel": 1,
     "tags": [ "starSign" ],
     "indexIncreaseByStatID": {
-      "1004": { "index": 2, "increase": 1 }
+      "1001": { "index": 2, "increase": 3 },
+      "1015": { "index": 2, "increase": 0.10 }
+    }
+  },
+  "3003": {
+    "name": "The Judge",
+    "description": "Increase flat Speed bonus by 1, increase AGI by 3",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "starSign" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 2, "increase": 3 },
+      "1021": { "index": 2, "increase": 1 }
+    }
+  },
+  "3004": {
+    "name": "The Hermit",
+    "description": "Increase total Class XP Rate by 10%, increase WIS by 3",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "starSign" ],
+    "indexIncreaseByStatID": {
+      "1003": { "index": 2, "increase": 3 },
+      "1020": { "index": 2, "increase": 0.10 }
+    }
+  },
+  "3005": {
+    "name": "The Fool",
+    "description": "Increase total Drop Rate by 10%, increase LUCK by 3",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "starSign" ],
+    "indexIncreaseByStatID": {
+      "1004": { "index": 2, "increase": 3 },
+      "1019": { "index": 2, "increase": 0.10 }
     }
   }
 }

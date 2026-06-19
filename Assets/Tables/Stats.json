@@ -3,35 +3,35 @@
     "name": "str",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2005,2015,2017,3001],
+    "validModifierIDs": [2005,2015,2017,3001,3002,4002,4005,4008.4011,4016],
     "formulaParts": 9
   },
   "1002": {
     "name": "agi",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2006,2026,2028,3001],
+    "validModifierIDs": [2006,2026,2028,3001,3003,4003,4006,4009,4012,4017],
     "formulaParts": 9
   },
   "1003": {
     "name": "wis",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2007,2037,2039,3001],
+    "validModifierIDs": [2007,2037,2039,3001,3004,4004,4007,4010,4013,4018],
     "formulaParts": 9
   },
   "1004": {
     "name": "luck",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2008,3001],
+    "validModifierIDs": [2008,3001,3005,4001,4014,4015],
     "formulaParts": 9
   },
   "1005": {
     "name": "accuracy",
     "defaultValue": 2.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [4001,4002,4003,4004],
     "formulaParts": 9
   },
   "1006": {
@@ -45,7 +45,7 @@
     "name": "weaponPower",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [4001],
+    "validModifierIDs": [4001,4014,4015,4016,4017,4018],
     "formulaParts": 9
   },
   "1008": {
@@ -59,7 +59,7 @@
     "name": "defense",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [2003],
+    "validModifierIDs": [2003,4005,4006,4007],
     "formulaParts": 9
   },
   "1010": {
@@ -101,7 +101,7 @@
     "name": "damageMultiplier",
     "defaultValue": 1.0,
     "minValue": 0.0,
-    "validModifierIDs": [2009],
+    "validModifierIDs": [2009,3002],
     "formulaParts": 9
   },
   "1016": {
@@ -129,21 +129,21 @@
     "name": "dropRate",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [3005],
     "formulaParts": 9
   },
   "1020": {
     "name": "classXPRate",
     "defaultValue": 0.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [3004],
     "formulaParts": 9
   },
   "1021": {
     "name": "speed",
     "defaultValue": 5.0,
     "minValue": 0.0,
-    "validModifierIDs": [],
+    "validModifierIDs": [3003,4011,4012,4013],
     "formulaParts": 9
   },
   "1022": {

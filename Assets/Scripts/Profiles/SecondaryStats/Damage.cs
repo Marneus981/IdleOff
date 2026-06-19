@@ -10,9 +10,9 @@ namespace IdleOff.Profiles
         {
             var currentClass = CharacterClass.NormalizeClassName(owner.CharacterClass.GetClassName());
             float WP;
-            if (owner.GetStatValueByID(1007) > 0f)
+            if (owner.GetStatValueByID(1007) > owner.GetStatValueByID(1008))
             {
-                WP = owner.GetStatValueByID(1007); //Use Weapon Power if weapon equipped; might change for rubostness if needed
+                WP = owner.GetStatValueByID(1007); //Use highest between Unarmed and standard WP
             }
             else
             {
