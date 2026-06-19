@@ -43,8 +43,14 @@ namespace IdleOff.Profiles
 
         public virtual bool AddItem(int itemID, int quantity)
         {
+            return TryAddItem(itemID, quantity, out _);
+        }
+
+        public virtual bool TryAddItem(int itemID, int quantity, out int leftoverQuantity)
+        {
             if (quantity <= 0)
             {
+                leftoverQuantity = quantity;
                 return false;
             }
 
@@ -54,13 +60,19 @@ namespace IdleOff.Profiles
                 throw new KeyNotFoundException($"Item ID {itemID} was not found.");
             }
 
-            return AddItem(template, quantity);
+            return TryAddItem(template, quantity, out leftoverQuantity);
         }
 
         public virtual bool AddItem(Item template, int quantity)
         {
+            return TryAddItem(template, quantity, out _);
+        }
+
+        public virtual bool TryAddItem(Item template, int quantity, out int leftoverQuantity)
+        {
             if (template == null || quantity <= 0)
             {
+                leftoverQuantity = quantity;
                 return false;
             }
 
@@ -78,6 +90,7 @@ namespace IdleOff.Profiles
                 if (remaining == 0)
                 {
                     RebuildLookup();
+                    leftoverQuantity = 0;
                     return true;
                 }
             }
@@ -95,11 +108,13 @@ namespace IdleOff.Profiles
                 if (remaining == 0)
                 {
                     RebuildLookup();
+                    leftoverQuantity = 0;
                     return true;
                 }
             }
 
             RebuildLookup();
+            leftoverQuantity = remaining;
             return false;
         }
 

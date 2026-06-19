@@ -245,7 +245,8 @@ namespace IdleOff.Profiles
             EnsureClassModifiersLoaded();
             if (!classModifiersByID.TryGetValue(modifierID, out var modifier))
             {
-                throw new KeyNotFoundException($"Modifier ID {modifierID} was not found in class '{className}'.");
+                //throw new KeyNotFoundException($"Modifier ID {modifierID} was not found in class '{className}'.");
+                return null;
             }
 
             return modifier;

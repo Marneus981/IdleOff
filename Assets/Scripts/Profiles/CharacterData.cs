@@ -186,28 +186,57 @@ namespace IdleOff.Profiles
             return inventory.AddItem(itemID, quantity);
         }
 
+        public bool TryAddItem(int itemID, int quantity, out int leftoverQuantity)
+        {
+            EnsureBagsLoaded();
+            return inventory.TryAddItem(itemID, quantity, out leftoverQuantity);
+        }
+
         public bool MoveItem(int itemID, Bag departureBag, Bag destinationBag)
         {
-            if (departureBag == null || destinationBag == null)
+            return MoveItem(itemID, departureBag, destinationBag, out _);
+        }
+
+        public bool MoveItem(int itemID, Bag departureBag, Bag destinationBag, out int leftoverQuantity)
+        {
+            if (departureBag == null || destinationBag == null || ReferenceEquals(departureBag, destinationBag))
             {
+                leftoverQuantity = 0;
                 return false;
             }
 
             var quantity = departureBag.GetItemQuantity(itemID);
-            if (quantity <= 0 || !departureBag.TryRemoveItem(itemID, quantity, out var movedItem))
+            if (quantity <= 0)
+            {
+                leftoverQuantity = 0;
+                return false;
+            }
+
+            GlobalItemCatalog.EnsureLoaded();
+            if (!GlobalItemCatalog.Items.TryGetValue(itemID, out var template))
+            {
+                throw new KeyNotFoundException($"Item ID {itemID} was not found.");
+            }
+
+            destinationBag.TryAddItem(template, quantity, out leftoverQuantity);
+            var movedQuantity = quantity - leftoverQuantity;
+            if (movedQuantity <= 0)
             {
                 return false;
             }
 
-            if (destinationBag.AddItem(movedItem, movedItem.quantity))
+            if (!departureBag.TryRemoveItem(itemID, movedQuantity, out _))
+            {
+                throw new InvalidOperationException($"Failed to remove moved quantity for item ID {itemID} from departure bag.");
+            }
+
+            if (destinationBag == equipment || departureBag == equipment)
             {
                 RebuildEquipmentModifiers();
                 UpdateStats();
-                return true;
             }
 
-            departureBag.AddItem(movedItem, movedItem.quantity);
-            return false;
+            return leftoverQuantity == 0;
         }
 
         public bool AddMoney(Money moneyObj)

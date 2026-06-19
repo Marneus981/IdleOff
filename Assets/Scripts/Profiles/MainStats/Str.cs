@@ -24,13 +24,17 @@ namespace IdleOff.Profiles
                     throw new InvalidOperationException($"Stat ID {statID} is not bound to a character and cannot resolve modifier ID {id}.");
                 }
 
-                var tuple = owner.GetModifier(id).AppliedIncrease(statID);
-                if (tuple.Item1 < 0 || tuple.Item1 >= formulaValuesList.Count)
+                var modifierTemp = owner.GetModifier(id);
+                if (modifierTemp != null)
                 {
-                    throw new IndexOutOfRangeException($"Modifier ID {id} returned formula index {tuple.Item1} for stat ID {statID}, but this stat has {formulaParts} formula parts.");
-                }
+                    var tuple = modifierTemp.AppliedIncrease(statID);
+                    if (tuple.Item1 < 0 || tuple.Item1 >= formulaValuesList.Count)
+                    {
+                        throw new IndexOutOfRangeException($"Modifier ID {id} returned formula index {tuple.Item1} for stat ID {statID}, but this stat has {formulaParts} formula parts.");
+                    }
 
-                formulaValuesList[tuple.Item1] = formulaValuesList[tuple.Item1] + tuple.Item2;
+                    formulaValuesList[tuple.Item1] = formulaValuesList[tuple.Item1] + tuple.Item2;
+                }
             }
             SetValue(Formula(formulaValuesList));
             owner.UpdateByStatID(1011); //Update maxHp

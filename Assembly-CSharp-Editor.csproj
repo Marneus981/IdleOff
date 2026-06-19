@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\IdleOffTestSceneBuilder.cs" />
+    <Compile Include="Assets\Editor\ProfileSystemTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
