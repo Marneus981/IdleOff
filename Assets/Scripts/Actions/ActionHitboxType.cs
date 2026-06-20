@@ -5,6 +5,7 @@ namespace IdleOff.Actions
         Box,
         Circle,
         Projectile,
+        Area,
         Custom
     }
 }

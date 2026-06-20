@@ -9,6 +9,8 @@ namespace IdleOff.Actions
     {
         [SerializeField] private LayerMask targetLayerMask = ~0;
         [SerializeField] private MeleeActionHitbox meleeHitboxPrefab;
+        [SerializeField] private ProjectileActionHitbox projectileHitboxPrefab;
+        [SerializeField] private AreaActionHitbox areaHitboxPrefab;
 
         private readonly Dictionary<int, ActionRuntimeState> statesByActionID = new();
         private ICombatant owner;
@@ -46,14 +48,26 @@ namespace IdleOff.Actions
 
         public bool TryUseAction(Action action, Vector2 direction)
         {
+            return TryUseActionAt(action, transform.position, direction);
+        }
+
+        public bool TryUseActionAt(Action action, Vector2 origin, Vector2 direction, bool ignoreCooldown = false)
+        {
             if (!CanUseAction(action))
             {
-                return false;
+                if (!ignoreCooldown || owner == null || !owner.IsAlive || action == null)
+                {
+                    return false;
+                }
             }
 
-            var request = new ActionUseRequest(owner, action, direction, targetLayerMask);
+            var request = new ActionUseRequest(owner, action, origin, direction, targetLayerMask);
             Execute(request);
-            GetState(action).StartCooldown();
+            if (!ignoreCooldown)
+            {
+                GetState(action).StartCooldown();
+            }
+
             return true;
         }
 
@@ -64,6 +78,12 @@ namespace IdleOff.Actions
                 case ActionHitboxType.Box:
                 case ActionHitboxType.Circle:
                     SpawnMeleeHitbox(request);
+                    break;
+                case ActionHitboxType.Projectile:
+                    SpawnProjectileHitbox(request);
+                    break;
+                case ActionHitboxType.Area:
+                    SpawnAreaHitbox(request);
                     break;
                 default:
                     SpawnMeleeHitbox(request);
@@ -76,7 +96,25 @@ namespace IdleOff.Actions
             var hitbox = meleeHitboxPrefab != null
                 ? Instantiate(meleeHitboxPrefab)
                 : CreateFallbackMeleeHitbox();
-            hitbox.transform.position = transform.position;
+            hitbox.transform.position = request.Origin;
+            hitbox.Initialize(request);
+        }
+
+        private void SpawnProjectileHitbox(ActionUseRequest request)
+        {
+            var hitbox = projectileHitboxPrefab != null
+                ? Instantiate(projectileHitboxPrefab)
+                : CreateFallbackProjectileHitbox();
+            hitbox.transform.position = request.Origin;
+            hitbox.Initialize(request);
+        }
+
+        private void SpawnAreaHitbox(ActionUseRequest request)
+        {
+            var hitbox = areaHitboxPrefab != null
+                ? Instantiate(areaHitboxPrefab)
+                : CreateFallbackAreaHitbox();
+            hitbox.transform.position = request.Origin;
             hitbox.Initialize(request);
         }
 
@@ -84,6 +122,18 @@ namespace IdleOff.Actions
         {
             var hitboxObject = new GameObject("Melee Action Hitbox");
             return hitboxObject.AddComponent<MeleeActionHitbox>();
+        }
+
+        private static ProjectileActionHitbox CreateFallbackProjectileHitbox()
+        {
+            var hitboxObject = new GameObject("Projectile Action Hitbox");
+            return hitboxObject.AddComponent<ProjectileActionHitbox>();
+        }
+
+        private static AreaActionHitbox CreateFallbackAreaHitbox()
+        {
+            var hitboxObject = new GameObject("Area Action Hitbox");
+            return hitboxObject.AddComponent<AreaActionHitbox>();
         }
 
         private ActionRuntimeState GetState(Action action)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using UnityEngine;
 
@@ -8,21 +9,53 @@ namespace IdleOff.Actions
 {
     public static class ActionCatalog
     {
-        [Serializable]
+        [DataContract]
 #pragma warning disable CS0649
-        private struct ActionValues
+        private sealed class ActionValues
         {
+            [DataMember(IsRequired = false)]
             public string name;
+            [DataMember(IsRequired = false)]
             public string description;
+            [DataMember(IsRequired = false)]
             public List<string> tags;
+            [DataMember(IsRequired = false)]
             public int level;
+            [DataMember(IsRequired = false)]
             public int maxLevel;
+            [DataMember(IsRequired = false)]
             public float cooldown;
+            [DataMember(IsRequired = false)]
             public float range;
+            [DataMember(IsRequired = false)]
             public float attackScaling;
+            [DataMember(IsRequired = false)]
             public float attackScalingPerLevel;
+            [DataMember(IsRequired = false)]
+            public float? projectileSpeed;
+            [DataMember(IsRequired = false)]
+            public float? projectileLifetime;
+            [DataMember(IsRequired = false)]
+            public int? projectilePierceCount;
+            [DataMember(IsRequired = false)]
+            public float? areaDelay;
+            [DataMember(IsRequired = false)]
+            public float? areaDuration;
+            [DataMember(IsRequired = false)]
+            public float? areaTickInterval;
+            [DataMember(IsRequired = false)]
+            public float? telegraphDuration;
+            [DataMember(IsRequired = false)]
+            public float? radius;
+            [DataMember(IsRequired = false)]
+            public float? width;
+            [DataMember(IsRequired = false)]
+            public float? height;
+            [DataMember(IsRequired = false)]
             public string ownerType;
+            [DataMember(IsRequired = false)]
             public string targetingType;
+            [DataMember(IsRequired = false)]
             public string hitboxType;
         }
 #pragma warning restore CS0649
@@ -108,6 +141,15 @@ namespace IdleOff.Actions
                 range = Mathf.Max(0f, values.range),
                 attackScaling = values.attackScaling == 0f ? 1f : values.attackScaling,
                 attackScalingPerLevel = values.attackScalingPerLevel,
+                projectileSpeed = values.projectileSpeed.GetValueOrDefault() <= 0f ? 8f : values.projectileSpeed.Value,
+                projectileLifetime = values.projectileLifetime.GetValueOrDefault() <= 0f ? 2f : values.projectileLifetime.Value,
+                projectilePierceCount = Mathf.Max(0, values.projectilePierceCount.GetValueOrDefault()),
+                areaDelay = Mathf.Max(0f, values.areaDelay.GetValueOrDefault()),
+                areaDuration = Mathf.Max(0f, values.areaDuration.GetValueOrDefault()),
+                areaTickInterval = Mathf.Max(0f, values.areaTickInterval.GetValueOrDefault()),
+                telegraphDuration = Mathf.Max(0f, values.telegraphDuration.GetValueOrDefault()),
+                radius = Mathf.Max(0f, values.radius.GetValueOrDefault()),
+                size = new Vector2(Mathf.Max(0f, values.width.GetValueOrDefault()), Mathf.Max(0f, values.height.GetValueOrDefault())),
                 ownerType = ParseEnum(values.ownerType, ActionOwnerType.Any),
                 targetingType = ParseEnum(values.targetingType, ActionTargetingType.ForwardMelee),
                 hitboxType = ParseEnum(values.hitboxType, ActionHitboxType.Box)

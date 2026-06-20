@@ -17,7 +17,13 @@ namespace IdleOff.Actions
         {
             request = actionRequest;
             timer = lifetime;
+            ActionRuntimeRegistry.Register(gameObject);
             ResolveImmediateHits();
+        }
+
+        private void OnDestroy()
+        {
+            ActionRuntimeRegistry.Unregister(gameObject);
         }
 
         private void Update()
@@ -25,7 +31,7 @@ namespace IdleOff.Actions
             timer -= Time.deltaTime;
             if (timer <= 0f)
             {
-                Destroy(gameObject);
+                ActionRuntimeRegistry.DestroyRuntimeObject(gameObject);
             }
         }
 
@@ -55,7 +61,7 @@ namespace IdleOff.Actions
 
         private void TryResolveHit(Collider2D collider)
         {
-            var target = FindCombatant(collider);
+            var target = ActionHitResolver.FindCombatant(collider);
             if (target == null || ReferenceEquals(target, request.Owner) || hitTargets.Contains(target))
             {
                 return;
@@ -72,20 +78,6 @@ namespace IdleOff.Actions
             {
                 CombatResolver.ResolveMobAction(attacker, target, request.Action);
             }
-        }
-
-        private static ICombatant FindCombatant(Collider2D collider)
-        {
-            var behaviours = collider.GetComponentsInParent<MonoBehaviour>();
-            foreach (var behaviour in behaviours)
-            {
-                if (behaviour is ICombatant combatant)
-                {
-                    return combatant;
-                }
-            }
-
-            return null;
         }
 
         private void OnDrawGizmosSelected()

@@ -84,6 +84,11 @@ namespace IdleOff.Mobs
 
             mobObject.AddComponent<ActionController>();
             mobObject.AddComponent<MobActionController>();
+            if (template.mobType == MobType.Boss && template.bossPatternIDs != null && template.bossPatternIDs.Count > 0)
+            {
+                mobObject.AddComponent<BossPatternExecutor>();
+            }
+
             AddAI(mobObject, template.mobType);
             return mob;
         }

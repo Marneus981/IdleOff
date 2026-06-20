@@ -10,6 +10,7 @@ namespace IdleOff.Mobs
 
         private MobEntity mob;
         private MobActionController actionController;
+        private BossPatternExecutor patternExecutor;
         private Transform target;
 
         public Transform Target => target;
@@ -19,6 +20,7 @@ namespace IdleOff.Mobs
         {
             mob = GetComponent<MobEntity>();
             actionController = GetComponent<MobActionController>();
+            patternExecutor = GetComponent<BossPatternExecutor>();
         }
 
         private void Update()
@@ -32,6 +34,15 @@ namespace IdleOff.Mobs
             {
                 TryAcquireTargetByAggroRange();
                 return;
+            }
+
+            if (patternExecutor != null && patternExecutor.LoadedPatternCount > 0)
+            {
+                patternExecutor.SetTarget(target);
+                if (patternExecutor.IsExecuting || IsTargetInAggroRange())
+                {
+                    return;
+                }
             }
 
             if (actionController != null)
@@ -55,9 +66,19 @@ namespace IdleOff.Mobs
                 if (player != null && player.IsAlive)
                 {
                     target = player.transform;
+                    if (patternExecutor != null)
+                    {
+                        patternExecutor.SetTarget(target);
+                    }
                     return;
                 }
             }
+        }
+
+        private bool IsTargetInAggroRange()
+        {
+            return target != null
+                && (mob.Template.aggroRange <= 0f || Vector2.Distance(transform.position, target.position) <= mob.Template.aggroRange);
         }
     }
 }

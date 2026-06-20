@@ -20,6 +20,7 @@ namespace IdleOff.Mobs
         public float aggroRange;
         public float attackRange = 1f;
         public int basicActionID;
+        public List<int> bossPatternIDs = new();
         public int xpReward;
         public List<MobItemDrop> itemDrops = new();
         public List<MobMoneyDrop> moneyDrops = new();
@@ -47,6 +48,7 @@ namespace IdleOff.Mobs
                 aggroRange = aggroRange,
                 attackRange = attackRange,
                 basicActionID = basicActionID,
+                bossPatternIDs = bossPatternIDs == null ? new List<int>() : new List<int>(bossPatternIDs),
                 xpReward = xpReward,
                 itemDrops = CloneItemDrops(),
                 moneyDrops = CloneMoneyDrops()

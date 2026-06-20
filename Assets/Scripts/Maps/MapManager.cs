@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using IdleOff.Actions;
 using IdleOff.Combat;
 using IdleOff.Drops;
 using IdleOff.Interactables;
@@ -175,6 +176,7 @@ namespace IdleOff.Maps
 
         private void ClearMapRoot()
         {
+            ActionRuntimeRegistry.ClearAll();
             if (mapRoot != null)
             {
                 DestroyMapObject(mapRoot);

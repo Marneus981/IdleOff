@@ -78,6 +78,8 @@
     <Compile Include="Assets\Scripts\Profiles\MainStats.cs" />
     <Compile Include="Assets\Scripts\Maps\MapManager.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\MaxMp.cs" />
+    <Compile Include="Assets\Scripts\Actions\ActionHitResolver.cs" />
+    <Compile Include="Assets\Scripts\Mobs\BossPatternOriginMode.cs" />
     <Compile Include="Assets\Scripts\Profiles\Bag.cs" />
     <Compile Include="Assets\Scripts\Maps\CharacterMapStateStore.cs" />
     <Compile Include="Assets\Scripts\Maps\MapDefinition.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Assets\Scripts\Interactables\InteractEffect.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionController.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Luck.cs" />
+    <Compile Include="Assets\Scripts\Actions\AreaActionHitbox.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\CritDamage.cs" />
     <Compile Include="Assets\Scripts\Profiles\ItemModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterGender.cs" />
@@ -111,6 +114,7 @@
     <Compile Include="Assets\Scripts\Drops\RewardResolver.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Hp.cs" />
     <Compile Include="Assets\Scripts\Profiles\BagSlot.cs" />
+    <Compile Include="Assets\Scripts\Mobs\BossActionPattern.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractableObjectDefinition.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterProfile.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\UnarmedWeaponPower.cs" />
@@ -119,11 +123,14 @@
     <Compile Include="Assets\Scripts\Profiles\Item.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterData.cs" />
     <Compile Include="Assets\Scripts\Profiles\Stat.cs" />
+    <Compile Include="Assets\Scripts\Mobs\BossTelegraph.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionRuntimeState.cs" />
     <Compile Include="Assets\Scripts\Drops\WorldDropSpawner.cs" />
     <Compile Include="Assets\Scripts\Combat\DamageResult.cs" />
     <Compile Include="Assets\Scripts\Combat\IRandomSource.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobCatalog.cs" />
+    <Compile Include="Assets\Scripts\Mobs\BossPatternExecutor.cs" />
+    <Compile Include="Assets\Scripts\Actions\ActionRuntimeRegistry.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionUseRequest.cs" />
     <Compile Include="Assets\Scripts\Maps\MapPickupState.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterClass.cs" />
@@ -131,6 +138,7 @@
     <Compile Include="Assets\Scripts\Profiles\GlobalItemCatalog.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Agi.cs" />
     <Compile Include="Assets\Scripts\Drops\WorldDropPayload.cs" />
+    <Compile Include="Assets\Scripts\Mobs\BossPatternCatalog.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionTargetingType.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractableObjectType.cs" />
     <Compile Include="Assets\Scripts\Drops\WorldDrop.cs" />
@@ -139,9 +147,11 @@
     <Compile Include="Assets\Scripts\Actions\ActionCatalog.cs" />
     <Compile Include="Assets\Scripts\Maps\MapBoundaryDefinition.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Speed.cs" />
+    <Compile Include="Assets\Scripts\Mobs\BossPatternDirectionMode.cs" />
     <Compile Include="Assets\Scripts\Maps\MapAnchorDefinition.cs" />
     <Compile Include="Assets\Scripts\Maps\MapCatalog.cs" />
     <Compile Include="Assets\Scripts\World\LadderZone.cs" />
+    <Compile Include="Assets\Scripts\Mobs\BossPatternStep.cs" />
     <Compile Include="Assets\Scripts\Profiles\StarSignModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Modifier.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobSpawner.cs" />
@@ -150,6 +160,7 @@
     <Compile Include="Assets\Scripts\Mobs\MobItemDrop.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Defense.cs" />
     <Compile Include="Assets\Scripts\Profiles\FamilyBonusModifier.cs" />
+    <Compile Include="Assets\Scripts\Actions\ProjectileActionHitbox.cs" />
     <Compile Include="Assets\Scripts\Controls\KeybindActions.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraFollow2D.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobMoneyDrop.cs" />

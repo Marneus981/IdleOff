@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using IdleOff.Profiles;
 using UnityEngine;
@@ -9,39 +10,61 @@ namespace IdleOff.Mobs
 {
     public static class MobCatalog
     {
-        [Serializable]
+        [DataContract]
 #pragma warning disable CS0649
-        private struct MobValues
+        private sealed class MobValues
         {
+            [DataMember(IsRequired = false)]
             public string name;
+            [DataMember(IsRequired = false)]
             public string description;
+            [DataMember(IsRequired = false)]
             public List<string> tags;
+            [DataMember(IsRequired = false)]
             public string mobType;
+            [DataMember(IsRequired = false)]
             public int level;
+            [DataMember(IsRequired = false)]
             public float maxHp;
+            [DataMember(IsRequired = false)]
             public float damage;
+            [DataMember(IsRequired = false)]
             public float defense;
+            [DataMember(IsRequired = false)]
             public float ac;
+            [DataMember(IsRequired = false)]
             public float moveSpeed;
+            [DataMember(IsRequired = false)]
             public float aggroRange;
+            [DataMember(IsRequired = false)]
             public float attackRange;
+            [DataMember(IsRequired = false)]
             public int basicActionID;
+            [DataMember(IsRequired = false)]
+            public List<int> bossPatternIDs;
+            [DataMember(IsRequired = false)]
             public int xpReward;
+            [DataMember(IsRequired = false)]
             public List<MobItemDropValues> itemDrops;
+            [DataMember(IsRequired = false)]
             public List<MobMoneyDropValues> moneyDrops;
         }
 
-        [Serializable]
-        private struct MobItemDropValues
+        [DataContract]
+        private sealed class MobItemDropValues
         {
+            [DataMember(IsRequired = false)]
             public int itemID;
+            [DataMember(IsRequired = false)]
             public float chance;
         }
 
-        [Serializable]
-        private struct MobMoneyDropValues
+        [DataContract]
+        private sealed class MobMoneyDropValues
         {
+            [DataMember(IsRequired = false)]
             public List<int> money;
+            [DataMember(IsRequired = false)]
             public float chance;
         }
 #pragma warning restore CS0649
@@ -114,6 +137,7 @@ namespace IdleOff.Mobs
                 aggroRange = Mathf.Max(0f, values.aggroRange),
                 attackRange = Mathf.Max(0f, values.attackRange),
                 basicActionID = values.basicActionID,
+                bossPatternIDs = values.bossPatternIDs ?? new List<int>(),
                 xpReward = Mathf.Max(0, values.xpReward),
                 itemDrops = CreateItemDrops(values.itemDrops),
                 moneyDrops = CreateMoneyDrops(values.moneyDrops)

@@ -19,6 +19,15 @@ namespace IdleOff.Actions
         public float range;
         public float attackScaling = 1f;
         public float attackScalingPerLevel;
+        public float projectileSpeed = 8f;
+        public float projectileLifetime = 2f;
+        public int projectilePierceCount;
+        public float areaDelay;
+        public float areaDuration;
+        public float areaTickInterval;
+        public float telegraphDuration;
+        public float radius;
+        public Vector2 size = Vector2.one;
         public ActionOwnerType ownerType = ActionOwnerType.Any;
         public ActionTargetingType targetingType = ActionTargetingType.ForwardMelee;
         public ActionHitboxType hitboxType = ActionHitboxType.Box;
@@ -47,6 +56,15 @@ namespace IdleOff.Actions
                 range = range,
                 attackScaling = attackScaling,
                 attackScalingPerLevel = attackScalingPerLevel,
+                projectileSpeed = projectileSpeed,
+                projectileLifetime = projectileLifetime,
+                projectilePierceCount = projectilePierceCount,
+                areaDelay = areaDelay,
+                areaDuration = areaDuration,
+                areaTickInterval = areaTickInterval,
+                telegraphDuration = telegraphDuration,
+                radius = radius,
+                size = size,
                 ownerType = ownerType,
                 targetingType = targetingType,
                 hitboxType = hitboxType
