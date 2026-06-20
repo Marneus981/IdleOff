@@ -7,6 +7,7 @@ namespace IdleOff.Profiles
     [Serializable]
     public sealed class CharacterData
     {
+        [SerializeField] private string characterID;
         [SerializeField] private string characterName = "New Character";
         [SerializeField] private CharacterGender gender = CharacterGender.Unspecified;
         [SerializeField] private CharacterClass characterClass = CharacterClass.CreateWanderingSoul();
@@ -22,6 +23,15 @@ namespace IdleOff.Profiles
         private Dictionary<int, StarSignModifier> inactiveStarSignModifiers = new();
         private Dictionary<int, ItemModifier> inactiveItemModifiers = new();
         [NonSerialized] private CharacterProfile parentProfile;
+
+        public string CharacterID
+        {
+            get
+            {
+                EnsureCharacterID();
+                return characterID;
+            }
+        }
 
         public string CharacterName => characterName;
         public CharacterGender Gender => gender;
@@ -63,6 +73,7 @@ namespace IdleOff.Profiles
 
         public CharacterData()
         {
+            EnsureCharacterID();
             LoadStats();
         }
 
@@ -74,6 +85,7 @@ namespace IdleOff.Profiles
         public CharacterData(string characterName, CharacterGender gender, int level, int starSignModifierID, int startingHatItemID = 5001)
         {
             this.characterName = characterName;
+            EnsureCharacterID();
             this.gender = gender;
             this.starSignModifierID = starSignModifierID;
             GetCharacterClass().SetLevelNumber(level);
@@ -89,6 +101,7 @@ namespace IdleOff.Profiles
         public CharacterData(string characterName, CharacterGender gender, CharacterClass characterClass, int starSignModifierID, int startingHatItemID = 5001)
         {
             this.characterName = characterName;
+            EnsureCharacterID();
             this.gender = gender;
             this.characterClass = characterClass ?? CharacterClass.CreateWanderingSoul();
             this.starSignModifierID = starSignModifierID;
@@ -156,6 +169,14 @@ namespace IdleOff.Profiles
         {
             EnsureCharacterModifiersLoaded();
             return starSignModifier;
+        }
+
+        private void EnsureCharacterID()
+        {
+            if (string.IsNullOrWhiteSpace(characterID))
+            {
+                characterID = Guid.NewGuid().ToString("N");
+            }
         }
 
         public FamilyBonusModifier GetFamilyModifier()

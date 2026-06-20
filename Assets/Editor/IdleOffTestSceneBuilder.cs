@@ -1,10 +1,9 @@
 using System.IO;
 using IdleOff.Actions;
 using IdleOff.Combat;
-using IdleOff.Mobs;
+using IdleOff.Maps;
 using IdleOff.Player;
 using IdleOff.Profiles;
-using IdleOff.World;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -42,6 +41,8 @@ namespace IdleOff.Editor
             Sprite mobSprite = GetOrCreatePlaceholderSprite("Mob_Box", new Color32(232, 90, 86, 255));
             Sprite platformSprite = GetOrCreatePlaceholderSprite("Platform_Box", new Color32(96, 91, 83, 255));
             Sprite ladderSprite = GetOrCreatePlaceholderSprite("Ladder_Box", new Color32(201, 142, 69, 255));
+            Sprite portalClosedSprite = GetOrCreatePlaceholderSprite("Portal_Closed", new Color32(130, 130, 130, 255));
+            Sprite portalOpenSprite = GetOrCreatePlaceholderSprite("Portal_Open", new Color32(73, 199, 111, 255));
 
             CharacterProfile profile = GetOrCreateProfile();
 
@@ -49,11 +50,9 @@ namespace IdleOff.Editor
             scene.name = "Test";
 
             CreateCamera();
-            CreatePlatform("Lower Platform", new Vector2(0f, -2.5f), new Vector2(9f, 0.5f), platformSprite);
-            CreatePlatform("Upper Platform", new Vector2(2.75f, 1f), new Vector2(5.5f, 0.5f), platformSprite);
-            CreateLadder("Ladder", new Vector2(2.75f, -0.5f), new Vector2(0.55f, 3.5f), ladderSprite);
             CreatePlayer(profile, playerSprite);
-            CreateDummyMob(mobSprite);
+            CreateWorldDropSpawner();
+            CreateMapManager(profile, platformSprite, ladderSprite, mobSprite, portalClosedSprite, portalOpenSprite);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             AssetDatabase.SaveAssets();
@@ -109,42 +108,27 @@ namespace IdleOff.Editor
 
             PlayerActionDriver actionDriver = player.AddComponent<PlayerActionDriver>();
             actionDriver.SetProfile(profile);
+
+            player.AddComponent<PlayerInteractDriver>();
         }
 
-        private static void CreateDummyMob(Sprite sprite)
+        private static void CreateWorldDropSpawner()
         {
-            GameObject mob = CreateBox("Training Slime Dummy", new Vector2(0.5f, -1.75f), new Vector2(0.75f, 0.75f), sprite, new Color32(232, 90, 86, 255));
-            SetSorting(mob, CharactersSortingLayer, 15);
-            SetLayer(mob, MobObjectLayer);
-            mob.AddComponent<BoxCollider2D>();
-
-            Rigidbody2D body = mob.AddComponent<Rigidbody2D>();
-            body.gravityScale = 3f;
-            body.freezeRotation = true;
-
-            MobEntity entity = mob.AddComponent<MobEntity>();
-            entity.Initialize(6001);
+            GameObject spawner = new GameObject("World Drop Spawner");
+            spawner.AddComponent<IdleOff.Drops.WorldDropSpawner>();
         }
 
-        private static void CreatePlatform(string name, Vector2 position, Vector2 size, Sprite sprite)
+        private static void CreateMapManager(
+            CharacterProfile profile,
+            Sprite platformSprite,
+            Sprite ladderSprite,
+            Sprite mobSprite,
+            Sprite portalClosedSprite,
+            Sprite portalOpenSprite)
         {
-            GameObject platform = CreateBox(name, position, size, sprite, new Color32(96, 91, 83, 255));
-            SetSorting(platform, PlatformsSortingLayer, 0);
-            SetLayer(platform, PlatformObjectLayer);
-            BoxCollider2D collider = platform.AddComponent<BoxCollider2D>();
-            collider.size = Vector2.one;
-            platform.AddComponent<DropThroughPlatform>();
-        }
-
-        private static void CreateLadder(string name, Vector2 position, Vector2 size, Sprite sprite)
-        {
-            GameObject ladder = CreateBox(name, position, size, sprite, new Color32(201, 142, 69, 180));
-            SetSorting(ladder, LaddersSortingLayer, 10);
-            SetLayer(ladder, LadderObjectLayer);
-            BoxCollider2D collider = ladder.AddComponent<BoxCollider2D>();
-            collider.size = Vector2.one;
-            collider.isTrigger = true;
-            ladder.AddComponent<LadderZone>();
+            GameObject managerObject = new GameObject("Map Manager");
+            MapManager mapManager = managerObject.AddComponent<MapManager>();
+            mapManager.Configure(profile, 1001, platformSprite, ladderSprite, mobSprite, portalClosedSprite, portalOpenSprite);
         }
 
         private static GameObject CreateBox(string name, Vector2 position, Vector2 size, Sprite sprite, Color color)

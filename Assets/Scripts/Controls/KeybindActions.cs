@@ -7,5 +7,6 @@ namespace IdleOff.Controls
         public const string MoveUp = "MoveUp";
         public const string MoveDown = "MoveDown";
         public const string AttackPrimary = "AttackPrimary";
+        public const string Interact = "Interact";
     }
 }

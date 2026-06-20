@@ -1,0 +1,38 @@
+{
+  "8001": {
+    "name": "Training Portal",
+    "description": "A portal to the next training area.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": {
+      "type": "MobKills",
+      "requiredAmount": 1,
+      "itemID": 0,
+      "bossMobID": 0,
+      "consumeItem": false
+    },
+    "effect": {
+      "type": "TravelToMap",
+      "targetMapID": 1002
+    }
+  },
+  "8002": {
+    "name": "Boss Key Portal",
+    "description": "A portal unlocked by a boss key.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": {
+      "type": "HasItem",
+      "requiredAmount": 1,
+      "itemID": 5021,
+      "bossMobID": 0,
+      "consumeItem": true
+    },
+    "effect": {
+      "type": "TravelToMap",
+      "targetMapID": 1002
+    }
+  }
+}

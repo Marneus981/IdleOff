@@ -1,0 +1,49 @@
+{
+  "1001": {
+    "name": "Training Grounds",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 }
+      ],
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.75 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_exit_portal", "interactableID": 8001, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 1, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1002": {
+    "name": "Second Training Grounds",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "short_platform", "x": -2.0, "y": 0.5, "width": 4.0, "height": 0.5 }
+      ],
+      "ladders": [],
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 1.5, "y": -1.75 }
+      ]
+    },
+    "interactables": [],
+    "mobSpawners": [
+      { "spawnerID": "training_slime_spawner_2", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 1, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  }
+}
