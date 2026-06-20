@@ -13,9 +13,9 @@
     "aggroRange": 0.0,
     "attackRange": 1.25,
     "basicActionID": 7001,
-    "xpReward": 10,
+    "xpReward": 100,
     "itemDrops": [
-      { "itemID": 5019, "chance": 0.15 }
+      { "itemID": 5021, "chance": 0.30 }
     ],
     "moneyDrops": [
       { "money": [0, 0, 5], "chance": 0.5 }
@@ -35,7 +35,7 @@
     "aggroRange": 5.0,
     "attackRange": 1.5,
     "basicActionID": 7001,
-    "xpReward": 40,
+    "xpReward": 400,
     "itemDrops": [
       { "itemID": 5019, "chance": 0.45 }
     ],
@@ -58,7 +58,7 @@
     "attackRange": 8.0,
     "basicActionID": 7002,
     "bossPatternIDs": [9001, 9002, 9003],
-    "xpReward": 200,
+    "xpReward": 2000,
     "itemDrops": [
       { "itemID": 5019, "chance": 1.0 }
     ],

@@ -142,10 +142,25 @@ namespace IdleOff.Actions
                 renderer = gameObject.AddComponent<SpriteRenderer>();
             }
 
+            if (renderer.sprite == null)
+            {
+                renderer.sprite = CreateRuntimeSprite();
+            }
+
             renderer.color = request.Owner != null && request.Owner.IsPlayerControlled
                 ? new Color32(80, 180, 255, 255)
                 : new Color32(255, 100, 80, 255);
+            renderer.sortingOrder = 20;
             transform.localScale = Vector3.one * GetRadius() * 2f;
+        }
+
+        private static Sprite CreateRuntimeSprite()
+        {
+            var texture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+            texture.filterMode = FilterMode.Point;
+            texture.SetPixel(0, 0, Color.white);
+            texture.Apply();
+            return Sprite.Create(texture, new Rect(0f, 0f, 1f, 1f), new Vector2(0.5f, 0.5f), 1f);
         }
 
         private void DestroySelf()

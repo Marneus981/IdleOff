@@ -123,6 +123,14 @@ namespace IdleOff.Profiles
             familyBonusModifier?.SetOwner(this);
         }
 
+        internal void SetCharacterID(string id)
+        {
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                characterID = id;
+            }
+        }
+
         private CharacterClass GetCharacterClass()
         {
             characterClass ??= CharacterClass.CreateWanderingSoul();

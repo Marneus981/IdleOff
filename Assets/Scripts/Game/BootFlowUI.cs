@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using IdleOff.Maps;
 using IdleOff.Profiles;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -518,6 +519,7 @@ namespace IdleOff.Game
 
         public void ExitGame()
         {
+            MapManager.Instance?.SaveCurrentMapState();
             if (selectedProfile != null)
             {
                 profileManager.SaveProfile(selectedProfile);

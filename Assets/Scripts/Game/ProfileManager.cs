@@ -20,6 +20,7 @@ namespace IdleOff.Game
         [Serializable]
         private sealed class CharacterSaveData
         {
+            public string characterID;
             public string characterName;
             public CharacterGender gender;
             public string className;
@@ -134,6 +135,7 @@ namespace IdleOff.Game
 
                 saveData.Add(new CharacterSaveData
                 {
+                    characterID = character.CharacterID,
                     characterName = character.CharacterName,
                     gender = character.Gender,
                     className = character.CharacterClass.GetClassName(),
@@ -156,6 +158,7 @@ namespace IdleOff.Game
                 characterClass,
                 saveData?.starSignModifierID > 0 ? saveData.starSignModifierID : 3002,
                 saveData?.startingHatItemID >= 5001 && saveData.startingHatItemID <= 5004 ? saveData.startingHatItemID : 5001);
+            character.SetCharacterID(saveData?.characterID);
             character.CharacterClass.SetLevelNumber(Mathf.Max(1, saveData?.level ?? 1));
             character.CharacterClass.SetCurrentXP(Mathf.Max(0f, saveData?.currentXP ?? 0f));
             character.UpdateStats();

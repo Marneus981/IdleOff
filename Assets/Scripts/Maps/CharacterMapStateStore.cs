@@ -13,6 +13,10 @@ namespace IdleOff.Maps
         private sealed class SaveData
         {
             public string characterID;
+            public bool hasLastLocation;
+            public int lastMapID;
+            public float lastPositionX;
+            public float lastPositionY;
             public Dictionary<string, MapRuntimeState> maps = new();
         }
 
@@ -41,6 +45,33 @@ namespace IdleOff.Maps
 
             state.mapID = mapID;
             return state;
+        }
+
+        public bool TryGetLastLocation(out int mapID, out Vector2 position)
+        {
+            mapID = default;
+            position = default;
+            if (saveData == null || !saveData.hasLastLocation || saveData.lastMapID <= 0)
+            {
+                return false;
+            }
+
+            mapID = saveData.lastMapID;
+            position = new Vector2(saveData.lastPositionX, saveData.lastPositionY);
+            return true;
+        }
+
+        public void SetLastLocation(int mapID, Vector2 position)
+        {
+            if (mapID <= 0)
+            {
+                return;
+            }
+
+            saveData.hasLastLocation = true;
+            saveData.lastMapID = mapID;
+            saveData.lastPositionX = position.x;
+            saveData.lastPositionY = position.y;
         }
 
         public void Save()

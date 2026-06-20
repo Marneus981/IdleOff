@@ -14,8 +14,10 @@ namespace IdleOff.Maps
     [DisallowMultipleComponent]
     public sealed class MapManager : MonoBehaviour
     {
+        public const int HubMapID = 1000;
+
         [SerializeField] private CharacterProfile profile;
-        [SerializeField] private int initialMapID = 1000;
+        [SerializeField] private int initialMapID = HubMapID;
         [SerializeField] private Sprite platformSprite;
         [SerializeField] private Sprite ladderSprite;
         [SerializeField] private Sprite mobSprite;
@@ -109,6 +111,27 @@ namespace IdleOff.Maps
 
         public void LoadMap(int mapID)
         {
+            LoadMap(mapID, null);
+        }
+
+        public void LoadMapFromPortal(int mapID)
+        {
+            var sourceMapID = CurrentMap?.mapID ?? 0;
+            LoadMap(mapID, sourceMapID);
+        }
+
+        public void LoadMap(int mapID, Vector2? spawnOverride)
+        {
+            LoadMap(mapID, spawnOverride, 0);
+        }
+
+        private void LoadMap(int mapID, int sourceMapID)
+        {
+            LoadMap(mapID, null, sourceMapID);
+        }
+
+        private void LoadMap(int mapID, Vector2? spawnOverride, int sourceMapID)
+        {
             SaveCurrentMapState();
             SubscribeToDropSpawner();
             MapCatalog.EnsureLoaded();
@@ -133,7 +156,7 @@ namespace IdleOff.Maps
             BuildAnchors(map);
             BuildLayout(map);
             BuildBoundaries(map);
-            MovePlayerToSpawn(map);
+            MovePlayerToSpawn(map, ResolvePortalSpawnOverride(map, sourceMapID) ?? spawnOverride);
             SpawnInteractables(map);
             SpawnMobs(map);
             SpawnPickups(CurrentRuntimeState.presentPickups.Count > 0 ? CurrentRuntimeState.presentPickups : map.pickups);
@@ -147,7 +170,28 @@ namespace IdleOff.Maps
                 CurrentRuntimeState.lastSavedUtcTicks = System.DateTime.UtcNow.Ticks;
             }
 
+            if (stateStore != null && CurrentMap != null && Player != null)
+            {
+                stateStore.SetLastLocation(CurrentMap.mapID, Player.transform.position);
+            }
+
             stateStore?.Save();
+        }
+
+        public bool TryGetLastSavedLocation(out int mapID, out Vector2 position)
+        {
+            mapID = default;
+            position = default;
+            EnsureStateStore();
+            return stateStore != null && stateStore.TryGetLastLocation(out mapID, out position);
+        }
+
+        private void EnsureStateStore()
+        {
+            if (stateStore == null && profile != null && profile.ActiveCharacter != null)
+            {
+                stateStore = new CharacterMapStateStore(profile.ActiveCharacter);
+            }
         }
 
         public bool TryGetAnchor(string anchorID, out Vector2 position)
@@ -161,6 +205,32 @@ namespace IdleOff.Maps
             return CurrentMap != null
                 && !string.IsNullOrWhiteSpace(CurrentMap.playerSpawnAnchor)
                 && TryGetAnchor(CurrentMap.playerSpawnAnchor, out position);
+        }
+
+        private Vector2? ResolvePortalSpawnOverride(MapDefinition destinationMap, int sourceMapID)
+        {
+            if (destinationMap == null || sourceMapID <= 0 || destinationMap.interactables == null)
+            {
+                return null;
+            }
+
+            foreach (var spawn in destinationMap.interactables)
+            {
+                if (spawn == null
+                    || string.IsNullOrWhiteSpace(spawn.anchorID)
+                    || !InteractableObjectCatalog.Interactables.TryGetValue(spawn.interactableID, out var definition)
+                    || definition.effect == null
+                    || definition.effect.type != InteractEffectType.TravelToMap
+                    || definition.effect.targetMapID != sourceMapID
+                    || !TryGetAnchor(spawn.anchorID, out var position))
+                {
+                    continue;
+                }
+
+                return position;
+            }
+
+            return null;
         }
 
         public void RecordMobKilled(MobEntity mob)
@@ -371,21 +441,37 @@ namespace IdleOff.Maps
             boundary.AddComponent<BoxCollider2D>().size = Vector2.one;
         }
 
-        private void MovePlayerToSpawn(MapDefinition map)
+        private void MovePlayerToSpawn(MapDefinition map, Vector2? spawnOverride)
         {
             Player ??= FindFirstObjectByType<PlayerCombatant>();
-            if (Player == null || string.IsNullOrWhiteSpace(map.playerSpawnAnchor) || !TryGetAnchor(map.playerSpawnAnchor, out var position))
+            if (Player == null)
             {
                 return;
             }
 
-            Player.transform.position = position;
+            Vector2 targetPosition;
+            if (spawnOverride.HasValue)
+            {
+                targetPosition = spawnOverride.Value;
+            }
+            else if (!string.IsNullOrWhiteSpace(map.playerSpawnAnchor) && TryGetAnchor(map.playerSpawnAnchor, out var spawnPosition))
+            {
+                targetPosition = spawnPosition;
+            }
+            else
+            {
+                return;
+            }
+
+            Player.transform.position = targetPosition;
             var body = Player.GetComponent<Rigidbody2D>();
             if (body != null)
             {
-                body.position = position;
+                body.position = targetPosition;
                 body.linearVelocity = Vector2.zero;
             }
+
+            Player.transform.position = targetPosition;
         }
 
         private void SpawnInteractables(MapDefinition map)

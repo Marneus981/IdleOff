@@ -266,17 +266,42 @@ public sealed class Phase47RuntimeSystemTests
     }
 
     [Test]
-    public void PlayerCombatant_RespawnsAtCurrentMapSpawn_WhenKilled()
+    public void PlayerCombatant_RespawnsAtHubSpawnByDefault_WhenKilled()
     {
         var context = CreateMapContext();
         try
         {
             context.Manager.LoadMap(1001);
+            context.PlayerObject.transform.position = new Vector3(8f, 8f, 0f);
+
+            context.Player.ReceiveDamage(new DamageResult(null, context.Player, true, 1f, context.Player.MaxHp * 5f, context.Player.MaxHp * 5f, 0));
+
+            Assert.AreEqual(MapManager.HubMapID, context.Manager.CurrentMap.mapID);
+            Assert.IsTrue(context.Manager.TryGetCurrentSpawnPosition(out var spawn));
+            Assert.AreEqual(spawn.x, context.PlayerObject.transform.position.x, 0.001f);
+            Assert.AreEqual(spawn.y, context.PlayerObject.transform.position.y, 0.001f);
+            Assert.AreEqual(context.Player.MaxHp, context.Player.CurrentHp);
+        }
+        finally
+        {
+            DestroyMapContext(context);
+        }
+    }
+
+    [Test]
+    public void PlayerCombatant_CanRespawnAtCurrentMapSpawn_WhenConfigured()
+    {
+        var context = CreateMapContext();
+        try
+        {
+            context.Manager.LoadMap(1001);
+            context.Player.DeathRespawnMode = PlayerDeathRespawnMode.CurrentMapSpawn;
             Assert.IsTrue(context.Manager.TryGetCurrentSpawnPosition(out var spawn));
             context.PlayerObject.transform.position = new Vector3(8f, 8f, 0f);
 
             context.Player.ReceiveDamage(new DamageResult(null, context.Player, true, 1f, context.Player.MaxHp * 5f, context.Player.MaxHp * 5f, 0));
 
+            Assert.AreEqual(1001, context.Manager.CurrentMap.mapID);
             Assert.AreEqual(spawn.x, context.PlayerObject.transform.position.x, 0.001f);
             Assert.AreEqual(spawn.y, context.PlayerObject.transform.position.y, 0.001f);
             Assert.AreEqual(context.Player.MaxHp, context.Player.CurrentHp);

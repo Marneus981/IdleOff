@@ -134,6 +134,7 @@
     <Compile Include="Assets\Scripts\Combat\DamageResult.cs" />
     <Compile Include="Assets\Scripts\Combat\IRandomSource.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobCatalog.cs" />
+    <Compile Include="Assets\Scripts\Combat\PlayerDeathRespawnMode.cs" />
     <Compile Include="Assets\Scripts\Mobs\BossPatternExecutor.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionRuntimeRegistry.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionUseRequest.cs" />

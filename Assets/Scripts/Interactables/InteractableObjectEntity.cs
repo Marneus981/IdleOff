@@ -103,7 +103,7 @@ namespace IdleOff.Interactables
             if (Definition.effect.type == InteractEffectType.TravelToMap)
             {
                 Debug.Log($"[Interact] {player.DisplayName} used {Definition.name}; travelling to map {Definition.effect.targetMapID}.");
-                mapManager.LoadMap(Definition.effect.targetMapID);
+                mapManager.LoadMapFromPortal(Definition.effect.targetMapID);
             }
 
             return true;

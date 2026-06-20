@@ -9,7 +9,10 @@ namespace IdleOff.Combat
     {
         [SerializeField] private CharacterProfile profile;
         [SerializeField] private CombatHealth health = new();
+        [SerializeField] private CombatHealth mana = new();
         [SerializeField, Min(0f)] private float healthRegenPercentPerSecond = 0.01f;
+        [SerializeField, Min(0f)] private float manaRegenPercentPerSecond = 0.01f;
+        [SerializeField] private PlayerDeathRespawnMode deathRespawnMode = PlayerDeathRespawnMode.HubSpawn;
 
         private static readonly IReadOnlyList<string> EmptyTags = new List<string>();
 
@@ -20,16 +23,25 @@ namespace IdleOff.Combat
         public IReadOnlyList<string> Tags => EmptyTags;
         public float CurrentHp => health.Max <= 0f ? GetMaxHp() : health.Current;
         public float MaxHp => health.Max <= 0f ? GetMaxHp() : health.Max;
+        public float CurrentMp => mana.Max <= 0f ? GetMaxMp() : mana.Current;
+        public float MaxMp => mana.Max <= 0f ? GetMaxMp() : mana.Max;
+        public PlayerDeathRespawnMode DeathRespawnMode
+        {
+            get => deathRespawnMode;
+            set => deathRespawnMode = value;
+        }
 
         public void SetProfile(CharacterProfile characterProfile)
         {
             profile = characterProfile;
             ResetHpToMax();
+            ResetMpToMax();
         }
 
         private void Update()
         {
             TickHealthRegen(Time.deltaTime);
+            TickMpRegen(Time.deltaTime);
         }
 
         public void TickHealthRegen(float deltaTime)
@@ -42,6 +54,19 @@ namespace IdleOff.Combat
             if (health.IsAlive)
             {
                 health.Heal(GetMaxHp() * healthRegenPercentPerSecond * Mathf.Max(0f, deltaTime));
+            }
+        }
+
+        public void TickMpRegen(float deltaTime)
+        {
+            if (mana.Max <= 0f)
+            {
+                ResetMpToMax();
+            }
+
+            if (health.IsAlive)
+            {
+                mana.Heal(GetMaxMp() * manaRegenPercentPerSecond * Mathf.Max(0f, deltaTime));
             }
         }
 
@@ -66,7 +91,7 @@ namespace IdleOff.Combat
             Debug.Log($"[Combat] {DisplayName} took {result.FinalDamage:0.##} damage from {result.Attacker?.DisplayName ?? "unknown attacker"}. HP {health.Current:0.##}/{health.Max:0.##}.");
             if (!health.IsAlive)
             {
-                RespawnAtCurrentMapSpawn();
+                RespawnAfterDeath();
             }
         }
 
@@ -75,28 +100,51 @@ namespace IdleOff.Combat
             health.Reset(GetMaxHp());
         }
 
+        public void ResetMpToMax()
+        {
+            mana.Reset(GetMaxMp());
+        }
+
         private float GetMaxHp()
         {
             return Mathf.Max(1f, GetStatValueByID(1011));
         }
 
-        private void RespawnAtCurrentMapSpawn()
+        private float GetMaxMp()
+        {
+            return Mathf.Max(1f, GetStatValueByID(1013));
+        }
+
+        private void RespawnAfterDeath()
         {
             // Temporary death behavior: later this should become a real death/respawn flow with penalties, timers, UI, and save-state handling.
-            if (MapManager.Instance != null && MapManager.Instance.TryGetCurrentSpawnPosition(out var spawnPosition))
+            if (MapManager.Instance != null)
             {
-                transform.position = spawnPosition;
-                var body = GetComponent<Rigidbody2D>();
-                if (body != null)
+                if (deathRespawnMode == PlayerDeathRespawnMode.HubSpawn)
                 {
-                    body.position = spawnPosition;
-                    body.linearVelocity = Vector2.zero;
-                    body.angularVelocity = 0f;
+                    MapManager.Instance.LoadMap(MapManager.HubMapID);
+                }
+                else if (MapManager.Instance.TryGetCurrentSpawnPosition(out var spawnPosition))
+                {
+                    MoveToRespawnPosition(spawnPosition);
                 }
             }
 
             ResetHpToMax();
-            Debug.Log($"[Combat] {DisplayName} died and respawned at the current map spawn with full HP.");
+            ResetMpToMax();
+            Debug.Log($"[Combat] {DisplayName} died and respawned with full HP and MP.");
+        }
+
+        private void MoveToRespawnPosition(Vector2 spawnPosition)
+        {
+            transform.position = spawnPosition;
+            var body = GetComponent<Rigidbody2D>();
+            if (body != null)
+            {
+                body.position = spawnPosition;
+                body.linearVelocity = Vector2.zero;
+                body.angularVelocity = 0f;
+            }
         }
     }
 }

@@ -27,13 +27,19 @@ namespace IdleOff.Game
             var mapManager = EnsureMapManager();
             mapManager.Configure(
                 profile,
-                HubMapID,
+                MapManager.HubMapID,
                 CreateRuntimeSprite(new Color32(96, 91, 83, 255)),
                 CreateRuntimeSprite(new Color32(201, 142, 69, 255)),
                 CreateRuntimeSprite(new Color32(174, 116, 216, 255)),
                 CreateRuntimeSprite(new Color32(130, 130, 130, 255)),
                 CreateRuntimeSprite(new Color32(70, 210, 120, 255)));
-            mapManager.LoadMap(HubMapID);
+            if (mapManager.TryGetLastSavedLocation(out var lastMapID, out var lastPosition))
+            {
+                mapManager.LoadMap(lastMapID, lastPosition);
+                return;
+            }
+
+            mapManager.LoadMap(MapManager.HubMapID);
         }
 
         private static PlayerCombatant EnsurePlayer(CharacterProfile profile)

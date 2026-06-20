@@ -306,20 +306,64 @@ public sealed class CrossSystemRuntimeTests
     }
 
     [Test]
-    public void PlayerDeath_AfterMapTravelRespawnsAtCurrentMapSpawn()
+    public void PortalTravel_SpawnsAtReversePortal_WhenDestinationLinksBackToSource()
     {
         var context = CreateMapContext();
         try
         {
             context.Manager.LoadMap(1002);
-            Assert.IsTrue(context.Manager.TryGetCurrentSpawnPosition(out var spawn));
 
+            context.Manager.LoadMapFromPortal(1001);
+
+            Assert.AreEqual(1001, context.Manager.CurrentMap.mapID);
+            Assert.IsTrue(context.Manager.TryGetAnchor("exit_portal", out var reversePortalAnchor));
+            Assert.AreEqual(reversePortalAnchor.x, context.PlayerObject.transform.position.x, 0.001f);
+            Assert.AreEqual(reversePortalAnchor.y, context.PlayerObject.transform.position.y, 0.001f);
+        }
+        finally
+        {
+            DestroyMapContext(context);
+        }
+    }
+
+    [Test]
+    public void PlayerDeath_AfterMapTravelRespawnsAtHubSpawnByDefault()
+    {
+        var context = CreateMapContext();
+        try
+        {
+            context.Manager.LoadMap(1002);
             context.PlayerObject.transform.position = new Vector3(8f, 8f, 0f);
             context.Player.ReceiveDamage(new DamageResult(null, context.Player, true, 1f, context.Player.MaxHp * 5f, context.Player.MaxHp * 5f, 0));
 
+            Assert.AreEqual(MapManager.HubMapID, context.Manager.CurrentMap.mapID);
+            Assert.IsTrue(context.Manager.TryGetCurrentSpawnPosition(out var spawn));
             Assert.AreEqual(spawn.x, context.PlayerObject.transform.position.x, 0.001f);
             Assert.AreEqual(spawn.y, context.PlayerObject.transform.position.y, 0.001f);
             Assert.AreEqual(context.Player.MaxHp, context.Player.CurrentHp);
+        }
+        finally
+        {
+            DestroyMapContext(context);
+        }
+    }
+
+    [Test]
+    public void MapManager_RemembersLastMapAndPositionAcrossStoreReload()
+    {
+        var context = CreateMapContext();
+        try
+        {
+            context.Manager.LoadMap(1002);
+            context.PlayerObject.transform.position = new Vector3(2.25f, -1.35f, 0f);
+            context.Manager.SaveCurrentMapState();
+
+            var store = new CharacterMapStateStore(context.Character);
+
+            Assert.IsTrue(store.TryGetLastLocation(out var mapID, out var position));
+            Assert.AreEqual(1002, mapID);
+            Assert.AreEqual(2.25f, position.x, 0.001f);
+            Assert.AreEqual(-1.35f, position.y, 0.001f);
         }
         finally
         {
