@@ -15,7 +15,7 @@ namespace IdleOff.Maps
     public sealed class MapManager : MonoBehaviour
     {
         [SerializeField] private CharacterProfile profile;
-        [SerializeField] private int initialMapID = 1001;
+        [SerializeField] private int initialMapID = 1000;
         [SerializeField] private Sprite platformSprite;
         [SerializeField] private Sprite ladderSprite;
         [SerializeField] private Sprite mobSprite;
@@ -82,7 +82,7 @@ namespace IdleOff.Maps
                 profile = Player.Character?.ParentProfile;
             }
 
-            if (profile != null && profile.ActiveCharacter != null)
+            if (profile != null && profile.ActiveCharacter != null && CurrentMap == null)
             {
                 stateStore = new CharacterMapStateStore(profile.ActiveCharacter);
                 LoadMap(initialMapID);

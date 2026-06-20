@@ -7,7 +7,7 @@ namespace IdleOff.Interactables
     {
         public static bool IsMet(InteractCondition condition, PlayerCombatant player, MapRuntimeState mapState)
         {
-            if (condition == null || condition.type == InteractConditionType.None)
+            if (condition == null || condition.type == InteractConditionType.None || condition.type == InteractConditionType.AlwaysOpen)
             {
                 return true;
             }

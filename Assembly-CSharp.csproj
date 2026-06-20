@@ -176,6 +176,7 @@
     <Compile Include="Assets\Scripts\Combat\PlayerCombatant.cs" />
     <Compile Include="Assets\Scripts\Maps\MapPlatformDefinition.cs" />
     <Compile Include="Assets\Scripts\Maps\MapMobSpawnerDefinition.cs" />
+    <Compile Include="Assets\Scripts\Game\GameWorldBootstrap.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\MaxHp.cs" />
   </ItemGroup>
   <ItemGroup>

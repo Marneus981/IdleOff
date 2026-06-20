@@ -34,5 +34,185 @@
       "type": "TravelToMap",
       "targetMapID": 1002
     }
+  },
+  "8003": {
+    "name": "Open Portal",
+    "description": "A portal that is open by default.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": {
+      "type": "AlwaysOpen",
+      "requiredAmount": 0,
+      "itemID": 0,
+      "bossMobID": 0,
+      "consumeItem": false
+    },
+    "effect": {
+      "type": "TravelToMap",
+      "targetMapID": 1001
+    }
+  },
+  "8004": {
+    "name": "Hub Return Portal",
+    "description": "An open portal that returns to the hub.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": {
+      "type": "AlwaysOpen",
+      "requiredAmount": 0,
+      "itemID": 0,
+      "bossMobID": 0,
+      "consumeItem": false
+    },
+    "effect": {
+      "type": "TravelToMap",
+      "targetMapID": 1000
+    }
+  },
+  "8005": {
+    "name": "Return Portal 1002",
+    "description": "An open portal to the previous area.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "AlwaysOpen", "requiredAmount": 0, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1001 }
+  },
+  "8006": {
+    "name": "Return Portal 1003",
+    "description": "An open portal to the previous area.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "AlwaysOpen", "requiredAmount": 0, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1002 }
+  },
+  "8007": {
+    "name": "Return Portal 1004",
+    "description": "An open portal to the previous area.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "AlwaysOpen", "requiredAmount": 0, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1003 }
+  },
+  "8008": {
+    "name": "Return Portal 1005",
+    "description": "An open portal to the previous area.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "AlwaysOpen", "requiredAmount": 0, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1004 }
+  },
+  "8009": {
+    "name": "Return Portal 1006",
+    "description": "An open portal to the previous area.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "AlwaysOpen", "requiredAmount": 0, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1005 }
+  },
+  "8010": {
+    "name": "Return Portal 1007",
+    "description": "An open portal to the previous area.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "AlwaysOpen", "requiredAmount": 0, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1006 }
+  },
+  "8011": {
+    "name": "Return Portal 1008",
+    "description": "An open portal to the previous area.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "AlwaysOpen", "requiredAmount": 0, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1007 }
+  },
+  "8012": {
+    "name": "Boss Arena Return Portal",
+    "description": "An open portal back to the previous area.",
+    "type": "OpenPortal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "AlwaysOpen", "requiredAmount": 0, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1008 }
+  },
+  "8013": {
+    "name": "Training Portal 1002",
+    "description": "A portal to the next training area.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "MobKills", "requiredAmount": 1, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1003 }
+  },
+  "8014": {
+    "name": "Training Portal 1003",
+    "description": "A portal to the next training area.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "MobKills", "requiredAmount": 1, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1004 }
+  },
+  "8015": {
+    "name": "Training Portal 1004",
+    "description": "A portal to the next training area.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "MobKills", "requiredAmount": 1, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1005 }
+  },
+  "8016": {
+    "name": "Training Portal 1005",
+    "description": "A portal to the next training area.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "MobKills", "requiredAmount": 1, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1006 }
+  },
+  "8017": {
+    "name": "Training Portal 1006",
+    "description": "A portal to the next training area.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "MobKills", "requiredAmount": 1, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1007 }
+  },
+  "8018": {
+    "name": "Training Portal 1007",
+    "description": "A portal to the next training area.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "MobKills", "requiredAmount": 1, "itemID": 0, "bossMobID": 0, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1008 }
+  },
+  "8019": {
+    "name": "Boss Key Portal 1008",
+    "description": "A portal unlocked by a boss key.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "HasItem", "requiredAmount": 1, "itemID": 5021, "bossMobID": 0, "consumeItem": true },
+    "effect": { "type": "TravelToMap", "targetMapID": 1009 }
+  },
+  "8020": {
+    "name": "Boss Vanquished Portal",
+    "description": "A portal back to the hub after the arena boss is defeated.",
+    "type": "Portal",
+    "closedSpritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "openSpritePath": "Assets/Art/Placeholders/Portal_Open.png",
+    "condition": { "type": "BossDefeated", "requiredAmount": 0, "itemID": 0, "bossMobID": 6003, "consumeItem": false },
+    "effect": { "type": "TravelToMap", "targetMapID": 1000 }
   }
 }

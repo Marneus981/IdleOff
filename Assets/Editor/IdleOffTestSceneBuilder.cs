@@ -133,7 +133,7 @@ namespace IdleOff.Editor
         {
             GameObject managerObject = new GameObject("Map Manager");
             MapManager mapManager = managerObject.AddComponent<MapManager>();
-            mapManager.Configure(profile, 1001, platformSprite, ladderSprite, mobSprite, portalClosedSprite, portalOpenSprite);
+            mapManager.Configure(profile, 1000, platformSprite, ladderSprite, mobSprite, portalClosedSprite, portalOpenSprite);
         }
 
         private static GameObject CreateBox(string name, Vector2 position, Vector2 size, Sprite sprite, Color color)

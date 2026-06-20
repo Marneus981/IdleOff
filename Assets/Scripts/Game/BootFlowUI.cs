@@ -489,19 +489,20 @@ namespace IdleOff.Game
         private void ShowGameHubPlaceholder()
         {
             GameStateManager.Instance.SetState(GameState.GameHub);
-            var character = selectedProfile.Profile.ActiveCharacter;
-            var summary = character == null ? "No character selected" : $"{character.CharacterName} - {character.CharacterClass.GetClassName()} Lv. {character.Level}";
+            GameSession.SetActiveProfile(selectedProfile);
+            profileManager.SaveProfile(selectedProfile);
+            GameWorldBootstrap.EnterHub(selectedProfile.Profile);
             if (HasPrefabView)
             {
-                view.ShowHubPlaceholder(summary);
+                view.gameObject.SetActive(false);
                 return;
             }
 
             ClearRoot();
-            CreatePanel(root, "Hub Placeholder Background", Stretch(), new Color32(12, 18, 24, 255));
-            CreateText(root, "Game Hub", 46, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.62f), new Vector2(520f, 72f), Vector2.zero);
-            CreateText(root, summary, 22, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(640f, 48f), Vector2.zero);
-            CreateText(root, "Hub map loading will connect here in the next phase.", 18, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.42f), new Vector2(640f, 42f), Vector2.zero);
+            if (canvas != null)
+            {
+                canvas.gameObject.SetActive(false);
+            }
         }
 
         private static void BindButton(Button button, System.Action action)
