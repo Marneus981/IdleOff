@@ -1,4 +1,5 @@
 using System;
+using IdleOff.Combat;
 using UnityEngine;
 
 namespace IdleOff.Mobs
@@ -8,21 +9,17 @@ namespace IdleOff.Mobs
         public MobRuntimeData(MobTemplate template)
         {
             Template = template ?? throw new ArgumentNullException(nameof(template));
-            CurrentHp = Mathf.Max(1f, template.maxHp);
+            health.Reset(template.maxHp);
         }
 
+        private readonly CombatHealth health = new();
         public MobTemplate Template { get; }
-        public float CurrentHp { get; private set; }
-        public bool IsAlive => CurrentHp > 0f;
+        public float CurrentHp => health.Current;
+        public bool IsAlive => health.IsAlive;
 
         public void ReceiveDamage(float amount)
         {
-            if (amount <= 0f || !IsAlive)
-            {
-                return;
-            }
-
-            CurrentHp = Mathf.Max(0f, CurrentHp - amount);
+            health.TakeDamage(amount);
         }
     }
 }

@@ -66,12 +66,14 @@
     <Compile Include="Assets\Scripts\Profiles\Money.cs" />
     <Compile Include="Assets\Scripts\Maps\MapLayoutDefinition.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement2D.cs" />
+    <Compile Include="Assets\Scripts\Mobs\MobActionController.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobTemplate.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobBossAI.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Str.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\CritChance.cs" />
     <Compile Include="Assets\Scripts\Actions\MeleeActionHitbox.cs" />
     <Compile Include="Assets\Scripts\Combat\IMobCombatant.cs" />
+    <Compile Include="Assets\Scripts\Combat\CombatHealth.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DamageMultiplier.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats.cs" />
     <Compile Include="Assets\Scripts\Maps\MapManager.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Assets\Scripts\World\LadderZone.cs" />
     <Compile Include="Assets\Scripts\Profiles\StarSignModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Modifier.cs" />
+    <Compile Include="Assets\Scripts\Mobs\MobSpawner.cs" />
     <Compile Include="Assets\Scripts\Combat\UnityRandomSource.cs" />
     <Compile Include="Assets\Scripts\Controls\KeybindManager.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobItemDrop.cs" />

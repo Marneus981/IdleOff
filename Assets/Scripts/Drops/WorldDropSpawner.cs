@@ -7,8 +7,11 @@ namespace IdleOff.Drops
     {
         [SerializeField] private WorldDrop dropPrefab;
         [SerializeField] private float scatterRadius = 0.35f;
+        [SerializeField] private Sprite itemDropSprite;
+        [SerializeField] private Sprite moneyDropSprite;
 
         public static WorldDropSpawner Instance { get; private set; }
+        public event System.Action<WorldDrop> DropSpawned;
 
         private void Awake()
         {
@@ -16,6 +19,12 @@ namespace IdleOff.Drops
             {
                 Instance = this;
             }
+        }
+
+        public void Configure(Sprite itemSprite, Sprite moneySprite)
+        {
+            itemDropSprite = itemSprite;
+            moneyDropSprite = moneySprite;
         }
 
         public void SpawnDrops(IEnumerable<WorldDropPayload> drops, Vector3 origin)
@@ -38,6 +47,11 @@ namespace IdleOff.Drops
 
         public WorldDrop SpawnDrop(WorldDropPayload payload, Vector3 origin)
         {
+            return SpawnDrop(payload, origin, true);
+        }
+
+        public WorldDrop SpawnDrop(WorldDropPayload payload, Vector3 origin, bool notify)
+        {
             var offset = new Vector3(
                 Random.Range(-scatterRadius, scatterRadius),
                 Random.Range(0f, scatterRadius),
@@ -46,7 +60,12 @@ namespace IdleOff.Drops
             var drop = dropPrefab != null
                 ? Instantiate(dropPrefab, worldPosition, Quaternion.identity)
                 : CreateFallbackDrop(worldPosition);
-            drop.Initialize(payload);
+            drop.Initialize(payload, itemDropSprite, moneyDropSprite);
+            if (notify)
+            {
+                DropSpawned?.Invoke(drop);
+            }
+
             return drop;
         }
 
@@ -57,6 +76,7 @@ namespace IdleOff.Drops
             var collider = dropObject.AddComponent<CircleCollider2D>();
             collider.isTrigger = true;
             collider.radius = 0.25f;
+            dropObject.AddComponent<SpriteRenderer>();
             return dropObject.AddComponent<WorldDrop>();
         }
     }

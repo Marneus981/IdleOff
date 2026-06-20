@@ -10,6 +10,7 @@ namespace IdleOff.Mobs
         [SerializeField] protected Vector2 pauseDurationRange = new(0.5f, 1.25f);
 
         protected MobEntity mob;
+        protected MobActionController actionController;
         protected Rigidbody2D body;
         protected Transform target;
         protected float timer;
@@ -19,6 +20,7 @@ namespace IdleOff.Mobs
         protected virtual void Awake()
         {
             mob = GetComponent<MobEntity>();
+            actionController = GetComponent<MobActionController>();
             body = GetComponent<Rigidbody2D>();
         }
 
@@ -47,6 +49,13 @@ namespace IdleOff.Mobs
 
             if (target != null)
             {
+                if (actionController != null && actionController.IsTargetInRange(target))
+                {
+                    MoveHorizontal(0f);
+                    actionController.TryAttack(target);
+                    return;
+                }
+
                 MoveTowardTarget();
                 return;
             }

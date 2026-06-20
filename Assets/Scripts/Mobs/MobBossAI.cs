@@ -9,6 +9,7 @@ namespace IdleOff.Mobs
         [SerializeField] private LayerMask playerLayerMask = ~0;
 
         private MobEntity mob;
+        private MobActionController actionController;
         private Transform target;
 
         public Transform Target => target;
@@ -17,6 +18,7 @@ namespace IdleOff.Mobs
         private void Awake()
         {
             mob = GetComponent<MobEntity>();
+            actionController = GetComponent<MobActionController>();
         }
 
         private void Update()
@@ -29,6 +31,12 @@ namespace IdleOff.Mobs
             if (target == null)
             {
                 TryAcquireTargetByAggroRange();
+                return;
+            }
+
+            if (actionController != null)
+            {
+                actionController.TryAttack(target);
             }
         }
 

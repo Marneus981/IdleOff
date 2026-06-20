@@ -43,6 +43,8 @@ namespace IdleOff.Editor
             Sprite ladderSprite = GetOrCreatePlaceholderSprite("Ladder_Box", new Color32(201, 142, 69, 255));
             Sprite portalClosedSprite = GetOrCreatePlaceholderSprite("Portal_Closed", new Color32(130, 130, 130, 255));
             Sprite portalOpenSprite = GetOrCreatePlaceholderSprite("Portal_Open", new Color32(73, 199, 111, 255));
+            Sprite itemDropSprite = GetOrCreatePlaceholderSprite("Item_Drop", new Color32(110, 180, 255, 255));
+            Sprite moneyDropSprite = GetOrCreatePlaceholderSprite("Money_Drop", new Color32(240, 190, 60, 255));
 
             CharacterProfile profile = GetOrCreateProfile();
 
@@ -51,7 +53,7 @@ namespace IdleOff.Editor
 
             CreateCamera();
             CreatePlayer(profile, playerSprite);
-            CreateWorldDropSpawner();
+            CreateWorldDropSpawner(itemDropSprite, moneyDropSprite);
             CreateMapManager(profile, platformSprite, ladderSprite, mobSprite, portalClosedSprite, portalOpenSprite);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
@@ -112,10 +114,10 @@ namespace IdleOff.Editor
             player.AddComponent<PlayerInteractDriver>();
         }
 
-        private static void CreateWorldDropSpawner()
+        private static void CreateWorldDropSpawner(Sprite itemDropSprite, Sprite moneyDropSprite)
         {
             GameObject spawner = new GameObject("World Drop Spawner");
-            spawner.AddComponent<IdleOff.Drops.WorldDropSpawner>();
+            spawner.AddComponent<IdleOff.Drops.WorldDropSpawner>().Configure(itemDropSprite, moneyDropSprite);
         }
 
         private static void CreateMapManager(

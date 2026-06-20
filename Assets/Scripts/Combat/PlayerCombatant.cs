@@ -7,7 +7,7 @@ namespace IdleOff.Combat
     public sealed class PlayerCombatant : MonoBehaviour, ICombatant
     {
         [SerializeField] private CharacterProfile profile;
-        [SerializeField] private float currentHp = -1f;
+        [SerializeField] private CombatHealth health = new();
 
         private static readonly IReadOnlyList<string> EmptyTags = new List<string>();
 
@@ -16,7 +16,7 @@ namespace IdleOff.Combat
         public bool IsAlive => CurrentHp > 0f;
         public bool IsPlayerControlled => true;
         public IReadOnlyList<string> Tags => EmptyTags;
-        public float CurrentHp => currentHp < 0f ? GetMaxHp() : currentHp;
+        public float CurrentHp => health.Max <= 0f ? GetMaxHp() : health.Current;
 
         public void SetProfile(CharacterProfile characterProfile)
         {
@@ -36,17 +36,17 @@ namespace IdleOff.Combat
                 return;
             }
 
-            if (currentHp < 0f)
+            if (health.Max <= 0f)
             {
                 ResetHpToMax();
             }
 
-            currentHp = Mathf.Max(0f, currentHp - result.FinalDamage);
+            health.TakeDamage(result.FinalDamage);
         }
 
         public void ResetHpToMax()
         {
-            currentHp = GetMaxHp();
+            health.Reset(GetMaxHp());
         }
 
         private float GetMaxHp()

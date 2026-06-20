@@ -28,6 +28,7 @@ namespace IdleOff.Maps
         private GameObject interactablesRoot;
         private GameObject mobsRoot;
         private GameObject pickupsRoot;
+        private WorldDropSpawner subscribedDropSpawner;
 
         public static MapManager Instance { get; private set; }
         public MapDefinition CurrentMap { get; private set; }
@@ -73,6 +74,7 @@ namespace IdleOff.Maps
         private void Start()
         {
             Player = FindFirstObjectByType<PlayerCombatant>();
+            SubscribeToDropSpawner();
             if (Player != null && profile == null)
             {
                 profile = Player.Character?.ParentProfile;
@@ -90,9 +92,23 @@ namespace IdleOff.Maps
             SaveCurrentMapState();
         }
 
+        private void OnDestroy()
+        {
+            if (subscribedDropSpawner != null)
+            {
+                subscribedDropSpawner.DropSpawned -= HandleDropSpawned;
+            }
+
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
+
         public void LoadMap(int mapID)
         {
             SaveCurrentMapState();
+            SubscribeToDropSpawner();
             MapCatalog.EnsureLoaded();
             InteractableObjectCatalog.EnsureLoaded();
             MobCatalog.EnsureLoaded();
@@ -267,17 +283,10 @@ namespace IdleOff.Maps
                     continue;
                 }
 
-                for (var i = 0; i < spawner.maxActive; i++)
-                {
-                    var mobObject = CreateBox("Mob - " + spawner.mobID, position, new Vector2(0.75f, 0.75f), mobSprite, new Color32(232, 90, 86, 255), mobsRoot.transform);
-                    mobObject.AddComponent<BoxCollider2D>();
-                    var body = mobObject.AddComponent<Rigidbody2D>();
-                    body.gravityScale = 3f;
-                    body.freezeRotation = true;
-                    var mob = mobObject.AddComponent<MobEntity>();
-                    mob.Initialize(spawner.mobID);
-                    mob.Died += RecordMobKilled;
-                }
+                var spawnerObject = new GameObject("Mob Spawner - " + spawner.spawnerID);
+                spawnerObject.transform.SetParent(mobsRoot.transform);
+                spawnerObject.transform.position = position;
+                spawnerObject.AddComponent<MobSpawner>().Initialize(spawner, mobSprite);
             }
         }
 
@@ -300,8 +309,75 @@ namespace IdleOff.Maps
                 var payload = pickup.isMoney
                     ? WorldDropPayload.Money(pickup.money)
                     : WorldDropPayload.Item(pickup.itemID, pickup.quantity);
-                var drop = spawner.SpawnDrop(payload, position);
+                var drop = spawner.SpawnDrop(payload, position, false);
                 drop.transform.SetParent(pickupsRoot.transform);
+                drop.Collected += HandleTrackedDropCollected;
+            }
+        }
+
+        private void SubscribeToDropSpawner()
+        {
+            var spawner = WorldDropSpawner.Instance;
+            if (spawner == null || subscribedDropSpawner == spawner)
+            {
+                return;
+            }
+
+            if (subscribedDropSpawner != null)
+            {
+                subscribedDropSpawner.DropSpawned -= HandleDropSpawned;
+            }
+
+            subscribedDropSpawner = spawner;
+            subscribedDropSpawner.DropSpawned += HandleDropSpawned;
+        }
+
+        private void HandleDropSpawned(WorldDrop drop)
+        {
+            if (drop == null || drop.Payload == null || CurrentRuntimeState == null)
+            {
+                return;
+            }
+
+            drop.transform.SetParent(pickupsRoot != null ? pickupsRoot.transform : null);
+            var state = new MapPickupState
+            {
+                itemID = drop.Payload.itemID,
+                quantity = drop.Payload.quantity,
+                money = drop.Payload.money,
+                isMoney = drop.Payload.isMoney,
+                position = drop.transform.position
+            };
+            CurrentRuntimeState.presentPickups.Add(state);
+            drop.Collected += HandleTrackedDropCollected;
+            SaveCurrentMapState();
+        }
+
+        private void HandleTrackedDropCollected(WorldDrop drop)
+        {
+            if (drop == null || drop.Payload == null || CurrentRuntimeState == null)
+            {
+                return;
+            }
+
+            var dropPosition = (Vector2)drop.transform.position;
+            for (var i = CurrentRuntimeState.presentPickups.Count - 1; i >= 0; i--)
+            {
+                var pickup = CurrentRuntimeState.presentPickups[i];
+                if (pickup == null || pickup.isMoney != drop.Payload.isMoney)
+                {
+                    continue;
+                }
+
+                var samePayload = pickup.isMoney
+                    ? pickup.money.TotalCopper == drop.Payload.money.TotalCopper
+                    : pickup.itemID == drop.Payload.itemID && pickup.quantity == drop.Payload.quantity;
+                if (samePayload && Vector2.Distance(pickup.position, dropPosition) < 0.05f)
+                {
+                    CurrentRuntimeState.presentPickups.RemoveAt(i);
+                    SaveCurrentMapState();
+                    return;
+                }
             }
         }
 
