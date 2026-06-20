@@ -20,10 +20,20 @@ namespace IdleOff.Actions
 
         private void Update()
         {
+            Tick(Time.deltaTime);
+        }
+
+        public void Tick(float deltaTime)
+        {
             foreach (var state in statesByActionID.Values)
             {
-                state.Tick(Time.deltaTime);
+                state.Tick(Mathf.Max(0f, deltaTime));
             }
+        }
+
+        public float GetCooldownRemaining(Action action)
+        {
+            return action == null ? 0f : GetState(action).CooldownRemaining;
         }
 
         public bool CanUseAction(Action action)

@@ -19,6 +19,7 @@ namespace IdleOff.Combat
         public bool IsPlayerControlled => true;
         public IReadOnlyList<string> Tags => EmptyTags;
         public float CurrentHp => health.Max <= 0f ? GetMaxHp() : health.Current;
+        public float MaxHp => health.Max <= 0f ? GetMaxHp() : health.Max;
 
         public void SetProfile(CharacterProfile characterProfile)
         {
@@ -28,6 +29,11 @@ namespace IdleOff.Combat
 
         private void Update()
         {
+            TickHealthRegen(Time.deltaTime);
+        }
+
+        public void TickHealthRegen(float deltaTime)
+        {
             if (health.Max <= 0f)
             {
                 ResetHpToMax();
@@ -35,7 +41,7 @@ namespace IdleOff.Combat
 
             if (health.IsAlive)
             {
-                health.Heal(GetMaxHp() * healthRegenPercentPerSecond * Time.deltaTime);
+                health.Heal(GetMaxHp() * healthRegenPercentPerSecond * Mathf.Max(0f, deltaTime));
             }
         }
 

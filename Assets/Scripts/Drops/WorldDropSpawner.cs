@@ -21,6 +21,14 @@ namespace IdleOff.Drops
             }
         }
 
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
+
         public void Configure(Sprite itemSprite, Sprite moneySprite)
         {
             itemDropSprite = itemSprite;

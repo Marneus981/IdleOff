@@ -125,8 +125,8 @@
     <Compile Include="Assets\Scripts\Combat\IRandomSource.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobCatalog.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionUseRequest.cs" />
-    <Compile Include="Assets\Scripts\Profiles\CharacterClass.cs" />
     <Compile Include="Assets\Scripts\Maps\MapPickupState.cs" />
+    <Compile Include="Assets\Scripts\Profiles\CharacterClass.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats.cs" />
     <Compile Include="Assets\Scripts\Profiles\GlobalItemCatalog.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Agi.cs" />

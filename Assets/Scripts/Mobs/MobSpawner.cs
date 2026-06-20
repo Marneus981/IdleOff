@@ -15,6 +15,9 @@ namespace IdleOff.Mobs
         private readonly List<MobEntity> activeMobs = new();
         private float respawnTimer;
 
+        public int ActiveCount => activeMobs.Count;
+        public IReadOnlyList<MobEntity> ActiveMobs => activeMobs;
+
         public void Initialize(MapMobSpawnerDefinition definition, Sprite sprite)
         {
             mobID = definition.mobID;
@@ -26,13 +29,18 @@ namespace IdleOff.Mobs
 
         private void Update()
         {
+            Tick(Time.deltaTime);
+        }
+
+        public void Tick(float deltaTime)
+        {
             activeMobs.RemoveAll(mob => mob == null || !mob.IsAlive);
             if (activeMobs.Count >= maxActive)
             {
                 return;
             }
 
-            respawnTimer -= Time.deltaTime;
+            respawnTimer -= Mathf.Max(0f, deltaTime);
             if (respawnTimer <= 0f)
             {
                 SpawnMissingMobs();
@@ -87,8 +95,19 @@ namespace IdleOff.Mobs
             respawnTimer = respawnSeconds;
             if (mob != null)
             {
-                Destroy(mob.gameObject);
+                DestroySpawnedMob(mob.gameObject);
             }
+        }
+
+        private static void DestroySpawnedMob(GameObject mobObject)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(mobObject);
+                return;
+            }
+
+            DestroyImmediate(mobObject);
         }
 
         private static void AddAI(GameObject mobObject, MobType mobType)
