@@ -52,6 +52,7 @@
     <Compile Include="Assets\Scripts\Drops\RewardResult.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionHitboxType.cs" />
     <Compile Include="Assets\Scripts\Actions\Action.cs" />
+    <Compile Include="Assets\Scripts\Game\GameStateManager.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DropRate.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionOwnerType.cs" />
     <Compile Include="Assets\Scripts\Profiles\Inventory.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Mastery.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobBasicAI.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractEffect.cs" />
+    <Compile Include="Assets\Scripts\Game\ProfileRecord.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionController.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats\Luck.cs" />
     <Compile Include="Assets\Scripts\Actions\AreaActionHitbox.cs" />
@@ -115,14 +117,17 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Hp.cs" />
     <Compile Include="Assets\Scripts\Profiles\BagSlot.cs" />
     <Compile Include="Assets\Scripts\Mobs\BossActionPattern.cs" />
+    <Compile Include="Assets\Scripts\Game\ProfileManager.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractableObjectDefinition.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterProfile.cs" />
+    <Compile Include="Assets\Scripts\Game\BootFlowUIView.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\UnarmedWeaponPower.cs" />
     <Compile Include="Assets\Scripts\Maps\MapInteractableSpawn.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Mp.cs" />
     <Compile Include="Assets\Scripts\Profiles\Item.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterData.cs" />
     <Compile Include="Assets\Scripts\Profiles\Stat.cs" />
+    <Compile Include="Assets\Scripts\Game\GameBootstrap.cs" />
     <Compile Include="Assets\Scripts\Mobs\BossTelegraph.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionRuntimeState.cs" />
     <Compile Include="Assets\Scripts\Drops\WorldDropSpawner.cs" />
@@ -142,6 +147,7 @@
     <Compile Include="Assets\Scripts\Actions\ActionTargetingType.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractableObjectType.cs" />
     <Compile Include="Assets\Scripts\Drops\WorldDrop.cs" />
+    <Compile Include="Assets\Scripts\Game\BootFlowUI.cs" />
     <Compile Include="Assets\Scripts\Profiles\ClassModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Equipment.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionCatalog.cs" />
@@ -154,6 +160,7 @@
     <Compile Include="Assets\Scripts\Mobs\BossPatternStep.cs" />
     <Compile Include="Assets\Scripts\Profiles\StarSignModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Modifier.cs" />
+    <Compile Include="Assets\Scripts\Game\GameState.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobSpawner.cs" />
     <Compile Include="Assets\Scripts\Combat\UnityRandomSource.cs" />
     <Compile Include="Assets\Scripts\Controls\KeybindManager.cs" />
@@ -165,10 +172,36 @@
     <Compile Include="Assets\Scripts\Camera\CameraFollow2D.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobMoneyDrop.cs" />
     <Compile Include="Assets\Scripts\Profiles\Storage.cs" />
+    <Compile Include="Assets\Scripts\Game\GameSession.cs" />
     <Compile Include="Assets\Scripts\Combat\PlayerCombatant.cs" />
     <Compile Include="Assets\Scripts\Maps\MapPlatformDefinition.cs" />
     <Compile Include="Assets\Scripts\Maps\MapMobSpawnerDefinition.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\MaxHp.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
