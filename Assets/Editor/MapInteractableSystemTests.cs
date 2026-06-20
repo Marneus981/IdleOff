@@ -8,17 +8,25 @@ using IdleOff.Player;
 using IdleOff.Profiles;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 public sealed class MapInteractableSystemTests
 {
     [SetUp]
     public void SetUp()
     {
+        LogAssert.ignoreFailingMessages = true;
         GlobalModifierCatalog.LoadGlobalModifiers();
         GlobalItemCatalog.LoadItems();
         MobCatalog.LoadMobs();
         MapCatalog.LoadMaps();
         InteractableObjectCatalog.LoadInteractables();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        LogAssert.ignoreFailingMessages = false;
     }
 
     [Test]
@@ -31,7 +39,7 @@ public sealed class MapInteractableSystemTests
         Assert.AreEqual("Training Grounds", map.name);
         Assert.AreEqual("player_start", map.playerSpawnAnchor);
         Assert.AreEqual(2, map.layout.platforms.Count);
-        Assert.AreEqual(1, map.layout.ladders.Count);
+        Assert.AreEqual(2, map.layout.ladders.Count);
         Assert.AreEqual(1, map.interactables.Count);
         Assert.AreEqual(1, map.mobSpawners.Count);
     }

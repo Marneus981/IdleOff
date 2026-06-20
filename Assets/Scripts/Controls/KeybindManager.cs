@@ -141,6 +141,7 @@ namespace IdleOff.Controls
                 [KeybindActions.MoveRight] = Create(KeybindActions.MoveRight, Key.D, Key.RightArrow),
                 [KeybindActions.MoveUp] = Create(KeybindActions.MoveUp, Key.W, Key.UpArrow),
                 [KeybindActions.MoveDown] = Create(KeybindActions.MoveDown, Key.S, Key.DownArrow),
+                [KeybindActions.Jump] = Create(KeybindActions.Jump, Key.Space),
                 [KeybindActions.AttackPrimary] = Create(KeybindActions.AttackPrimary, Key.LeftCtrl),
                 [KeybindActions.Interact] = Create(KeybindActions.Interact, Key.E)
             };

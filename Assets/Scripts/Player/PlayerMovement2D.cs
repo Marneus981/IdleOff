@@ -1,4 +1,5 @@
 using IdleOff.Controls;
+using IdleOff.Maps;
 using IdleOff.Profiles;
 using IdleOff.World;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace IdleOff.Player
         [Header("Climbing")]
         [SerializeField, Min(0f)] private float climbSpeed = 4f;
         [SerializeField, Min(0f)] private float climbPlatformCheckDistance = 0.12f;
+
+        [Header("Jump")]
+        [SerializeField, Min(0f)] private float jumpVelocity = 8f;
+        [SerializeField, Min(0f)] private float groundCheckDistance = 0.08f;
 
         [Header("Drop Down")]
         [SerializeField, Min(0f)] private float platformCheckDistance = 0.08f;
@@ -58,12 +63,18 @@ namespace IdleOff.Player
             bodyCollider = GetComponent<Collider2D>();
             defaultGravityScale = body.gravityScale;
             body.freezeRotation = true;
+            body.interpolation = RigidbodyInterpolation2D.Interpolate;
             lastSafePosition = transform.position;
         }
 
         private void Update()
         {
             ReadKeyboardInput();
+
+            if (KeybindManager.WasPressedThisFrame(KeybindActions.Jump))
+            {
+                TryJump();
+            }
 
             if (verticalInput < -0.01f && dropTimer <= 0f && !IsClimbing)
             {
@@ -123,6 +134,37 @@ namespace IdleOff.Player
             }
         }
 
+        private void TryJump()
+        {
+            if (IsClimbing || !IsGrounded())
+            {
+                return;
+            }
+
+            Vector2 velocity = body.linearVelocity;
+            velocity.y = jumpVelocity;
+            body.linearVelocity = velocity;
+        }
+
+        private bool IsGrounded()
+        {
+            ContactFilter2D contactFilter = new ContactFilter2D();
+            contactFilter.useTriggers = false;
+
+            RaycastHit2D[] hits = new RaycastHit2D[4];
+            int hitCount = bodyCollider.Cast(Vector2.down, contactFilter, hits, groundCheckDistance);
+            for (int i = 0; i < hitCount; i++)
+            {
+                var collider = hits[i].collider;
+                if (collider != null && collider != ignoredPlatform && collider.GetComponent<LadderZone>() == null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void TryDropThroughPlatform()
         {
             ContactFilter2D contactFilter = new ContactFilter2D();
@@ -169,7 +211,10 @@ namespace IdleOff.Player
 
         private void RespawnIfFallen()
         {
-            if (transform.position.y > fallRespawnY)
+            var currentFallRespawnY = MapManager.Instance != null && MapManager.Instance.CurrentVoidRespawnY.HasValue
+                ? MapManager.Instance.CurrentVoidRespawnY.Value
+                : fallRespawnY;
+            if (transform.position.y > currentFallRespawnY)
             {
                 return;
             }

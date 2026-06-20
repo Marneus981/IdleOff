@@ -69,23 +69,27 @@ namespace IdleOff.Interactables
         {
             if (!CanInteract(player))
             {
+                Debug.Log($"[Interact] {player?.DisplayName ?? "Player"} tried to interact with {Definition?.name ?? gameObject.name}, but is out of range.");
                 return false;
             }
 
             var mapManager = MapManager.Instance;
             if (mapManager == null || mapManager.CurrentRuntimeState == null)
             {
+                Debug.Log($"[Interact] {Definition.name} cannot be used because no current map state is loaded.");
                 return false;
             }
 
             var alreadyUnlocked = mapManager.CurrentRuntimeState.IsInteractableUnlocked(instanceID);
             if (!alreadyUnlocked && !InteractConditionResolver.IsMet(Definition.condition, player, mapManager.CurrentRuntimeState))
             {
+                Debug.Log($"[Interact] {player.DisplayName} tried to use {Definition.name}, but its condition {Definition.condition.type} is not met.");
                 return false;
             }
 
             if (!alreadyUnlocked && !InteractConditionResolver.TryConsumeCost(Definition.condition, player))
             {
+                Debug.Log($"[Interact] {player.DisplayName} tried to use {Definition.name}, but its required cost could not be consumed.");
                 return false;
             }
 
@@ -93,10 +97,12 @@ namespace IdleOff.Interactables
             {
                 mapManager.CurrentRuntimeState.MarkInteractableUnlocked(instanceID);
                 mapManager.SaveCurrentMapState();
+                Debug.Log($"[Interact] {player.DisplayName} unlocked {Definition.name} ({instanceID}).");
             }
 
             if (Definition.effect.type == InteractEffectType.TravelToMap)
             {
+                Debug.Log($"[Interact] {player.DisplayName} used {Definition.name}; travelling to map {Definition.effect.targetMapID}.");
                 mapManager.LoadMap(Definition.effect.targetMapID);
             }
 

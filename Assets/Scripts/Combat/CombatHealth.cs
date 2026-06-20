@@ -33,5 +33,15 @@ namespace IdleOff.Combat
 
             current = Mathf.Max(0f, current - amount);
         }
+
+        public void Heal(float amount)
+        {
+            if (amount <= 0f || !IsAlive)
+            {
+                return;
+            }
+
+            current = Mathf.Min(max, current + amount);
+        }
     }
 }

@@ -28,6 +28,19 @@ namespace IdleOff.Maps
             public List<RectObjectValues> platforms;
             public List<RectObjectValues> ladders;
             public List<AnchorValues> anchors;
+            public BoundaryValues boundaries;
+        }
+
+        [Serializable]
+        private struct BoundaryValues
+        {
+            public bool enabled;
+            public float floorThickness;
+            public float wallThickness;
+            public string leftAnchorID;
+            public string rightAnchorID;
+            public string floorAnchorID;
+            public string ceilingAnchorID;
         }
 
         [Serializable]
@@ -173,6 +186,17 @@ namespace IdleOff.Maps
                     });
                 }
             }
+
+            layout.boundaries = new MapBoundaryDefinition
+            {
+                enabled = values.boundaries.enabled,
+                floorThickness = values.boundaries.floorThickness <= 0f ? 1.5f : values.boundaries.floorThickness,
+                wallThickness = values.boundaries.wallThickness <= 0f ? 1f : values.boundaries.wallThickness,
+                leftAnchorID = values.boundaries.leftAnchorID,
+                rightAnchorID = values.boundaries.rightAnchorID,
+                floorAnchorID = values.boundaries.floorAnchorID,
+                ceilingAnchorID = values.boundaries.ceilingAnchorID
+            };
 
             return layout;
         }

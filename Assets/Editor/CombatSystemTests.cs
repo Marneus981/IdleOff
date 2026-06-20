@@ -5,6 +5,7 @@ using IdleOff.Drops;
 using IdleOff.Mobs;
 using IdleOff.Profiles;
 using NUnit.Framework;
+using UnityEngine.TestTools;
 using UnityEngine;
 using GameAction = IdleOff.Actions.Action;
 
@@ -13,10 +14,17 @@ public sealed class CombatSystemTests
     [SetUp]
     public void SetUp()
     {
+        LogAssert.ignoreFailingMessages = true;
         GlobalModifierCatalog.LoadGlobalModifiers();
         GlobalItemCatalog.LoadItems();
         ActionCatalog.LoadGlobalActions();
         MobCatalog.LoadMobs();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        LogAssert.ignoreFailingMessages = false;
     }
 
     [Test]

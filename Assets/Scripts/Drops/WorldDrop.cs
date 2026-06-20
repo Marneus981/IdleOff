@@ -35,6 +35,7 @@ namespace IdleOff.Drops
                     return false;
                 }
 
+                Debug.Log($"[Pickup] Picked up money drop {payload.money.goldP}g {payload.money.silverP}s {payload.money.copperP}c.");
                 Collected?.Invoke(this);
                 DestroyDrop();
                 return true;
@@ -44,12 +45,14 @@ namespace IdleOff.Drops
             {
                 if (leftover > 0 && leftover < payload.quantity)
                 {
+                    Debug.Log($"[Pickup] Partially picked up item ID {payload.itemID}. Picked up {payload.quantity - leftover}, leftover {leftover}.");
                     payload.quantity = leftover;
                 }
 
                 return false;
             }
 
+            Debug.Log($"[Pickup] Picked up item drop ID {payload.itemID} x{payload.quantity}.");
             Collected?.Invoke(this);
             DestroyDrop();
             return true;

@@ -34,6 +34,7 @@ namespace IdleOff.Maps
         public MapDefinition CurrentMap { get; private set; }
         public MapRuntimeState CurrentRuntimeState { get; private set; }
         public PlayerCombatant Player { get; private set; }
+        public float? CurrentVoidRespawnY { get; private set; }
 
         public void Configure(
             CharacterProfile characterProfile,
@@ -130,6 +131,7 @@ namespace IdleOff.Maps
             CreateMapRoot(map.name);
             BuildAnchors(map);
             BuildLayout(map);
+            BuildBoundaries(map);
             MovePlayerToSpawn(map);
             SpawnInteractables(map);
             SpawnMobs(map);
@@ -152,6 +154,14 @@ namespace IdleOff.Maps
             return anchorsByID.TryGetValue(anchorID, out position);
         }
 
+        public bool TryGetCurrentSpawnPosition(out Vector2 position)
+        {
+            position = default;
+            return CurrentMap != null
+                && !string.IsNullOrWhiteSpace(CurrentMap.playerSpawnAnchor)
+                && TryGetAnchor(CurrentMap.playerSpawnAnchor, out position);
+        }
+
         public void RecordMobKilled(MobEntity mob)
         {
             if (mob == null || CurrentRuntimeState == null)
@@ -170,6 +180,7 @@ namespace IdleOff.Maps
                 DestroyMapObject(mapRoot);
             }
 
+            CurrentVoidRespawnY = null;
             anchorsByID.Clear();
         }
 
@@ -239,6 +250,123 @@ namespace IdleOff.Maps
                 collider.isTrigger = true;
                 ladderObject.AddComponent<LadderZone>();
             }
+        }
+
+        private void BuildBoundaries(MapDefinition map)
+        {
+            if (map.layout?.boundaries == null || !map.layout.boundaries.enabled)
+            {
+                return;
+            }
+
+            var bounds = CalculateLayoutBounds(map);
+            var camera = Camera.main;
+            var halfHeight = camera != null && camera.orthographic ? camera.orthographicSize : 4.5f;
+            var halfWidth = halfHeight * (camera != null ? camera.aspect : 16f / 9f);
+            var floorThickness = Mathf.Max(0.1f, map.layout.boundaries.floorThickness);
+            var wallThickness = Mathf.Max(0.1f, map.layout.boundaries.wallThickness);
+            var useAnchorBounds = TryGetBoundaryAnchorValues(map.layout.boundaries, out var anchorLeftX, out var anchorRightX, out var anchorFloorY, out var anchorCeilingY);
+
+            var leftX = useAnchorBounds ? anchorLeftX : bounds.min.x - halfWidth - wallThickness * 0.5f;
+            var rightX = useAnchorBounds ? anchorRightX : bounds.max.x + halfWidth + wallThickness * 0.5f;
+            var floorY = useAnchorBounds ? anchorFloorY : bounds.min.y - halfHeight - floorThickness * 0.5f;
+            var ceilingY = useAnchorBounds ? anchorCeilingY : bounds.max.y + halfHeight + wallThickness * 0.5f;
+            CurrentVoidRespawnY = floorY - floorThickness - 1f;
+            var centerX = (leftX + rightX) * 0.5f;
+            var centerY = (floorY + ceilingY) * 0.5f;
+            var horizontalWidth = Mathf.Abs(rightX - leftX) + wallThickness * 2f;
+            var verticalHeight = Mathf.Abs(ceilingY - floorY) + floorThickness + wallThickness;
+
+            var floor = CreateBox("Boundary Floor", new Vector2(centerX, floorY), new Vector2(horizontalWidth, floorThickness), platformSprite, new Color32(96, 91, 83, 255), layoutRoot.transform);
+            floor.AddComponent<BoxCollider2D>().size = Vector2.one;
+
+            CreateInvisibleBoundary("Boundary Ceiling", new Vector2(centerX, ceilingY), new Vector2(horizontalWidth, wallThickness));
+            CreateInvisibleBoundary("Boundary Left Wall", new Vector2(leftX, centerY), new Vector2(wallThickness, verticalHeight));
+            CreateInvisibleBoundary("Boundary Right Wall", new Vector2(rightX, centerY), new Vector2(wallThickness, verticalHeight));
+        }
+
+        private bool TryGetBoundaryAnchorValues(MapBoundaryDefinition boundaries, out float leftX, out float rightX, out float floorY, out float ceilingY)
+        {
+            leftX = default;
+            rightX = default;
+            floorY = default;
+            ceilingY = default;
+
+            if (boundaries == null
+                || string.IsNullOrWhiteSpace(boundaries.leftAnchorID)
+                || string.IsNullOrWhiteSpace(boundaries.rightAnchorID)
+                || string.IsNullOrWhiteSpace(boundaries.floorAnchorID)
+                || string.IsNullOrWhiteSpace(boundaries.ceilingAnchorID)
+                || !TryGetAnchor(boundaries.leftAnchorID, out var left)
+                || !TryGetAnchor(boundaries.rightAnchorID, out var right)
+                || !TryGetAnchor(boundaries.floorAnchorID, out var floor)
+                || !TryGetAnchor(boundaries.ceilingAnchorID, out var ceiling))
+            {
+                return false;
+            }
+
+            leftX = left.x;
+            rightX = right.x;
+            floorY = floor.y;
+            ceilingY = ceiling.y;
+            return rightX > leftX && ceilingY > floorY;
+        }
+
+        private Bounds CalculateLayoutBounds(MapDefinition map)
+        {
+            var initialized = false;
+            var min = Vector2.zero;
+            var max = Vector2.zero;
+
+            void Encapsulate(Vector2 center, Vector2 size)
+            {
+                var half = size * 0.5f;
+                var objectMin = center - half;
+                var objectMax = center + half;
+                if (!initialized)
+                {
+                    min = objectMin;
+                    max = objectMax;
+                    initialized = true;
+                    return;
+                }
+
+                min = Vector2.Min(min, objectMin);
+                max = Vector2.Max(max, objectMax);
+            }
+
+            foreach (var platform in map.layout.platforms)
+            {
+                Encapsulate(platform.position, platform.size);
+            }
+
+            foreach (var ladder in map.layout.ladders)
+            {
+                Encapsulate(ladder.position, ladder.size);
+            }
+
+            foreach (var anchor in map.layout.anchors)
+            {
+                Encapsulate(anchor.position, Vector2.one);
+            }
+
+            if (!initialized)
+            {
+                Encapsulate(Vector2.zero, Vector2.one);
+            }
+
+            var bounds = new Bounds();
+            bounds.SetMinMax(min, max);
+            return bounds;
+        }
+
+        private void CreateInvisibleBoundary(string name, Vector2 position, Vector2 size)
+        {
+            var boundary = new GameObject(name);
+            boundary.transform.SetParent(layoutRoot.transform);
+            boundary.transform.position = position;
+            boundary.transform.localScale = new Vector3(size.x, size.y, 1f);
+            boundary.AddComponent<BoxCollider2D>().size = Vector2.one;
         }
 
         private void MovePlayerToSpawn(MapDefinition map)

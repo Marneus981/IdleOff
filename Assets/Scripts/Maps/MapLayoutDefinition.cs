@@ -9,5 +9,6 @@ namespace IdleOff.Maps
         public List<MapPlatformDefinition> platforms = new();
         public List<MapLadderDefinition> ladders = new();
         public List<MapAnchorDefinition> anchors = new();
+        public MapBoundaryDefinition boundaries = new();
     }
 }

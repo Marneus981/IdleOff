@@ -21,6 +21,7 @@ namespace IdleOff.Drops
             var xpRate = Mathf.Max(0f, player.GetStatValueByID(CombatStatIDs.ClassXPRate));
             result.XpReward = Mathf.RoundToInt(mob.RuntimeData.Template.xpReward * (1f + xpRate));
             GrantClassXP(player, result.XpReward);
+            Debug.Log($"[Reward] {player.DisplayName} gained {result.XpReward} class XP from {mob.DisplayName} (base {mob.RuntimeData.Template.xpReward}, rate +{xpRate:P0}).");
 
             var dropRate = Mathf.Max(0f, player.GetStatValueByID(CombatStatIDs.DropRate));
             ResolveItemDrops(mob.RuntimeData.Template, dropRate, random, result);
@@ -60,6 +61,7 @@ namespace IdleOff.Drops
                 for (var i = 0; i < quantity; i++)
                 {
                     result.Drops.Add(WorldDropPayload.Item(drop.itemID));
+                    Debug.Log($"[Drop] Rolled item drop ID {drop.itemID} from {template.name}.");
                 }
             }
         }
@@ -81,6 +83,7 @@ namespace IdleOff.Drops
                 for (var i = 0; i < quantity; i++)
                 {
                     result.Drops.Add(WorldDropPayload.Money(drop.money));
+                    Debug.Log($"[Drop] Rolled money drop {drop.money.goldP}g {drop.money.silverP}s {drop.money.copperP}c from {template.name}.");
                 }
             }
         }

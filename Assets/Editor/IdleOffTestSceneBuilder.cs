@@ -1,5 +1,6 @@
 using System.IO;
 using IdleOff.Actions;
+using IdleOff.CameraTools;
 using IdleOff.Combat;
 using IdleOff.Maps;
 using IdleOff.Player;
@@ -87,6 +88,7 @@ namespace IdleOff.Editor
             camera.backgroundColor = new Color32(35, 41, 49, 255);
             cameraObject.tag = "MainCamera";
             cameraObject.transform.position = new Vector3(1f, -0.5f, -10f);
+            cameraObject.AddComponent<CameraFollow2D>();
         }
 
         private static void CreatePlayer(CharacterProfile profile, Sprite sprite)
@@ -99,6 +101,7 @@ namespace IdleOff.Editor
             Rigidbody2D body = player.AddComponent<Rigidbody2D>();
             body.gravityScale = 3f;
             body.freezeRotation = true;
+            body.interpolation = RigidbodyInterpolation2D.Interpolate;
 
             PlayerMovement2D movement = player.AddComponent<PlayerMovement2D>();
             movement.SetProfile(profile);

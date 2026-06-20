@@ -21,7 +21,9 @@ namespace IdleOff.Combat
             var hitChance = CalculatePlayerHitChance(player, mob);
             if (random.Value > hitChance)
             {
-                return new DamageResult(player, mob, false, hitChance, 0f, 0f, 0);
+                var miss = new DamageResult(player, mob, false, hitChance, 0f, 0f, 0);
+                Debug.Log($"[Combat] {player.DisplayName} used {action.name} on {mob.DisplayName}: miss. Hit chance {hitChance:P0}.");
+                return miss;
             }
 
             var playerDamage = Mathf.Max(0f, player.GetStatValueByID(CombatStatIDs.Damage));
@@ -47,6 +49,7 @@ namespace IdleOff.Combat
             var finalDamage = Mathf.Max(1f, rawDamage - Mathf.Max(0f, mob.GetStatValueByID(CombatStatIDs.Defense)));
             var result = new DamageResult(player, mob, true, hitChance, rawDamage, finalDamage, critCount);
             mob.ReceiveDamage(result);
+            Debug.Log($"[Combat] {player.DisplayName} used {action.name} on {mob.DisplayName}: hit, dealt {finalDamage:0.##} damage (raw {rawDamage:0.##}, crits {critCount}, hit chance {hitChance:P0}).");
             return result;
         }
 
@@ -64,6 +67,7 @@ namespace IdleOff.Combat
             var finalDamage = Mathf.Max(1f, rawDamage - Mathf.Max(0f, target.GetStatValueByID(CombatStatIDs.Defense)));
             var result = new DamageResult(mob, target, true, 1f, rawDamage, finalDamage, 0);
             target.ReceiveDamage(result);
+            Debug.Log($"[Combat] {mob.DisplayName} used {action.name} on {target.DisplayName}: hit, dealt {finalDamage:0.##} damage (raw {rawDamage:0.##}).");
             return result;
         }
 
@@ -101,19 +105,6 @@ namespace IdleOff.Combat
 
         private static bool IsBossLike(IMobCombatant mob)
         {
-            Debug.Log("IsBossLike called");
-            if (mob.Tags == null)
-            {
-                
-            }
-            else
-            {
-                Debug.Log("mob.Tags is not null");
-                foreach(var tag in mob.Tags)
-                {
-                    Debug.Log("Current tag: " + tag);
-                }
-            }
             if (mob.MobType == MobType.Boss || mob.Tags == null)
             {
                 return mob.MobType == MobType.Boss;
@@ -121,7 +112,6 @@ namespace IdleOff.Combat
 
             foreach (var tag in mob.Tags)
             {
-                Debug.Log("Current tag:" + tag);
                 if (tag == "boss")
                 {
                     return true;

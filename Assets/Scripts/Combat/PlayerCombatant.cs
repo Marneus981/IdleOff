@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using IdleOff.Maps;
 using IdleOff.Profiles;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace IdleOff.Combat
     {
         [SerializeField] private CharacterProfile profile;
         [SerializeField] private CombatHealth health = new();
+        [SerializeField, Min(0f)] private float healthRegenPercentPerSecond = 0.01f;
 
         private static readonly IReadOnlyList<string> EmptyTags = new List<string>();
 
@@ -22,6 +24,19 @@ namespace IdleOff.Combat
         {
             profile = characterProfile;
             ResetHpToMax();
+        }
+
+        private void Update()
+        {
+            if (health.Max <= 0f)
+            {
+                ResetHpToMax();
+            }
+
+            if (health.IsAlive)
+            {
+                health.Heal(GetMaxHp() * healthRegenPercentPerSecond * Time.deltaTime);
+            }
         }
 
         public float GetStatValueByID(int statID)
@@ -42,6 +57,11 @@ namespace IdleOff.Combat
             }
 
             health.TakeDamage(result.FinalDamage);
+            Debug.Log($"[Combat] {DisplayName} took {result.FinalDamage:0.##} damage from {result.Attacker?.DisplayName ?? "unknown attacker"}. HP {health.Current:0.##}/{health.Max:0.##}.");
+            if (!health.IsAlive)
+            {
+                RespawnAtCurrentMapSpawn();
+            }
         }
 
         public void ResetHpToMax()
@@ -52,6 +72,25 @@ namespace IdleOff.Combat
         private float GetMaxHp()
         {
             return Mathf.Max(1f, GetStatValueByID(1011));
+        }
+
+        private void RespawnAtCurrentMapSpawn()
+        {
+            // Temporary death behavior: later this should become a real death/respawn flow with penalties, timers, UI, and save-state handling.
+            if (MapManager.Instance != null && MapManager.Instance.TryGetCurrentSpawnPosition(out var spawnPosition))
+            {
+                transform.position = spawnPosition;
+                var body = GetComponent<Rigidbody2D>();
+                if (body != null)
+                {
+                    body.position = spawnPosition;
+                    body.linearVelocity = Vector2.zero;
+                    body.angularVelocity = 0f;
+                }
+            }
+
+            ResetHpToMax();
+            Debug.Log($"[Combat] {DisplayName} died and respawned at the current map spawn with full HP.");
         }
     }
 }

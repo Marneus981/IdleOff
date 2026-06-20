@@ -137,6 +137,7 @@
     <Compile Include="Assets\Scripts\Profiles\ClassModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Equipment.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionCatalog.cs" />
+    <Compile Include="Assets\Scripts\Maps\MapBoundaryDefinition.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Speed.cs" />
     <Compile Include="Assets\Scripts\Maps\MapAnchorDefinition.cs" />
     <Compile Include="Assets\Scripts\Maps\MapCatalog.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Defense.cs" />
     <Compile Include="Assets\Scripts\Profiles\FamilyBonusModifier.cs" />
     <Compile Include="Assets\Scripts\Controls\KeybindActions.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraFollow2D.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobMoneyDrop.cs" />
     <Compile Include="Assets\Scripts\Profiles\Storage.cs" />
     <Compile Include="Assets\Scripts\Combat\PlayerCombatant.cs" />

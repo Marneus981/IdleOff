@@ -9,12 +9,26 @@
         { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
       ],
       "ladders": [
-        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 }
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
       ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
       "anchors": [
         { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
         { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
-        { "anchorID": "exit_portal", "x": 3.75, "y": -1.75 }
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.75 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
       ]
     },
     "interactables": [
@@ -35,9 +49,22 @@
         { "anchorID": "short_platform", "x": -2.0, "y": 0.5, "width": 4.0, "height": 0.5 }
       ],
       "ladders": [],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
       "anchors": [
         { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
-        { "anchorID": "training_slime_spawn", "x": 1.5, "y": -1.75 }
+        { "anchorID": "training_slime_spawn", "x": 1.5, "y": -1.75 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
       ]
     },
     "interactables": [],
