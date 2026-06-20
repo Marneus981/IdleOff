@@ -151,7 +151,7 @@ namespace IdleOff.Maps
         {
             if (mapRoot != null)
             {
-                Destroy(mapRoot);
+                DestroyMapObject(mapRoot);
             }
 
             anchorsByID.Clear();
@@ -323,6 +323,22 @@ namespace IdleOff.Maps
             texture.SetPixel(0, 0, color);
             texture.Apply();
             return Sprite.Create(texture, new Rect(0f, 0f, 1f, 1f), new Vector2(0.5f, 0.5f), 1f);
+        }
+
+        private static void DestroyMapObject(Object target)
+        {
+            if (target == null)
+            {
+                return;
+            }
+
+            if (Application.isPlaying)
+            {
+                Destroy(target);
+                return;
+            }
+
+            DestroyImmediate(target);
         }
     }
 }

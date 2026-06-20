@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\CombatSystemTests.cs" />
     <Compile Include="Assets\Editor\IdleOffTestSceneBuilder.cs" />
+    <Compile Include="Assets\Editor\MapInteractableSystemTests.cs" />
     <Compile Include="Assets\Editor\ProfileSystemTests.cs" />
   </ItemGroup>
   <ItemGroup>
