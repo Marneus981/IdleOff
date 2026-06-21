@@ -2,7 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using IdleOff.Combat;
+using IdleOff.Drops;
+using IdleOff.Maps;
 using IdleOff.Profiles;
+using UnityEngine.EventSystems;
 
 namespace IdleOff.Game
 {
@@ -23,6 +26,10 @@ namespace IdleOff.Game
         [SerializeField] private Button inventoryButton;
         [SerializeField] private Button skillsButton;
         [SerializeField] private Button menuButton;
+        [SerializeField] private RectTransform inventoryPanel;
+        [SerializeField] private RectTransform inventoryLeftCanvas;
+        [SerializeField] private RectTransform inventoryContent;
+        [SerializeField] private ScrollRect inventoryScrollRect;
         [SerializeField] private RectTransform menuPanel;
         [SerializeField] private RectTransform skillsPanel;
         [SerializeField] private RectTransform skillsContent;
@@ -40,10 +47,28 @@ namespace IdleOff.Game
         private HudValueBar hpBar;
         private HudValueBar mpBar;
         private HudValueBar xpBar;
+        private Coroutine inventoryAnimation;
         private Coroutine menuAnimation;
         private Coroutine skillsAnimation;
+        private bool inventoryOpen;
         private bool menuOpen;
         private bool skillsOpen;
+        private HudInventorySlotWidget draggedInventorySlot;
+        private Image draggedInventoryIcon;
+        private bool inventoryDragHandled;
+        private const float InventorySlotPadding = 0.02f;
+
+        private static readonly string[] EquipmentSlotNames =
+        {
+            "Hat",
+            "Top",
+            "Bottom",
+            "Shoes",
+            "Main Hand",
+            "Neck",
+            "Ring R",
+            "Ring L"
+        };
 
         public static GameplayHud Instance { get; private set; }
         public RectTransform Root => root;
@@ -65,6 +90,7 @@ namespace IdleOff.Game
             if (displayedCharacter != null)
             {
                 displayedCharacter.StatsChanged -= RefreshResourceBars;
+                displayedCharacter.InventoryChanged -= RefreshInventoryPanel;
             }
 
             displayedCharacter = character;
@@ -77,6 +103,7 @@ namespace IdleOff.Game
             if (displayedCharacter != null)
             {
                 displayedCharacter.StatsChanged += RefreshResourceBars;
+                displayedCharacter.InventoryChanged += RefreshInventoryPanel;
             }
 
             RefreshDisplayedCharacter();
@@ -116,6 +143,7 @@ namespace IdleOff.Game
                 $"LVL {displayedCharacter.Level:00}");
             RefreshResourceBars();
             RefreshSkillsPanel();
+            RefreshInventoryPanel();
         }
 
         public static GameplayHud EnsureExists()
@@ -164,6 +192,7 @@ namespace IdleOff.Game
             if (displayedCharacter != null)
             {
                 displayedCharacter.StatsChanged -= RefreshResourceBars;
+                displayedCharacter.InventoryChanged -= RefreshInventoryPanel;
             }
 
             if (displayedPlayer != null)
@@ -243,6 +272,7 @@ namespace IdleOff.Game
             BuildSectionFourMenuWidget();
             BuildExpandableMenuPanel();
             BuildExpandableSkillsPanel();
+            BuildExpandableInventoryPanel();
         }
 
         private RectTransform CreateSection(string sectionName, float anchorMinX, float anchorMaxX)
@@ -384,6 +414,29 @@ namespace IdleOff.Game
             return text;
         }
 
+        private static void SetPaddedTextBounds(Text text, Vector2 anchorMin, Vector2 anchorMax)
+        {
+            if (text == null || text.transform.parent == null)
+            {
+                return;
+            }
+
+            var bounds = text.transform.parent as RectTransform;
+            if (bounds == null)
+            {
+                return;
+            }
+
+            bounds.anchorMin = anchorMin;
+            bounds.anchorMax = anchorMax;
+            bounds.offsetMin = Vector2.zero;
+            bounds.offsetMax = Vector2.zero;
+            text.rectTransform.anchorMin = Vector2.zero;
+            text.rectTransform.anchorMax = Vector2.one;
+            text.rectTransform.offsetMin = Vector2.zero;
+            text.rectTransform.offsetMax = Vector2.zero;
+        }
+
         private Text CreateText(RectTransform parent, string objectName, string value, TextAnchor alignment, float anchorMinX, float anchorMaxX)
         {
             var textObject = new GameObject(objectName);
@@ -469,7 +522,7 @@ namespace IdleOff.Game
 
         public void ShowInventory()
         {
-            Debug.Log("[HUD] Inventory button pressed.");
+            SetInventoryOpen(!inventoryOpen);
         }
 
         public void ShowSkills()
@@ -595,6 +648,416 @@ namespace IdleOff.Game
             skillsPanel.gameObject.SetActive(false);
         }
 
+        private void BuildExpandableInventoryPanel()
+        {
+            var panelObject = new GameObject("HUD Inventory Panel");
+            panelObject.transform.SetParent(root, false);
+            inventoryPanel = panelObject.AddComponent<RectTransform>();
+            inventoryPanel.anchorMin = new Vector2(0.21f, 1f);
+            inventoryPanel.anchorMax = new Vector2(0.99f, 1f);
+            inventoryPanel.pivot = new Vector2(0.5f, 0f);
+            inventoryPanel.offsetMin = Vector2.zero;
+            inventoryPanel.offsetMax = Vector2.zero;
+
+            panelObject.AddComponent<Image>().color = new Color32(24, 27, 38, 255);
+
+            var innerCanvas = new GameObject("HUD Inventory Canvas");
+            innerCanvas.transform.SetParent(inventoryPanel, false);
+            var innerCanvasRect = innerCanvas.AddComponent<RectTransform>();
+            innerCanvasRect.anchorMin = new Vector2(0.05f, 0.05f);
+            innerCanvasRect.anchorMax = new Vector2(0.95f, 0.95f);
+            innerCanvasRect.offsetMin = Vector2.zero;
+            innerCanvasRect.offsetMax = Vector2.zero;
+            innerCanvas.AddComponent<Image>().color = new Color32(28, 31, 42, 255);
+
+            var leftCanvas = new GameObject("HUD Inventory Left Canvas");
+            leftCanvas.transform.SetParent(innerCanvasRect, false);
+            inventoryLeftCanvas = leftCanvas.AddComponent<RectTransform>();
+            inventoryLeftCanvas.anchorMin = Vector2.zero;
+            inventoryLeftCanvas.anchorMax = new Vector2(0.40f, 1f);
+            inventoryLeftCanvas.offsetMin = Vector2.zero;
+            inventoryLeftCanvas.offsetMax = Vector2.zero;
+            leftCanvas.AddComponent<Image>().color = new Color32(36, 40, 54, 255);
+
+            var scrollField = new GameObject("HUD Inventory Scroll Field");
+            scrollField.transform.SetParent(innerCanvasRect, false);
+            var scrollFieldRect = scrollField.AddComponent<RectTransform>();
+            scrollFieldRect.anchorMin = new Vector2(0.45f, 0f);
+            scrollFieldRect.anchorMax = Vector2.one;
+            scrollFieldRect.offsetMin = Vector2.zero;
+            scrollFieldRect.offsetMax = Vector2.zero;
+            scrollField.AddComponent<Image>().color = new Color32(12, 14, 20, 255);
+            inventoryScrollRect = scrollField.AddComponent<ScrollRect>();
+            inventoryScrollRect.horizontal = false;
+            inventoryScrollRect.vertical = true;
+            inventoryScrollRect.movementType = ScrollRect.MovementType.Clamped;
+
+            var viewport = new GameObject("HUD Inventory Viewport");
+            viewport.transform.SetParent(scrollFieldRect, false);
+            var viewportRect = viewport.AddComponent<RectTransform>();
+            viewportRect.anchorMin = Vector2.zero;
+            viewportRect.anchorMax = Vector2.one;
+            viewportRect.offsetMin = Vector2.zero;
+            viewportRect.offsetMax = Vector2.zero;
+            viewport.AddComponent<Image>().color = new Color32(0, 0, 0, 1);
+            viewport.AddComponent<Mask>().showMaskGraphic = false;
+
+            var content = new GameObject("HUD Inventory Content");
+            content.transform.SetParent(viewportRect, false);
+            inventoryContent = content.AddComponent<RectTransform>();
+            inventoryContent.anchorMin = new Vector2(0f, 1f);
+            inventoryContent.anchorMax = new Vector2(1f, 1f);
+            inventoryContent.pivot = new Vector2(0.5f, 1f);
+            inventoryContent.anchoredPosition = Vector2.zero;
+            inventoryContent.sizeDelta = Vector2.zero;
+
+            inventoryScrollRect.viewport = viewportRect;
+            inventoryScrollRect.content = inventoryContent;
+            RefreshInventoryPanel();
+            inventoryPanel.gameObject.SetActive(false);
+        }
+
+        private void RefreshInventoryPanel()
+        {
+            if (inventoryLeftCanvas == null || inventoryContent == null)
+            {
+                return;
+            }
+
+            ClearChildren(inventoryLeftCanvas);
+            ClearChildren(inventoryContent);
+            var character = displayedCharacter;
+            if (character == null)
+            {
+                return;
+            }
+
+            BuildEquipmentSlots(character);
+            BuildInventorySlots(character);
+        }
+
+        private void BuildEquipmentSlots(CharacterData character)
+        {
+            var equipmentArea = new GameObject("HUD Equipment Slots Area");
+            equipmentArea.transform.SetParent(inventoryLeftCanvas, false);
+            var equipmentRect = equipmentArea.AddComponent<RectTransform>();
+            equipmentRect.anchorMin = new Vector2(0f, 0.12f);
+            equipmentRect.anchorMax = Vector2.one;
+            equipmentRect.offsetMin = Vector2.zero;
+            equipmentRect.offsetMax = Vector2.zero;
+            equipmentArea.AddComponent<Image>().color = new Color32(30, 34, 46, 255);
+
+            var equipmentSlots = character.Equipment.Slots;
+            for (var i = 0; i < equipmentSlots.Count; i++)
+            {
+                var column = i % 2;
+                var row = i / 2;
+                var slotName = i < EquipmentSlotNames.Length ? EquipmentSlotNames[i] : "Slot " + (i + 1);
+                CreateInventorySlotCell(
+                    equipmentRect,
+                    "HUD Equipment Slot " + i,
+                    slotName,
+                    character.Equipment,
+                    i,
+                    new Vector2(column * 0.5f, 1f - (row + 1) * 0.25f),
+                    new Vector2((column + 1) * 0.5f, 1f - row * 0.25f),
+                    true);
+            }
+
+            var moneyArea = new GameObject("HUD Inventory Money Area");
+            moneyArea.transform.SetParent(inventoryLeftCanvas, false);
+            var moneyRect = moneyArea.AddComponent<RectTransform>();
+            moneyRect.anchorMin = Vector2.zero;
+            moneyRect.anchorMax = new Vector2(1f, 0.10f);
+            moneyRect.offsetMin = Vector2.zero;
+            moneyRect.offsetMax = Vector2.zero;
+            moneyArea.AddComponent<Image>().color = new Color32(30, 34, 46, 255);
+            var money = character.Inventory.Money;
+            var moneyText = CreatePaddedText(moneyRect, "HUD Inventory Money Text", $"{money.goldP}g {money.silverP}s {money.copperP}c", TextAnchor.MiddleCenter, 0f, 1f, 0.02f);
+            ConfigureResourceTextFit(moneyText);
+        }
+
+        private void BuildInventorySlots(CharacterData character)
+        {
+            var inventorySlots = character.Inventory.Slots;
+            const int columns = 5;
+            const float gap = 0.02f;
+            var cellWidth = (1f - gap * (columns - 1)) / columns;
+            var rows = Mathf.CeilToInt(inventorySlots.Count / (float)columns);
+            inventoryContent.sizeDelta = new Vector2(0f, Mathf.Max(0f, rows * 58f));
+
+            for (var i = 0; i < inventorySlots.Count; i++)
+            {
+                var column = i % columns;
+                var row = i / columns;
+                var minX = column * (cellWidth + gap);
+                var maxX = minX + cellWidth;
+                var slotObject = CreateInventorySlotCell(
+                    inventoryContent,
+                    "HUD Inventory Slot " + i,
+                    string.Empty,
+                    character.Inventory,
+                    i,
+                    new Vector2(minX, 1f),
+                    new Vector2(maxX, 1f),
+                    false);
+
+                var rect = slotObject.GetComponent<RectTransform>();
+                rect.pivot = new Vector2(0.5f, 1f);
+                rect.sizeDelta = new Vector2(0f, 52f);
+                rect.anchoredPosition = new Vector2(0f, -row * 58f);
+            }
+        }
+
+        private GameObject CreateInventorySlotCell(RectTransform parent, string objectName, string label, Bag bag, int slotIndex, Vector2 anchorMin, Vector2 anchorMax, bool showLabel)
+        {
+            var cellObject = new GameObject(objectName + " Cell");
+            cellObject.transform.SetParent(parent, false);
+            var cellRect = cellObject.AddComponent<RectTransform>();
+            cellRect.anchorMin = anchorMin;
+            cellRect.anchorMax = anchorMax;
+            cellRect.offsetMin = Vector2.zero;
+            cellRect.offsetMax = Vector2.zero;
+
+            var slotObject = CreateInventorySlotView(
+                cellRect,
+                objectName,
+                label,
+                bag,
+                slotIndex,
+                new Vector2(InventorySlotPadding, InventorySlotPadding),
+                new Vector2(1f - InventorySlotPadding, 1f - InventorySlotPadding),
+                showLabel);
+            return cellObject;
+        }
+
+        private GameObject CreateInventorySlotView(RectTransform parent, string objectName, string label, Bag bag, int slotIndex, Vector2 anchorMin, Vector2 anchorMax, bool showLabel)
+        {
+            var slotObject = new GameObject(objectName);
+            slotObject.transform.SetParent(parent, false);
+            var slotRect = slotObject.AddComponent<RectTransform>();
+            slotRect.anchorMin = anchorMin;
+            slotRect.anchorMax = anchorMax;
+            slotRect.offsetMin = Vector2.zero;
+            slotRect.offsetMax = Vector2.zero;
+            var slotRaycastSurface = slotObject.AddComponent<Image>();
+            slotRaycastSurface.color = new Color32(0, 0, 0, 1);
+
+            var widget = slotObject.AddComponent<HudInventorySlotWidget>();
+            widget.Initialize(this, bag, slotIndex);
+
+            var itemSlotBounds = new GameObject(objectName + " Item Slot Bounds");
+            itemSlotBounds.transform.SetParent(slotRect, false);
+            var itemBoundsRect = itemSlotBounds.AddComponent<RectTransform>();
+            itemBoundsRect.anchorMin = showLabel
+                ? new Vector2(0f, 0.26f)
+                : new Vector2(InventorySlotPadding, InventorySlotPadding);
+            itemBoundsRect.anchorMax = showLabel
+                ? Vector2.one
+                : new Vector2(1f - InventorySlotPadding, 1f - InventorySlotPadding);
+            itemBoundsRect.offsetMin = Vector2.zero;
+            itemBoundsRect.offsetMax = Vector2.zero;
+
+            var itemFrame = new GameObject(objectName + " Item Slot");
+            itemFrame.transform.SetParent(itemBoundsRect, false);
+            var itemRect = itemFrame.AddComponent<RectTransform>();
+            itemRect.anchorMin = Vector2.zero;
+            itemRect.anchorMax = Vector2.one;
+            itemRect.offsetMin = Vector2.zero;
+            itemRect.offsetMax = Vector2.zero;
+            var itemFrameImage = itemFrame.AddComponent<Image>();
+            itemFrameImage.color = new Color32(255, 0, 190, 255);
+            itemFrameImage.raycastTarget = false;
+
+            var aspect = itemFrame.AddComponent<AspectRatioFitter>();
+            aspect.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+            aspect.aspectRatio = 1f;
+
+            if (showLabel)
+            {
+                var labelText = CreatePaddedText(slotRect, objectName + " Label", label, TextAnchor.MiddleCenter, 0f, 1f, 0.05f);
+                SetPaddedTextBounds(labelText, Vector2.zero, new Vector2(1f, 0.24f));
+                ConfigureResourceTextFit(labelText);
+                labelText.raycastTarget = false;
+            }
+
+            if (bag.TryGetSlot(slotIndex, out var slot) && !slot.IsEmpty)
+            {
+                var iconObject = new GameObject(objectName + " Icon");
+                iconObject.transform.SetParent(itemRect, false);
+                var iconRect = iconObject.AddComponent<RectTransform>();
+                iconRect.anchorMin = new Vector2(0.05f, 0.05f);
+                iconRect.anchorMax = new Vector2(0.95f, 0.95f);
+                iconRect.offsetMin = Vector2.zero;
+                iconRect.offsetMax = Vector2.zero;
+                var icon = iconObject.AddComponent<Image>();
+                icon.sprite = ItemIconResolver.GetIcon(slot.item);
+                icon.color = Color.white;
+                icon.raycastTarget = false;
+
+                if (slot.item.quantity > 1)
+                {
+                    var quantityText = CreatePaddedText(itemRect, objectName + " Quantity", slot.item.quantity.ToString(), TextAnchor.LowerRight, 0f, 1f, 0.05f);
+                    ConfigureResourceTextFit(quantityText);
+                    quantityText.raycastTarget = false;
+                }
+            }
+
+            return slotObject;
+        }
+
+        public void BeginInventorySlotDrag(HudInventorySlotWidget slotWidget)
+        {
+            ClearOrphanedInventoryDragIcons();
+            if (slotWidget == null
+                || displayedCharacter == null
+                || !slotWidget.Bag.TryGetSlot(slotWidget.SlotIndex, out var slot)
+                || slot.IsEmpty)
+            {
+                return;
+            }
+
+            draggedInventorySlot = slotWidget;
+            inventoryDragHandled = false;
+            draggedInventoryIcon = CreateDragIcon(slot.item);
+        }
+
+        public void UpdateInventorySlotDrag(PointerEventData eventData)
+        {
+            if (draggedInventoryIcon != null && eventData != null)
+            {
+                draggedInventoryIcon.rectTransform.position = eventData.position;
+            }
+        }
+
+        public void EndInventorySlotDrag(PointerEventData eventData)
+        {
+            if (draggedInventorySlot != null && !inventoryDragHandled && IsPointerOutsideInventoryPanel(eventData))
+            {
+                DropDraggedInventorySlotToWorld(eventData);
+            }
+
+            ClearDraggedInventorySlot();
+        }
+
+        public void DropInventorySlotOn(HudInventorySlotWidget destination)
+        {
+            if (destination == null || draggedInventorySlot == null || displayedCharacter == null || ReferenceEquals(destination, draggedInventorySlot))
+            {
+                return;
+            }
+
+            inventoryDragHandled = displayedCharacter.TryMoveSlotItem(
+                draggedInventorySlot.Bag,
+                draggedInventorySlot.SlotIndex,
+                destination.Bag,
+                destination.SlotIndex);
+            if (inventoryDragHandled)
+            {
+                ClearDraggedInventorySlot();
+                RefreshDisplayedCharacter();
+            }
+        }
+
+        private Image CreateDragIcon(Item item)
+        {
+            ClearInventoryDragIcon();
+            var iconObject = new GameObject("HUD Dragged Item Icon");
+            iconObject.transform.SetParent(transform, false);
+            var rect = iconObject.AddComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(42f, 42f);
+            var image = iconObject.AddComponent<Image>();
+            image.sprite = ItemIconResolver.GetIcon(item);
+            image.color = Color.white;
+            image.raycastTarget = false;
+            return image;
+        }
+
+        private bool IsPointerOutsideInventoryPanel(PointerEventData eventData)
+        {
+            if (inventoryPanel == null || eventData == null)
+            {
+                return false;
+            }
+
+            return !RectTransformUtility.RectangleContainsScreenPoint(inventoryPanel, eventData.position, eventData.pressEventCamera);
+        }
+
+        private void DropDraggedInventorySlotToWorld(PointerEventData eventData)
+        {
+            var origin = GetInventoryDropWorldPosition(eventData);
+            var mapManager = MapManager.Instance;
+            if (mapManager != null && !mapManager.IsPositionWithinCurrentDropBounds(origin))
+            {
+                Debug.Log("[Inventory] Drop refused because the target position is outside the current map bounds.");
+                return;
+            }
+
+            if (draggedInventorySlot == null
+                || displayedCharacter == null
+                || !displayedCharacter.TryDropSlotItem(draggedInventorySlot.Bag, draggedInventorySlot.SlotIndex, out var item)
+                || item == null)
+            {
+                return;
+            }
+
+            var spawner = WorldDropSpawner.Instance;
+            if (spawner == null)
+            {
+                spawner = new GameObject("World Drop Spawner").AddComponent<WorldDropSpawner>();
+            }
+
+            spawner.SpawnDropAt(WorldDropPayload.Item(item.itemID, item.quantity), origin);
+            RefreshDisplayedCharacter();
+        }
+
+        private Vector3 GetInventoryDropWorldPosition(PointerEventData eventData)
+        {
+            if (eventData != null)
+            {
+                var camera = eventData.pressEventCamera != null ? eventData.pressEventCamera : Camera.main;
+                if (camera != null)
+                {
+                    var screenPosition = new Vector3(eventData.position.x, eventData.position.y, -camera.transform.position.z);
+                    var worldPosition = camera.ScreenToWorldPoint(screenPosition);
+                    worldPosition.z = 0f;
+                    return worldPosition;
+                }
+            }
+
+            return displayedPlayer != null ? displayedPlayer.transform.position : Vector3.zero;
+        }
+
+        private void ClearDraggedInventorySlot()
+        {
+            draggedInventorySlot = null;
+            inventoryDragHandled = false;
+            ClearInventoryDragIcon();
+        }
+
+        private void ClearInventoryDragIcon()
+        {
+            if (draggedInventoryIcon != null)
+            {
+                DestroyHudObject(draggedInventoryIcon.gameObject);
+                draggedInventoryIcon = null;
+            }
+
+            ClearOrphanedInventoryDragIcons();
+        }
+
+        private void ClearOrphanedInventoryDragIcons()
+        {
+            var dragIcons = GetComponentsInChildren<Image>(true);
+            foreach (var dragIcon in dragIcons)
+            {
+                if (dragIcon != null && dragIcon.gameObject.name == "HUD Dragged Item Icon")
+                {
+                    DestroyHudObject(dragIcon.gameObject);
+                }
+            }
+        }
+
         private void BuildSkillsPointSummary()
         {
             CreatePaddedText(skillsBottomCanvas, "Base Skill Points Label", "Base Skill Points", TextAnchor.MiddleCenter, 0f, 0.2125f, 0.05f);
@@ -690,6 +1153,7 @@ namespace IdleOff.Game
                 var child = parent.GetChild(i);
                 if (child != null)
                 {
+                    child.SetParent(null, false);
                     DestroyHudObject(child.gameObject);
                 }
             }
@@ -702,6 +1166,13 @@ namespace IdleOff.Game
                 return;
             }
 
+            foreach (var graphic in target.GetComponentsInChildren<Graphic>(true))
+            {
+                graphic.enabled = false;
+                graphic.raycastTarget = false;
+            }
+
+            target.SetActive(false);
             if (Application.isPlaying)
             {
                 Destroy(target);
@@ -777,6 +1248,7 @@ namespace IdleOff.Game
 
             if (open)
             {
+                CloseInventoryImmediate();
                 CloseSkillsImmediate();
             }
 
@@ -799,6 +1271,7 @@ namespace IdleOff.Game
 
             if (open)
             {
+                CloseInventoryImmediate();
                 CloseMenuImmediate();
             }
 
@@ -809,6 +1282,30 @@ namespace IdleOff.Game
             }
 
             skillsAnimation = StartCoroutine(AnimateSkillsPanel(open));
+        }
+
+        private void SetInventoryOpen(bool open)
+        {
+            EnsureBuilt();
+            if (inventoryPanel == null)
+            {
+                return;
+            }
+
+            if (open)
+            {
+                CloseMenuImmediate();
+                CloseSkillsImmediate();
+                RefreshInventoryPanel();
+            }
+
+            inventoryOpen = open;
+            if (inventoryAnimation != null)
+            {
+                StopCoroutine(inventoryAnimation);
+            }
+
+            inventoryAnimation = StartCoroutine(AnimateInventoryPanel(open));
         }
 
         public void CloseMenuImmediate()
@@ -831,8 +1328,30 @@ namespace IdleOff.Game
 
         public void CloseExpandablePanelsImmediate()
         {
+            CloseInventoryImmediate();
             CloseMenuImmediate();
             CloseSkillsImmediate();
+        }
+
+        public void CloseInventoryImmediate()
+        {
+            inventoryOpen = false;
+            if (inventoryAnimation != null)
+            {
+                StopCoroutine(inventoryAnimation);
+                inventoryAnimation = null;
+            }
+
+            if (inventoryPanel == null)
+            {
+                return;
+            }
+
+            ClearDraggedInventorySlot();
+            ClearChildren(inventoryLeftCanvas);
+            ClearChildren(inventoryContent);
+            SetInventoryPanelHeight(0f);
+            inventoryPanel.gameObject.SetActive(false);
         }
 
         public void CloseSkillsImmediate()
@@ -903,6 +1422,31 @@ namespace IdleOff.Game
             skillsAnimation = null;
         }
 
+        private IEnumerator AnimateInventoryPanel(bool open)
+        {
+            const float duration = 0.15f;
+            var targetHeight = GetSkillsPanelTargetHeight();
+            var startHeight = inventoryPanel.offsetMax.y;
+            var endHeight = open ? targetHeight : 0f;
+
+            inventoryPanel.gameObject.SetActive(true);
+            for (var elapsed = 0f; elapsed < duration; elapsed += Time.unscaledDeltaTime)
+            {
+                var t = Mathf.Clamp01(elapsed / duration);
+                t = t * t * (3f - 2f * t);
+                SetInventoryPanelHeight(Mathf.Lerp(startHeight, endHeight, t));
+                yield return null;
+            }
+
+            SetInventoryPanelHeight(endHeight);
+            if (!open)
+            {
+                inventoryPanel.gameObject.SetActive(false);
+            }
+
+            inventoryAnimation = null;
+        }
+
         private float GetMenuPanelTargetHeight()
         {
             if (root != null && root.rect.height > 0f)
@@ -933,6 +1477,12 @@ namespace IdleOff.Game
         {
             skillsPanel.offsetMin = Vector2.zero;
             skillsPanel.offsetMax = new Vector2(0f, Mathf.Max(0f, height));
+        }
+
+        private void SetInventoryPanelHeight(float height)
+        {
+            inventoryPanel.offsetMin = Vector2.zero;
+            inventoryPanel.offsetMax = new Vector2(0f, Mathf.Max(0f, height));
         }
 
         private sealed class HudValueBar

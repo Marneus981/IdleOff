@@ -44,6 +44,7 @@ public sealed class ProfileSystemTests
 
         var circlet = GlobalItemCatalog.Items[5001];
         Assert.AreEqual("4 Leaf Circlet", circlet.name);
+        Assert.AreEqual(ItemIconResolver.DefaultItemIconPath, circlet.iconPath);
         Assert.Contains("equipment", circlet.tags);
         Assert.Contains("hat", circlet.tags);
         Assert.AreEqual(1, circlet.maxStack);
@@ -53,6 +54,7 @@ public sealed class ProfileSystemTests
         Assert.AreEqual("Health Potion", potion.name);
         Assert.AreEqual(99, potion.maxStack);
         Assert.AreEqual(0, potion.modifier);
+        Assert.IsNotNull(ItemIconResolver.GetIcon(potion));
     }
 
     [Test]
@@ -146,6 +148,57 @@ public sealed class ProfileSystemTests
         Assert.AreEqual(1, character.Inventory.GetItemQuantity(5001));
         Assert.IsFalse(character.EquipmentModifiers.ContainsKey(4001));
         Assert.AreEqual(0f, character.GetModifier(4001).AppliedIncrease(1004).Item2);
+    }
+
+    [Test]
+    public void SlotMove_SwapsInventoryItemsBySlot()
+    {
+        var character = new CharacterData("Tester", CharacterGender.Unspecified, 1);
+        Assert.IsTrue(character.AddItem(5019, 3));
+        Assert.IsTrue(character.AddItem(5020, 2));
+
+        Assert.IsTrue(character.TryMoveSlotItem(character.Inventory, 0, character.Inventory, 1));
+
+        Assert.AreEqual(5020, character.Inventory.Slots[0].item.itemID);
+        Assert.AreEqual(5019, character.Inventory.Slots[1].item.itemID);
+    }
+
+    [Test]
+    public void SlotMove_EquipsMatchingItemAndRebuildsEquipmentModifiers()
+    {
+        var character = new CharacterData("Tester", CharacterGender.Unspecified, 1);
+        Assert.IsTrue(character.AddItem(5002, 1));
+
+        Assert.IsTrue(character.TryMoveSlotItem(character.Inventory, 0, character.Equipment, 0));
+
+        Assert.AreEqual(5002, character.Equipment.Slots[0].item.itemID);
+        Assert.AreEqual(5001, character.Inventory.Slots[0].item.itemID);
+        Assert.IsTrue(character.EquipmentModifiers.ContainsKey(4002));
+        Assert.IsFalse(character.EquipmentModifiers.ContainsKey(4001));
+    }
+
+    [Test]
+    public void SlotMove_RejectsItemThatDoesNotMatchEquipmentSlot()
+    {
+        var character = new CharacterData("Tester", CharacterGender.Unspecified, 1);
+        Assert.IsTrue(character.AddItem(5019, 1));
+
+        Assert.IsFalse(character.TryMoveSlotItem(character.Inventory, 0, character.Equipment, 0));
+
+        Assert.AreEqual(5019, character.Inventory.Slots[0].item.itemID);
+        Assert.AreEqual(5001, character.Equipment.Slots[0].item.itemID);
+    }
+
+    [Test]
+    public void SlotDrop_RemovesItemFromSourceAndRebuildsEquipmentModifiers()
+    {
+        var character = new CharacterData("Tester", CharacterGender.Unspecified, 1);
+
+        Assert.IsTrue(character.TryDropSlotItem(character.Equipment, 0, out var dropped));
+
+        Assert.AreEqual(5001, dropped.itemID);
+        Assert.IsTrue(character.Equipment.Slots[0].IsEmpty);
+        Assert.IsFalse(character.EquipmentModifiers.ContainsKey(4001));
     }
 
     [Test]

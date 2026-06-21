@@ -33,6 +33,8 @@ namespace IdleOff.Maps
         private GameObject pickupsRoot;
         private WorldDropSpawner subscribedDropSpawner;
         private string stateStoreCharacterID;
+        private Rect currentDropBounds;
+        private bool hasCurrentDropBounds;
 
         public static MapManager Instance { get; private set; }
         public MapDefinition CurrentMap { get; private set; }
@@ -135,6 +137,7 @@ namespace IdleOff.Maps
 
         private void LoadMap(int mapID, Vector2? spawnOverride, int sourceMapID)
         {
+            ClearTransientPickupsFromCurrentMapState();
             SaveCurrentMapState();
             SubscribeToDropSpawner();
             MapCatalog.EnsureLoaded();
@@ -230,6 +233,11 @@ namespace IdleOff.Maps
                 && TryGetAnchor(CurrentMap.playerSpawnAnchor, out position);
         }
 
+        public bool IsPositionWithinCurrentDropBounds(Vector2 position)
+        {
+            return !hasCurrentDropBounds || currentDropBounds.Contains(position);
+        }
+
         private Vector2? ResolvePortalSpawnOverride(MapDefinition destinationMap, int sourceMapID)
         {
             if (destinationMap == null || sourceMapID <= 0 || destinationMap.interactables == null)
@@ -276,6 +284,7 @@ namespace IdleOff.Maps
             }
 
             CurrentVoidRespawnY = null;
+            hasCurrentDropBounds = false;
             anchorsByID.Clear();
         }
 
@@ -367,6 +376,8 @@ namespace IdleOff.Maps
             var floorY = useAnchorBounds ? anchorFloorY : bounds.min.y - halfHeight - floorThickness * 0.5f;
             var ceilingY = useAnchorBounds ? anchorCeilingY : bounds.max.y + halfHeight + wallThickness * 0.5f;
             CurrentVoidRespawnY = floorY - floorThickness - 1f;
+            currentDropBounds = Rect.MinMaxRect(leftX, floorY, rightX, ceilingY);
+            hasCurrentDropBounds = true;
             var centerX = (leftX + rightX) * 0.5f;
             var centerY = (floorY + ceilingY) * 0.5f;
             var horizontalWidth = Mathf.Abs(rightX - leftX) + wallThickness * 2f;
@@ -551,6 +562,7 @@ namespace IdleOff.Maps
                 var drop = spawner.SpawnDrop(payload, position, false);
                 drop.transform.SetParent(pickupsRoot.transform);
                 drop.Collected += HandleTrackedDropCollected;
+                drop.Expired += HandleTrackedDropExpired;
             }
         }
 
@@ -589,10 +601,21 @@ namespace IdleOff.Maps
             };
             CurrentRuntimeState.presentPickups.Add(state);
             drop.Collected += HandleTrackedDropCollected;
+            drop.Expired += HandleTrackedDropExpired;
             SaveCurrentMapState();
         }
 
         private void HandleTrackedDropCollected(WorldDrop drop)
+        {
+            RemoveTrackedDrop(drop);
+        }
+
+        private void HandleTrackedDropExpired(WorldDrop drop)
+        {
+            RemoveTrackedDrop(drop);
+        }
+
+        private void RemoveTrackedDrop(WorldDrop drop)
         {
             if (drop == null || drop.Payload == null || CurrentRuntimeState == null)
             {
@@ -618,6 +641,16 @@ namespace IdleOff.Maps
                     return;
                 }
             }
+        }
+
+        private void ClearTransientPickupsFromCurrentMapState()
+        {
+            if (CurrentRuntimeState == null || CurrentRuntimeState.presentPickups.Count == 0)
+            {
+                return;
+            }
+
+            CurrentRuntimeState.presentPickups.Clear();
         }
 
         private static GameObject CreateBox(string name, Vector2 position, Vector2 size, Sprite sprite, Color color, Transform parent)

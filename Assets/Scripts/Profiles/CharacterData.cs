@@ -24,6 +24,7 @@ namespace IdleOff.Profiles
         private Dictionary<int, ItemModifier> inactiveItemModifiers = new();
         [NonSerialized] private CharacterProfile parentProfile;
         [field: NonSerialized] public event Action StatsChanged;
+        [field: NonSerialized] public event Action InventoryChanged;
 
         public string CharacterID
         {
@@ -255,13 +256,25 @@ namespace IdleOff.Profiles
         public bool AddItem(int itemID, int quantity)
         {
             EnsureBagsLoaded();
-            return inventory.AddItem(itemID, quantity);
+            var added = inventory.AddItem(itemID, quantity);
+            if (added)
+            {
+                InventoryChanged?.Invoke();
+            }
+
+            return added;
         }
 
         public bool TryAddItem(int itemID, int quantity, out int leftoverQuantity)
         {
             EnsureBagsLoaded();
-            return inventory.TryAddItem(itemID, quantity, out leftoverQuantity);
+            var addedAll = inventory.TryAddItem(itemID, quantity, out leftoverQuantity);
+            if (quantity > 0 && leftoverQuantity < quantity)
+            {
+                InventoryChanged?.Invoke();
+            }
+
+            return addedAll;
         }
 
         public bool MoveItem(int itemID, Bag departureBag, Bag destinationBag)
@@ -308,13 +321,20 @@ namespace IdleOff.Profiles
                 UpdateStats();
             }
 
+            InventoryChanged?.Invoke();
             return leftoverQuantity == 0;
         }
 
         public bool AddMoney(Money moneyObj)
         {
             EnsureBagsLoaded();
-            return inventory.AddMoney(moneyObj);
+            var added = inventory.AddMoney(moneyObj);
+            if (added)
+            {
+                InventoryChanged?.Invoke();
+            }
+
+            return added;
         }
 
         public bool MoveMoney(Money moneyObj, Bag departureBag, Bag destinationBag)
@@ -326,6 +346,7 @@ namespace IdleOff.Profiles
 
             if (destinationBag.AddMoney(moneyObj))
             {
+                InventoryChanged?.Invoke();
                 return true;
             }
 
@@ -358,6 +379,7 @@ namespace IdleOff.Profiles
             equipmentSlot.item = itemToEquip;
             RebuildEquipmentModifiers();
             UpdateStats();
+            InventoryChanged?.Invoke();
             return true;
         }
 
@@ -380,10 +402,48 @@ namespace IdleOff.Profiles
                 slot.item = null;
                 RebuildEquipmentModifiers();
                 UpdateStats();
+                InventoryChanged?.Invoke();
                 return true;
             }
 
             return false;
+        }
+
+        public bool TryMoveSlotItem(Bag source, int sourceIndex, Bag destination, int destinationIndex)
+        {
+            EnsureBagsLoaded();
+            if (source == null || destination == null || !source.TrySwapSlotItems(sourceIndex, destination, destinationIndex))
+            {
+                return false;
+            }
+
+            if (source == equipment || destination == equipment)
+            {
+                RebuildEquipmentModifiers();
+                UpdateStats();
+            }
+
+            InventoryChanged?.Invoke();
+            return true;
+        }
+
+        public bool TryDropSlotItem(Bag source, int sourceIndex, out Item droppedItem)
+        {
+            EnsureBagsLoaded();
+            droppedItem = null;
+            if (source == null || !source.TryRemoveSlotItem(sourceIndex, out droppedItem))
+            {
+                return false;
+            }
+
+            if (source == equipment)
+            {
+                RebuildEquipmentModifiers();
+                UpdateStats();
+            }
+
+            InventoryChanged?.Invoke();
+            return true;
         }
 
         private void LoadStats()

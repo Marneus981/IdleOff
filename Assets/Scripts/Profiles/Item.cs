@@ -9,6 +9,7 @@ namespace IdleOff.Profiles
         public int itemID;
         public string name;
         public string description;
+        public string iconPath;
         public List<string> tags = new();
         public int quantity;
         public int maxStack = 1;
@@ -29,6 +30,7 @@ namespace IdleOff.Profiles
                 itemID = itemID,
                 name = name,
                 description = description,
+                iconPath = iconPath,
                 tags = tags == null ? new List<string>() : new List<string>(tags),
                 quantity = quantityOverride >= 0 ? quantityOverride : quantity,
                 maxStack = maxStack,

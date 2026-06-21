@@ -15,6 +15,7 @@ namespace IdleOff.Profiles
             public int itemID;
             public string Name;
             public string Description;
+            public string iconPath;
             public List<string> tags;
             public int quantity;
             public int maxStack;
@@ -86,6 +87,7 @@ namespace IdleOff.Profiles
                 itemID = itemID,
                 name = values.Name,
                 description = values.Description,
+                iconPath = string.IsNullOrWhiteSpace(values.iconPath) ? ItemIconResolver.DefaultItemIconPath : values.iconPath,
                 tags = values.tags ?? new List<string>(),
                 quantity = Math.Max(0, values.quantity),
                 maxStack = Math.Max(1, values.maxStack == 0 ? 1 : values.maxStack),

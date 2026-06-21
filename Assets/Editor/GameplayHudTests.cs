@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Reflection;
 using IdleOff.Combat;
+using IdleOff.Drops;
 using IdleOff.Game;
+using IdleOff.Maps;
 using IdleOff.Profiles;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.TestTools;
 
@@ -23,6 +26,7 @@ public sealed class GameplayHudTests
         GlobalModifierCatalog.LoadGlobalModifiers();
         GlobalItemCatalog.LoadItems();
         DestroyExistingHud();
+        DestroyWorldDropsAndSpawners();
 
         profile = ScriptableObject.CreateInstance<CharacterProfile>();
         character = new CharacterData("Hud Tester", CharacterGender.Unspecified, 1);
@@ -59,6 +63,10 @@ public sealed class GameplayHudTests
         }
 
         DestroyExistingHud();
+        DestroyWorldDropsAndSpawners();
+        DestroyNamedObject("HUD Test EventSystem");
+        DestroyNamedObject("HUD Test Camera");
+        DestroyNamedObject("HUD Test MapManager");
     }
 
     [Test]
@@ -378,6 +386,256 @@ public sealed class GameplayHudTests
         Assert.AreEqual("0", FindText("Class Skill Points Value").text);
     }
 
+    [Test]
+    public void InventoryPanel_BuildsExpectedColumnsAndSlotGrids()
+    {
+        var panel = FindRect("HUD Inventory Panel");
+        var left = FindRect("HUD Inventory Left Canvas");
+        var right = FindRect("HUD Inventory Scroll Field");
+        var equipmentArea = FindRect("HUD Equipment Slots Area");
+        var moneyArea = FindRect("HUD Inventory Money Area");
+
+        Assert.IsFalse(panel.gameObject.activeSelf);
+        Assert.AreEqual(0.21f, panel.anchorMin.x, 0.001f);
+        Assert.AreEqual(0.99f, panel.anchorMax.x, 0.001f);
+        Assert.AreEqual(0f, left.anchorMin.x, 0.001f);
+        Assert.AreEqual(0.40f, left.anchorMax.x, 0.001f);
+        Assert.AreEqual(0.45f, right.anchorMin.x, 0.001f);
+        Assert.AreEqual(1f, right.anchorMax.x, 0.001f);
+        Assert.AreEqual(0.12f, equipmentArea.anchorMin.y, 0.001f);
+        Assert.AreEqual(1f, equipmentArea.anchorMax.y, 0.001f);
+        Assert.AreEqual(0f, moneyArea.anchorMin.y, 0.001f);
+        Assert.AreEqual(0.10f, moneyArea.anchorMax.y, 0.001f);
+        Assert.IsNotNull(FindSlotWidget("HUD Equipment Slot 0"));
+        Assert.IsNotNull(FindSlotWidget("HUD Inventory Slot 0"));
+        Assert.IsNotNull(FindRect("HUD Equipment Slot 0 Item Slot").GetComponent<AspectRatioFitter>());
+        Assert.IsNotNull(FindRect("HUD Inventory Slot 0 Item Slot").GetComponent<AspectRatioFitter>());
+        AssertPaddedAnchors("HUD Equipment Slot 0", 0.02f);
+        AssertPaddedAnchors("HUD Inventory Slot 0", 0.02f);
+        AssertEquipmentItemSlotAnchors("HUD Equipment Slot 0 Item Slot");
+        AssertPaddedAnchors("HUD Inventory Slot 0 Item Slot", 0.02f);
+    }
+
+    [Test]
+    public void InventoryPanel_RendersItemIconsAndStackQuantity()
+    {
+        Assert.IsTrue(character.AddItem(5019, 3));
+        hud.SetCharacter(character);
+
+        var icon = FindImage("HUD Inventory Slot 0 Icon");
+        Assert.IsNotNull(icon.sprite);
+        Assert.AreEqual("3", FindText("HUD Inventory Slot 0 Quantity").text);
+    }
+
+    [Test]
+    public void InventoryPanel_UpdatesWhenItemPickupCollected()
+    {
+        Assert.IsFalse(TryFindImage("HUD Inventory Slot 0 Icon", out _));
+        var dropObject = new GameObject("HUD Item Pickup Drop");
+        var drop = dropObject.AddComponent<WorldDrop>();
+        drop.Initialize(WorldDropPayload.Item(5019, 3));
+
+        Assert.IsTrue(drop.TryCollect(character));
+
+        Assert.IsNotNull(FindImage("HUD Inventory Slot 0 Icon").sprite);
+        Assert.AreEqual("3", FindText("HUD Inventory Slot 0 Quantity").text);
+    }
+
+    [Test]
+    public void InventoryPanel_UpdatesWhenMoneyPickupCollected()
+    {
+        Assert.AreEqual("0g 0s 0c", FindText("HUD Inventory Money Text").text);
+        var dropObject = new GameObject("HUD Money Pickup Drop");
+        var drop = dropObject.AddComponent<WorldDrop>();
+        drop.Initialize(WorldDropPayload.Money(new Money(0, 2, 5)));
+
+        Assert.IsTrue(drop.TryCollect(character));
+
+        Assert.AreEqual("0g 2s 5c", FindText("HUD Inventory Money Text").text);
+    }
+
+    [Test]
+    public void InventoryPanel_DropOnInventorySlotSwapsItemsAndRefreshesUi()
+    {
+        Assert.IsTrue(character.AddItem(5019, 3));
+        Assert.IsTrue(character.AddItem(5020, 2));
+        hud.SetCharacter(character);
+        var source = FindSlotWidget("HUD Inventory Slot 0");
+        var destination = FindSlotWidget("HUD Inventory Slot 1");
+
+        hud.BeginInventorySlotDrag(source);
+        hud.DropInventorySlotOn(destination);
+        hud.EndInventorySlotDrag(null);
+
+        Assert.AreEqual(5020, character.Inventory.Slots[0].item.itemID);
+        Assert.AreEqual(5019, character.Inventory.Slots[1].item.itemID);
+        Assert.IsNotNull(FindImage("HUD Inventory Slot 0 Icon").sprite);
+        Assert.IsNotNull(FindImage("HUD Inventory Slot 1 Icon").sprite);
+    }
+
+    [Test]
+    public void InventoryPanel_DropOnEquipmentSlotEquipsMatchingItemAndRefreshesUi()
+    {
+        Assert.IsTrue(character.AddItem(5002, 1));
+        hud.SetCharacter(character);
+        var source = FindSlotWidget("HUD Inventory Slot 0");
+        var destination = FindSlotWidget("HUD Equipment Slot 0");
+
+        hud.BeginInventorySlotDrag(source);
+        hud.DropInventorySlotOn(destination);
+        hud.EndInventorySlotDrag(null);
+
+        Assert.AreEqual(5002, character.Equipment.Slots[0].item.itemID);
+        Assert.AreEqual(5001, character.Inventory.Slots[0].item.itemID);
+        Assert.IsTrue(character.EquipmentModifiers.ContainsKey(4002));
+        Assert.IsFalse(character.EquipmentModifiers.ContainsKey(4001));
+        Assert.IsNotNull(FindImage("HUD Equipment Slot 0 Icon").sprite);
+    }
+
+    [Test]
+    public void InventoryPanel_DropOnEquipmentSlotRejectsInvalidItem()
+    {
+        Assert.IsTrue(character.AddItem(5019, 1));
+        hud.SetCharacter(character);
+        var source = FindSlotWidget("HUD Inventory Slot 0");
+        var destination = FindSlotWidget("HUD Equipment Slot 0");
+
+        hud.BeginInventorySlotDrag(source);
+        hud.DropInventorySlotOn(destination);
+        hud.EndInventorySlotDrag(null);
+
+        Assert.AreEqual(5019, character.Inventory.Slots[0].item.itemID);
+        Assert.AreEqual(5001, character.Equipment.Slots[0].item.itemID);
+    }
+
+    [Test]
+    public void InventoryPanel_DragOutsideDropsItemIntoWorld()
+    {
+        Assert.IsTrue(character.AddItem(5019, 3));
+        hud.SetCharacter(character);
+        EnsureEventSystem();
+        var source = FindSlotWidget("HUD Inventory Slot 0");
+        var eventData = new PointerEventData(EventSystem.current)
+        {
+            position = new Vector2(-5000f, -5000f)
+        };
+
+        hud.BeginInventorySlotDrag(source);
+        hud.EndInventorySlotDrag(eventData);
+
+        Assert.AreEqual(0, character.Inventory.GetItemQuantity(5019));
+        var drops = Object.FindObjectsByType<WorldDrop>(FindObjectsSortMode.None);
+        Assert.AreEqual(1, drops.Length);
+        Assert.AreEqual(5019, drops[0].Payload.itemID);
+        Assert.AreEqual(3, drops[0].Payload.quantity);
+    }
+
+    [Test]
+    public void InventoryPanel_DragOutsideDropsItemAtPointerWorldPosition()
+    {
+        Assert.IsTrue(character.AddItem(5019, 1));
+        hud.SetCharacter(character);
+        EnsureEventSystem();
+        var playerCollider = playerObject.AddComponent<BoxCollider2D>();
+        var cameraObject = new GameObject("HUD Test Camera");
+        cameraObject.tag = "MainCamera";
+        cameraObject.transform.position = new Vector3(10f, 20f, -10f);
+        var camera = cameraObject.AddComponent<Camera>();
+        camera.orthographic = true;
+        camera.orthographicSize = 5f;
+        camera.pixelRect = new Rect(0f, 0f, 100f, 100f);
+        var screenPosition = new Vector2(25f, 25f);
+        var expected = camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, -camera.transform.position.z));
+        expected.z = 0f;
+        var source = FindSlotWidget("HUD Inventory Slot 0");
+        var eventData = new PointerEventData(EventSystem.current)
+        {
+            position = screenPosition
+        };
+
+        hud.BeginInventorySlotDrag(source);
+        hud.EndInventorySlotDrag(eventData);
+
+        var drops = Object.FindObjectsByType<WorldDrop>(FindObjectsSortMode.None);
+        Assert.AreEqual(1, drops.Length);
+        Assert.AreEqual(expected.x, drops[0].transform.position.x, 0.001f);
+        Assert.AreEqual(expected.y, drops[0].transform.position.y, 0.001f);
+        Assert.IsNotNull(drops[0].GetComponent<Rigidbody2D>());
+        var solidCollider = GetDropCollider(drops[0], false);
+        var pickupTrigger = GetDropCollider(drops[0], true);
+        Assert.IsNotNull(solidCollider);
+        Assert.IsNotNull(pickupTrigger);
+        Assert.IsTrue(Physics2D.GetIgnoreCollision(solidCollider, playerCollider));
+        Assert.IsFalse(Physics2D.GetIgnoreCollision(pickupTrigger, playerCollider));
+    }
+
+    [Test]
+    public void InventoryPanel_DragOutsideCurrentMapBoundsKeepsItemInSlot()
+    {
+        Assert.IsTrue(character.AddItem(5019, 1));
+        hud.SetCharacter(character);
+        EnsureEventSystem();
+        var mapManagerObject = new GameObject("HUD Test MapManager");
+        var mapManager = mapManagerObject.AddComponent<MapManager>();
+        InvokeUnityMessage(mapManager, "Awake");
+        SetPrivateField(mapManager, "hasCurrentDropBounds", true);
+        SetPrivateField(mapManager, "currentDropBounds", Rect.MinMaxRect(-1f, -1f, 1f, 1f));
+        var cameraObject = new GameObject("HUD Test Camera");
+        cameraObject.tag = "MainCamera";
+        cameraObject.transform.position = new Vector3(0f, 0f, -10f);
+        var camera = cameraObject.AddComponent<Camera>();
+        camera.orthographic = true;
+        camera.orthographicSize = 5f;
+        camera.pixelRect = new Rect(0f, 0f, 100f, 100f);
+        var source = FindSlotWidget("HUD Inventory Slot 0");
+        var eventData = new PointerEventData(EventSystem.current)
+        {
+            position = new Vector2(100f, 100f)
+        };
+
+        hud.BeginInventorySlotDrag(source);
+        hud.EndInventorySlotDrag(eventData);
+
+        Assert.AreEqual(1, character.Inventory.GetItemQuantity(5019));
+        Assert.AreEqual(0, Object.FindObjectsByType<WorldDrop>(FindObjectsSortMode.None).Length);
+    }
+
+    [Test]
+    public void WorldDrop_ExpiresAfterConfiguredDespawnSeconds()
+    {
+        var dropObject = new GameObject("HUD Expiring Drop");
+        var drop = dropObject.AddComponent<WorldDrop>();
+        var expired = false;
+        drop.Initialize(WorldDropPayload.Item(5019, 1));
+        drop.SetDespawnSeconds(1f);
+        drop.Expired += _ => expired = true;
+
+        drop.TickDespawn(1.1f);
+
+        Assert.IsTrue(expired);
+        Assert.IsTrue(drop == null);
+    }
+
+    [Test]
+    public void InventoryPanel_DragEquipmentOutsideClearsEquipmentIcon()
+    {
+        EnsureEventSystem();
+        var source = FindSlotWidget("HUD Equipment Slot 0");
+        var eventData = new PointerEventData(EventSystem.current)
+        {
+            position = new Vector2(-5000f, -5000f)
+        };
+
+        hud.BeginInventorySlotDrag(source);
+        hud.EndInventorySlotDrag(eventData);
+
+        Assert.IsTrue(character.Equipment.Slots[0].IsEmpty);
+        Assert.IsFalse(TryFindImage("HUD Equipment Slot 0 Icon", out _));
+        var drops = Object.FindObjectsByType<WorldDrop>(FindObjectsSortMode.None);
+        Assert.AreEqual(1, drops.Length);
+        Assert.AreEqual(5001, drops[0].Payload.itemID);
+    }
+
     private Text FindText(string objectName)
     {
         Assert.IsNotNull(hud, "Expected the test HUD to exist.");
@@ -423,6 +681,53 @@ public sealed class GameplayHudTests
         return null;
     }
 
+    private Image FindImage(string objectName)
+    {
+        Assert.IsNotNull(hud, "Expected the test HUD to exist.");
+        if (TryFindImage(objectName, out var image))
+        {
+            return image;
+        }
+ 
+        Assert.Fail($"Expected to find HUD image object '{objectName}'.");
+        return null;
+    }
+
+    private bool TryFindImage(string objectName, out Image foundImage)
+    {
+        foundImage = null;
+        if (hud == null)
+        {
+            return false;
+        }
+
+        foreach (var image in hud.GetComponentsInChildren<Image>(true))
+        {
+            if (image.gameObject.name == objectName)
+            {
+                foundImage = image;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private HudInventorySlotWidget FindSlotWidget(string objectName)
+    {
+        Assert.IsNotNull(hud, "Expected the test HUD to exist.");
+        foreach (var widget in hud.GetComponentsInChildren<HudInventorySlotWidget>(true))
+        {
+            if (widget.gameObject.name == objectName)
+            {
+                return widget;
+            }
+        }
+
+        Assert.Fail($"Expected to find HUD inventory slot widget '{objectName}'.");
+        return null;
+    }
+
     private void AssertButtonAnchors(string objectName, float minX, float maxX, float minY, float maxY)
     {
         var rect = FindRect(objectName);
@@ -430,6 +735,23 @@ public sealed class GameplayHudTests
         Assert.AreEqual(maxX, rect.anchorMax.x, 0.001f);
         Assert.AreEqual(minY, rect.anchorMin.y, 0.001f);
         Assert.AreEqual(maxY, rect.anchorMax.y, 0.001f);
+    }
+
+    private void AssertPaddedAnchors(string objectName, float padding)
+    {
+        var rect = FindRect(objectName);
+        Assert.AreEqual(padding, rect.anchorMin.x, 0.001f);
+        Assert.AreEqual(padding, rect.anchorMin.y, 0.001f);
+        Assert.AreEqual(1f - padding, rect.anchorMax.x, 0.001f);
+    }
+
+    private void AssertEquipmentItemSlotAnchors(string objectName)
+    {
+        var rect = FindRect(objectName);
+        Assert.AreEqual(0f, rect.anchorMin.x, 0.001f);
+        Assert.AreEqual(0.26f, rect.anchorMin.y, 0.001f);
+        Assert.AreEqual(1f, rect.anchorMax.x, 0.001f);
+        Assert.AreEqual(1f, rect.anchorMax.y, 0.001f);
     }
 
     private void AssertResourceText(string objectName, float current, float max)
@@ -465,11 +787,78 @@ public sealed class GameplayHudTests
         return (CombatHealth)field.GetValue(combatant);
     }
 
+    private static void SetPrivateField(object target, string fieldName, object value)
+    {
+        var field = target.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.IsNotNull(field, $"Expected {target.GetType().Name} to have private field '{fieldName}'.");
+        field.SetValue(target, value);
+    }
+
+    private static void InvokeUnityMessage(object target, string methodName)
+    {
+        var method = target.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.IsNotNull(method, $"Expected {target.GetType().Name} to have Unity message '{methodName}'.");
+        method.Invoke(target, null);
+    }
+
+    private static Collider2D GetDropCollider(WorldDrop drop, bool isTrigger)
+    {
+        foreach (var collider in drop.GetComponents<Collider2D>())
+        {
+            if (collider.isTrigger == isTrigger)
+            {
+                return collider;
+            }
+        }
+
+        return null;
+    }
+
     private static void DestroyExistingHud()
     {
         foreach (var existingHud in Object.FindObjectsByType<GameplayHud>(FindObjectsSortMode.None))
         {
             Object.DestroyImmediate(existingHud.gameObject);
         }
+    }
+
+    private static void DestroyWorldDropsAndSpawners()
+    {
+        foreach (var drop in Object.FindObjectsByType<WorldDrop>(FindObjectsSortMode.None))
+        {
+            if (drop != null)
+            {
+                Object.DestroyImmediate(drop.gameObject);
+            }
+        }
+
+        foreach (var spawner in Object.FindObjectsByType<WorldDropSpawner>(FindObjectsSortMode.None))
+        {
+            if (spawner != null)
+            {
+                Object.DestroyImmediate(spawner.gameObject);
+            }
+        }
+    }
+
+    private static void DestroyNamedObject(string objectName)
+    {
+        foreach (var gameObject in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+        {
+            if (gameObject != null && gameObject.name == objectName)
+            {
+                Object.DestroyImmediate(gameObject);
+            }
+        }
+    }
+
+    private static void EnsureEventSystem()
+    {
+        if (EventSystem.current != null)
+        {
+            return;
+        }
+
+        new GameObject("HUD Test EventSystem").AddComponent<EventSystem>();
     }
 }

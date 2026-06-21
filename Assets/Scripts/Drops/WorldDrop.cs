@@ -9,16 +9,46 @@ namespace IdleOff.Drops
         [SerializeField] private WorldDropPayload payload;
         [SerializeField] private Sprite itemSprite;
         [SerializeField] private Sprite moneySprite;
+        [SerializeField] private float despawnSeconds = 300f;
+        private float ageSeconds;
 
         public WorldDropPayload Payload => payload;
         public event System.Action<WorldDrop> Collected;
+        public event System.Action<WorldDrop> Expired;
 
         public void Initialize(WorldDropPayload dropPayload, Sprite itemSprite = null, Sprite moneySprite = null)
         {
             payload = dropPayload;
             this.itemSprite = itemSprite;
             this.moneySprite = moneySprite;
+            ageSeconds = 0f;
             RefreshVisual();
+        }
+
+        public void SetDespawnSeconds(float seconds)
+        {
+            despawnSeconds = seconds;
+            ageSeconds = 0f;
+        }
+
+        public void TickDespawn(float deltaTime)
+        {
+            if (despawnSeconds <= 0f || deltaTime <= 0f)
+            {
+                return;
+            }
+
+            ageSeconds += deltaTime;
+            if (ageSeconds >= despawnSeconds)
+            {
+                Expired?.Invoke(this);
+                DestroyDrop();
+            }
+        }
+
+        private void Update()
+        {
+            TickDespawn(Time.deltaTime);
         }
 
         public bool TryCollect(CharacterData character)
@@ -84,7 +114,9 @@ namespace IdleOff.Drops
                 renderer = gameObject.AddComponent<SpriteRenderer>();
             }
 
-            renderer.sprite = payload != null && payload.isMoney ? moneySprite : itemSprite;
+            renderer.sprite = payload != null && payload.isMoney
+                ? moneySprite
+                : itemSprite != null ? itemSprite : ItemIconResolver.GetIcon(payload?.itemID ?? 0);
             renderer.color = payload != null && payload.isMoney
                 ? new Color32(240, 190, 60, 255)
                 : new Color32(110, 180, 255, 255);

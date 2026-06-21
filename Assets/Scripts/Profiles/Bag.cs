@@ -225,6 +225,82 @@ namespace IdleOff.Profiles
             RebuildLookup();
         }
 
+        internal bool TryGetSlot(int index, out BagSlot slot)
+        {
+            if (index < 0 || index >= slots.Count)
+            {
+                slot = null;
+                return false;
+            }
+
+            slot = slots[index];
+            return true;
+        }
+
+        internal bool TrySetSlotItem(int index, Item item)
+        {
+            if (!TryGetSlot(index, out var slot))
+            {
+                return false;
+            }
+
+            if (item != null && !slot.Allows(item))
+            {
+                return false;
+            }
+
+            slot.item = item;
+            RebuildLookup();
+            return true;
+        }
+
+        internal bool TryRemoveSlotItem(int index, out Item removedItem)
+        {
+            removedItem = null;
+            if (!TryGetSlot(index, out var slot) || slot.IsEmpty)
+            {
+                return false;
+            }
+
+            removedItem = slot.item;
+            slot.item = null;
+            RebuildLookup();
+            return true;
+        }
+
+        internal bool TrySwapSlotItems(int sourceIndex, Bag destination, int destinationIndex)
+        {
+            if (destination == null
+                || !TryGetSlot(sourceIndex, out var sourceSlot)
+                || !destination.TryGetSlot(destinationIndex, out var destinationSlot)
+                || sourceSlot.IsEmpty)
+            {
+                return false;
+            }
+
+            var sourceItem = sourceSlot.item;
+            var destinationItem = destinationSlot.item;
+            if (!destinationSlot.Allows(sourceItem))
+            {
+                return false;
+            }
+
+            if (destinationItem != null && !sourceSlot.Allows(destinationItem))
+            {
+                return false;
+            }
+
+            sourceSlot.item = destinationItem;
+            destinationSlot.item = sourceItem;
+            RebuildLookup();
+            if (!ReferenceEquals(this, destination))
+            {
+                destination.RebuildLookup();
+            }
+
+            return true;
+        }
+
         protected void RebuildLookup()
         {
             slotsByItemID = new Dictionary<int, BagSlot>();

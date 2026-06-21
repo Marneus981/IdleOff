@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Combat\IMobCombatant.cs" />
     <Compile Include="Assets\Scripts\Combat\CombatHealth.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DamageMultiplier.cs" />
+    <Compile Include="Assets\Scripts\Profiles\ItemIconResolver.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats.cs" />
     <Compile Include="Assets\Scripts\Maps\MapManager.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\MaxMp.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Assets\Scripts\Actions\ActionRuntimeState.cs" />
     <Compile Include="Assets\Scripts\Drops\WorldDropSpawner.cs" />
     <Compile Include="Assets\Scripts\Combat\DamageResult.cs" />
+    <Compile Include="Assets\Scripts\Game\HudInventorySlotWidget.cs" />
     <Compile Include="Assets\Scripts\Combat\IRandomSource.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobCatalog.cs" />
     <Compile Include="Assets\Scripts\Combat\PlayerDeathRespawnMode.cs" />
