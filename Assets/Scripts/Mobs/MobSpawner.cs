@@ -72,11 +72,14 @@ namespace IdleOff.Mobs
             var renderer = mobObject.AddComponent<SpriteRenderer>();
             renderer.sprite = mobSprite;
             renderer.color = new Color32(232, 90, 86, 255);
-            mobObject.AddComponent<BoxCollider2D>();
+            renderer.sortingOrder = template.mobType == MobType.Basic ? -5 : 5;
+
+            var collider = mobObject.AddComponent<BoxCollider2D>();
 
             var body = mobObject.AddComponent<Rigidbody2D>();
             body.gravityScale = 3f;
             body.freezeRotation = true;
+            IgnorePlayerCollisions(collider);
 
             var mob = mobObject.AddComponent<MobEntity>();
             mob.Initialize(template);
@@ -113,6 +116,25 @@ namespace IdleOff.Mobs
             }
 
             DestroyImmediate(mobObject);
+        }
+
+        private static void IgnorePlayerCollisions(Collider2D mobCollider)
+        {
+            if (mobCollider == null)
+            {
+                return;
+            }
+
+            foreach (var player in FindObjectsByType<IdleOff.Combat.PlayerCombatant>(FindObjectsSortMode.None))
+            {
+                foreach (var playerCollider in player.GetComponents<Collider2D>())
+                {
+                    if (playerCollider != null)
+                    {
+                        Physics2D.IgnoreCollision(mobCollider, playerCollider, true);
+                    }
+                }
+            }
         }
 
         private static void AddAI(GameObject mobObject, MobType mobType)

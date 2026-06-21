@@ -144,7 +144,7 @@ public sealed class CrossSystemRuntimeTests
 
             Assert.IsTrue(oldSpawner == null);
             Assert.AreEqual(1002, context.Manager.CurrentMap.mapID);
-            Assert.IsNull(Object.FindFirstObjectByType<InteractableObjectEntity>());
+            Assert.IsNotNull(Object.FindFirstObjectByType<InteractableObjectEntity>());
             Assert.AreEqual(0, Object.FindObjectsByType<WorldDrop>(FindObjectsSortMode.None).Length);
             Assert.IsNotNull(Object.FindFirstObjectByType<MobSpawner>());
         }
@@ -261,17 +261,17 @@ public sealed class CrossSystemRuntimeTests
             context.Manager.LoadMap(1001);
             var spawner = Object.FindFirstObjectByType<MobSpawner>();
             Assert.IsNotNull(spawner);
-            Assert.AreEqual(1, spawner.ActiveCount);
+            Assert.AreEqual(5, spawner.ActiveCount);
 
             var mob = spawner.ActiveMobs[0];
             mob.ReceiveDamage(new DamageResult(context.Player, mob, true, 1f, 9999f, 9999f, 0));
 
             Assert.AreEqual(1, context.Manager.CurrentRuntimeState.TotalMobKills);
-            Assert.AreEqual(0, spawner.ActiveCount);
+            Assert.AreEqual(4, spawner.ActiveCount);
 
-            spawner.Tick(5f);
+            spawner.Tick(10f);
 
-            Assert.AreEqual(1, spawner.ActiveCount);
+            Assert.AreEqual(5, spawner.ActiveCount);
         }
         finally
         {

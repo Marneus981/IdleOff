@@ -111,5 +111,19 @@ namespace IdleOff.Maps
         {
             return Path.Combine(Application.persistentDataPath, "IdleOff", "MapStates", characterID + ".json");
         }
+
+        public static void DeleteForCharacter(string characterID)
+        {
+            if (string.IsNullOrWhiteSpace(characterID))
+            {
+                return;
+            }
+
+            var path = GetSavePath(characterID);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
     }
 }

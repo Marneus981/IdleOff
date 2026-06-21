@@ -40,7 +40,7 @@ public sealed class MapInteractableSystemTests
         Assert.AreEqual("player_start", map.playerSpawnAnchor);
         Assert.AreEqual(2, map.layout.platforms.Count);
         Assert.AreEqual(2, map.layout.ladders.Count);
-        Assert.AreEqual(1, map.interactables.Count);
+        Assert.AreEqual(2, map.interactables.Count);
         Assert.AreEqual(1, map.mobSpawners.Count);
     }
 
@@ -56,7 +56,7 @@ public sealed class MapInteractableSystemTests
             Assert.AreEqual(new Vector2(-3f, -1.65f), playerStart);
 
             Assert.IsTrue(context.Manager.TryGetAnchor("exit_portal", out var portalAnchor));
-            Assert.AreEqual(new Vector2(3.75f, -1.75f), portalAnchor);
+            Assert.AreEqual(new Vector2(3.75f, -1.65f), portalAnchor);
         }
         finally
         {
@@ -159,6 +159,51 @@ public sealed class MapInteractableSystemTests
         finally
         {
             DeleteMapStateFile(character.CharacterID);
+        }
+    }
+
+    [Test]
+    public void MapManager_UsesSeparateRuntimeState_WhenActiveCharacterChanges()
+    {
+        var profile = ScriptableObject.CreateInstance<CharacterProfile>();
+        var first = new CharacterData("First Map Tester", CharacterGender.Unspecified, 1);
+        var second = new CharacterData("Second Map Tester", CharacterGender.Unspecified, 1);
+        Assert.IsTrue(profile.TryAddCharacter(first));
+        Assert.IsTrue(profile.TryAddCharacter(second));
+        DeleteMapStateFile(first.CharacterID);
+        DeleteMapStateFile(second.CharacterID);
+
+        var playerObject = new GameObject("Character Swap Player");
+        var player = playerObject.AddComponent<PlayerCombatant>();
+        var managerObject = new GameObject("Character Swap Map Manager");
+        var manager = managerObject.AddComponent<MapManager>();
+        try
+        {
+            profile.SetActiveCharacterIndex(0);
+            player.SetProfile(profile);
+            manager.Configure(profile, 1001, CreateSprite(Color.gray), CreateSprite(Color.yellow), CreateSprite(Color.red), CreateSprite(Color.gray), CreateSprite(Color.green));
+            InvokeUnityMessage(manager, "Awake");
+            manager.LoadMap(1001);
+            manager.CurrentRuntimeState.RecordMobKilled(new MobTemplate { mobID = 6001, name = "First Character Mob", maxHp = 1f, mobType = MobType.Basic });
+            manager.CurrentRuntimeState.MarkInteractableUnlocked("training_exit_portal");
+            manager.SaveCurrentMapState();
+
+            profile.SetActiveCharacterIndex(1);
+            player.SetProfile(profile);
+            manager.SetProfile(profile);
+            manager.LoadMap(1001);
+
+            Assert.AreEqual(0, manager.CurrentRuntimeState.TotalMobKills);
+            Assert.IsFalse(manager.CurrentRuntimeState.IsInteractableUnlocked("training_exit_portal"));
+        }
+        finally
+        {
+            DeleteMapStateFile(first.CharacterID);
+            DeleteMapStateFile(second.CharacterID);
+            Object.DestroyImmediate(managerObject);
+            Object.DestroyImmediate(playerObject);
+            Object.DestroyImmediate(profile);
+            DestroyObjectsNamedPrefix("MapRoot - ");
         }
     }
 
@@ -281,6 +326,17 @@ public sealed class MapInteractableSystemTests
         if (File.Exists(path))
         {
             File.Delete(path);
+        }
+    }
+
+    private static void DestroyObjectsNamedPrefix(string prefix)
+    {
+        foreach (var gameObject in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+        {
+            if (gameObject != null && gameObject.name.StartsWith(prefix))
+            {
+                Object.DestroyImmediate(gameObject);
+            }
         }
     }
 

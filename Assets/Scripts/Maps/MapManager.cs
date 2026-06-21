@@ -32,6 +32,7 @@ namespace IdleOff.Maps
         private GameObject mobsRoot;
         private GameObject pickupsRoot;
         private WorldDropSpawner subscribedDropSpawner;
+        private string stateStoreCharacterID;
 
         public static MapManager Instance { get; private set; }
         public MapDefinition CurrentMap { get; private set; }
@@ -55,11 +56,13 @@ namespace IdleOff.Maps
             this.mobSprite = mobSprite;
             this.portalClosedSprite = portalClosedSprite;
             this.portalOpenSprite = portalOpenSprite;
+            ResetStateStoreIfCharacterChanged();
         }
 
         public void SetProfile(CharacterProfile characterProfile)
         {
             profile = characterProfile;
+            ResetStateStoreIfCharacterChanged();
         }
 
         private void Awake()
@@ -148,7 +151,7 @@ namespace IdleOff.Maps
                 throw new System.InvalidOperationException("MapManager requires a profile with an active character to load map state.");
             }
 
-            stateStore ??= new CharacterMapStateStore(profile.ActiveCharacter);
+            EnsureStateStore();
             CurrentMap = map;
             CurrentRuntimeState = stateStore.GetOrCreateMapState(map.mapID);
             ClearMapRoot();
@@ -188,10 +191,30 @@ namespace IdleOff.Maps
 
         private void EnsureStateStore()
         {
-            if (stateStore == null && profile != null && profile.ActiveCharacter != null)
+            if (profile == null || profile.ActiveCharacter == null)
+            {
+                return;
+            }
+
+            var activeCharacterID = profile.ActiveCharacter.CharacterID;
+            if (stateStore == null || stateStoreCharacterID != activeCharacterID)
             {
                 stateStore = new CharacterMapStateStore(profile.ActiveCharacter);
+                stateStoreCharacterID = activeCharacterID;
             }
+        }
+
+        private void ResetStateStoreIfCharacterChanged()
+        {
+            var activeCharacterID = profile?.ActiveCharacter?.CharacterID;
+            if (string.IsNullOrWhiteSpace(activeCharacterID) || stateStoreCharacterID == activeCharacterID)
+            {
+                return;
+            }
+
+            stateStore = null;
+            CurrentRuntimeState = null;
+            stateStoreCharacterID = null;
         }
 
         public bool TryGetAnchor(string anchorID, out Vector2 position)

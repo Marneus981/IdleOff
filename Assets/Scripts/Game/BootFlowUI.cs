@@ -293,10 +293,11 @@ namespace IdleOff.Game
                 for (var i = 0; i < CharacterProfile.MaxCharacters; i++)
                 {
                     var index = i;
-                    CreateButton(view.CharacterSlotContainer, GetCharacterSlotLabel(index), new Vector2(560f, 46f), () => HandleCharacterSlotClicked(index));
+                    CreateCharacterSlotRow(view.CharacterSlotContainer, index, new Vector2(560f, 46f));
                 }
 
-                BindButton(view.CharacterSelectExitButton, ExitGame);
+                SetButtonLabel(view.CharacterSelectExitButton, "Change Profile");
+                BindButton(view.CharacterSelectExitButton, ChangeProfile);
                 if (forceCreatePopup)
                 {
                     ShowCharacterCreatePopup(true);
@@ -313,8 +314,7 @@ namespace IdleOff.Game
             for (var i = 0; i < CharacterProfile.MaxCharacters; i++)
             {
                 var index = i;
-                var label = GetCharacterSlotLabel(index);
-                CreateButton(list, label, new Vector2(560f, 46f), () => HandleCharacterSlotClicked(index));
+                CreateCharacterSlotRow(list, index, new Vector2(469f, 46f));
             }
 
             if (forceCreatePopup)
@@ -322,7 +322,35 @@ namespace IdleOff.Game
                 ShowCharacterCreatePopup();
             }
 
-            CreateButton(root, "Exit Game", new Vector2(160f, 40f), ExitGame, new Vector2(0.9f, 0.08f));
+            CreateButton(root, "Change Profile", new Vector2(180f, 40f), ChangeProfile, new Vector2(0.88f, 0.08f));
+        }
+
+        private void CreateCharacterSlotRow(RectTransform parent, int index, Vector2 size)
+        {
+            var hasCharacter = selectedProfile != null && index < selectedProfile.Profile.Characters.Count;
+            var row = CreateHorizontalStack(parent, "Character Slot Row " + index, size, 0f);
+            AddLayoutElement(row.gameObject, size.x, size.y);
+
+            var group = row.GetComponent<HorizontalLayoutGroup>();
+            if (group != null)
+            {
+                group.childControlWidth = true;
+                group.childControlHeight = true;
+                group.childForceExpandWidth = false;
+                group.childForceExpandHeight = false;
+            }
+
+            var slotWidth = hasCharacter ? size.x * 0.9f : size.x;
+            var slotButton = CreateButton(row, GetCharacterSlotLabel(index), new Vector2(slotWidth, size.y), () => HandleCharacterSlotClicked(index));
+            AddLayoutElement(slotButton.gameObject, slotWidth, size.y);
+
+            if (hasCharacter)
+            {
+                var deleteWidth = size.x * 0.1f;
+                var deleteButton = CreateButton(row, "X", new Vector2(deleteWidth, size.y), () => ShowDeleteCharacterConfirmation(index));
+                deleteButton.GetComponent<Image>().color = new Color32(134, 45, 55, 255);
+                AddLayoutElement(deleteButton.gameObject, deleteWidth, size.y);
+            }
         }
 
         private string GetCharacterSlotLabel(int index)
@@ -347,6 +375,59 @@ namespace IdleOff.Game
             }
 
             ShowCharacterCreatePopup(true);
+        }
+
+        private void ShowDeleteCharacterConfirmation(int index)
+        {
+            if (selectedProfile == null || index < 0 || index >= selectedProfile.Profile.Characters.Count)
+            {
+                return;
+            }
+
+            var character = selectedProfile.Profile.Characters[index];
+            var parent = HasPrefabView
+                ? view.GetComponentInParent<Canvas>()?.GetComponent<RectTransform>()
+                : root;
+            if (parent == null)
+            {
+                return;
+            }
+
+            DestroyObjectsNamed("Delete Character Overlay");
+            var overlay = CreatePanel(parent, "Delete Character Overlay", Stretch(), new Color32(0, 0, 0, 155));
+            var popup = CreatePanel(overlay.GetComponent<RectTransform>(), "Delete Character Popup", Centered(430f, 230f), new Color32(32, 36, 48, 255));
+            CreateButton(popup.GetComponent<RectTransform>(), "X", new Vector2(38f, 38f), () => DestroyUiObject(overlay), new Vector2(0.92f, 0.86f));
+            CreateText(popup.GetComponent<RectTransform>(), "Delete Character", 24, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.76f), new Vector2(320f, 42f), Vector2.zero);
+            CreateText(popup.GetComponent<RectTransform>(), character.CharacterName, 18, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.56f), new Vector2(340f, 38f), Vector2.zero);
+            CreateButton(popup.GetComponent<RectTransform>(), "Delete", new Vector2(180f, 42f), () =>
+            {
+                DeleteCharacterAt(index);
+                DestroyUiObject(overlay);
+            }, new Vector2(0.5f, 0.25f));
+        }
+
+        private void DeleteCharacterAt(int index)
+        {
+            if (selectedProfile == null || !selectedProfile.Profile.TryRemoveCharacterAt(index, out var removedCharacter))
+            {
+                return;
+            }
+
+            CharacterMapStateStore.DeleteForCharacter(removedCharacter?.CharacterID);
+            profileManager.SaveProfile(selectedProfile);
+            ShowCharacterSelect(false);
+        }
+
+        private void ChangeProfile()
+        {
+            if (selectedProfile != null)
+            {
+                profileManager.SaveProfile(selectedProfile);
+            }
+
+            selectedProfile = null;
+            GameSession.Clear();
+            ShowTitleScreen();
         }
 
         private void ShowCharacterCreatePopup(bool resetOptions = false)
@@ -517,6 +598,20 @@ namespace IdleOff.Game
             button.onClick.AddListener(() => action?.Invoke());
         }
 
+        private static void SetButtonLabel(Button button, string label)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            var text = button.GetComponentInChildren<Text>();
+            if (text != null)
+            {
+                text.text = label;
+            }
+        }
+
         public void ExitGame()
         {
             MapManager.Instance?.SaveCurrentMapState();
@@ -596,15 +691,32 @@ namespace IdleOff.Game
             return content;
         }
 
-        private Button CreateButton(Transform parent, string label, Vector2 size, System.Action onClick, Vector2? anchor = null)
+        private Button CreateButton(Transform parent, string label, Vector2 size, System.Action onClick, Vector2? anchor = null, Vector2? offset = null)
         {
             var rect = CreateRect(parent as RectTransform, "Button - " + label, size, anchor ?? new Vector2(0.5f, 0.5f));
+            rect.anchoredPosition = offset ?? Vector2.zero;
             var image = rect.gameObject.AddComponent<Image>();
             image.color = new Color32(74, 86, 112, 255);
             var button = rect.gameObject.AddComponent<Button>();
             button.onClick.AddListener(() => onClick?.Invoke());
             CreateText(rect, label, 18, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), size, Vector2.zero);
             return button;
+        }
+
+        private static void AddLayoutElement(GameObject target, float preferredWidth, float preferredHeight)
+        {
+            if (target == null)
+            {
+                return;
+            }
+
+            var layout = target.GetComponent<LayoutElement>() ?? target.AddComponent<LayoutElement>();
+            layout.preferredWidth = preferredWidth;
+            layout.preferredHeight = preferredHeight;
+            layout.minWidth = preferredWidth;
+            layout.minHeight = preferredHeight;
+            layout.flexibleWidth = 0f;
+            layout.flexibleHeight = 0f;
         }
 
         private InputField CreateInput(Transform parent, string name, string placeholder, Vector2 size, Vector2? anchor = null)

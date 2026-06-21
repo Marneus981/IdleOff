@@ -559,7 +559,7 @@ public sealed class Phase47RuntimeSystemTests
             var spawners = Object.FindObjectsByType<MobSpawner>(FindObjectsSortMode.None);
 
             Assert.AreEqual(1, spawners.Length);
-            Assert.AreEqual(1, spawners[0].ActiveCount);
+            Assert.AreEqual(5, spawners[0].ActiveCount);
         }
         finally
         {

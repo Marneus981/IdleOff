@@ -30,6 +30,21 @@ namespace IdleOff.Profiles
             return true;
         }
 
+        public bool TryRemoveCharacterAt(int index, out CharacterData removedCharacter)
+        {
+            removedCharacter = null;
+            if (index < 0 || index >= characters.Count)
+            {
+                return false;
+            }
+
+            removedCharacter = characters[index];
+            characters.RemoveAt(index);
+            activeCharacterIndex = Mathf.Clamp(activeCharacterIndex, 0, Mathf.Max(0, characters.Count - 1));
+            BindCharactersToProfile();
+            return true;
+        }
+
         public void SetActiveCharacterIndex(int index)
         {
             activeCharacterIndex = Mathf.Clamp(index, 0, Mathf.Max(0, characters.Count - 1));
