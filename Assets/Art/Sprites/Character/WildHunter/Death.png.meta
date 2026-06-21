@@ -1,52 +1,43 @@
 fileFormatVersion: 2
-guid: 002e8e65a37d2364c95423692e012bcd
+guid: 91d1c884abdfa3942993f659e341246a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 858086424201570730
-    second: Agis_0
+      213: 6991849013916550155
+    second: Death_0
   - first:
-      213: -6370931440440523898
-    second: Agis_1
+      213: -276728812324164698
+    second: Death_1
   - first:
-      213: -8584394610199438716
-    second: Agis_2
+      213: 3156895337291164288
+    second: Death_2
   - first:
-      213: 3078804454902804229
-    second: Agis_3
+      213: 1400002288684528572
+    second: Death_3
   - first:
-      213: -1812118881656161925
-    second: Agis_4
+      213: -1891625820773287384
+    second: Death_4
   - first:
-      213: 8066437687192066556
-    second: Agis_5
+      213: -5789737788129074030
+    second: Death_5
   - first:
-      213: 6701719294234715542
-    second: Agis_6
+      213: 3968659893341466949
+    second: Death_6
   - first:
-      213: -4705481355044263178
-    second: Agis_7
+      213: 6495761399759928590
+    second: Death_7
   - first:
-      213: -4909491823623662109
-    second: Agis_8
+      213: 4800267807231483719
+    second: Death_8
   - first:
-      213: -2589681477192054344
-    second: Agis_9
+      213: -6126746645354384401
+    second: Death_9
   - first:
-      213: 9077543457994603161
-    second: Agis_10
+      213: 2990493390978864817
+    second: Death_10
   - first:
-      213: 1274538348036656558
-    second: Agis_11
-  - first:
-      213: 7799786883195768703
-    second: Agis_12
-  - first:
-      213: -8258482466192155030
-    second: Agis_13
-  - first:
-      213: -633582079021005476
-    second: Agis_14
+      213: -2786331238167018718
+    second: Death_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -79,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -155,13 +146,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Agis_0
+      name: Death_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 9
-        width: 209
-        height: 226
+        x: 35
+        y: 32
+        width: 33
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,20 +161,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa9ae157e0988eb00800000000000000
-      internalID: 858086424201570730
+      spriteID: b0449ad32a9080160800000000000000
+      internalID: 6991849013916550155
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_1
+      name: Death_1
       rect:
         serializedVersion: 2
-        x: 232
-        y: 9
-        width: 212
-        height: 227
+        x: 135
+        y: 32
+        width: 33
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 683cc2c0c97e597a0800000000000000
-      internalID: -6370931440440523898
+      spriteID: 6ab6d428c9cd82cf0800000000000000
+      internalID: -276728812324164698
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_2
+      name: Death_2
       rect:
         serializedVersion: 2
-        x: 454
-        y: 8
-        width: 215
-        height: 228
+        x: 160
+        y: 32
+        width: 21
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,20 +205,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 48ad847859a1ed880800000000000000
-      internalID: -8584394610199438716
+      spriteID: 08aa354559b8fcb20800000000000000
+      internalID: 3156895337291164288
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_3
+      name: Death_3
       rect:
         serializedVersion: 2
-        x: 677
-        y: 8
-        width: 216
-        height: 223
+        x: 235
+        y: 32
+        width: 55
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,20 +227,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 50f2f5be65c1aba20800000000000000
-      internalID: 3078804454902804229
+      spriteID: cb376cdf9aecd6310800000000000000
+      internalID: 1400002288684528572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_4
+      name: Death_4
       rect:
         serializedVersion: 2
-        x: 900
-        y: 8
-        width: 217
-        height: 222
+        x: 335
+        y: 32
+        width: 65
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -258,20 +249,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b793b186a7f0ad6e0800000000000000
-      internalID: -1812118881656161925
+      spriteID: 82af9d896589fb5e0800000000000000
+      internalID: -1891625820773287384
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_5
+      name: Death_5
       rect:
         serializedVersion: 2
-        x: 1124
-        y: 8
-        width: 216
-        height: 222
+        x: 435
+        y: 32
+        width: 28
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -280,20 +271,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cf918e3b65eb1ff60800000000000000
-      internalID: 8066437687192066556
+      spriteID: 29429e33828b6afa0800000000000000
+      internalID: -5789737788129074030
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_6
+      name: Death_6
       rect:
         serializedVersion: 2
-        x: 1348
-        y: 8
-        width: 215
-        height: 223
+        x: 464
+        y: 32
+        width: 36
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -302,20 +293,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 695ed3dd03a410d50800000000000000
-      internalID: 6701719294234715542
+      spriteID: 54135f86523831730800000000000000
+      internalID: 3968659893341466949
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_7
+      name: Death_7
       rect:
         serializedVersion: 2
-        x: 1573
-        y: 8
-        width: 213
-        height: 224
+        x: 535
+        y: 32
+        width: 65
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -324,20 +315,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6faec5763a5c2beb0800000000000000
-      internalID: -4705481355044263178
+      spriteID: e0d726ab394952a50800000000000000
+      internalID: 6495761399759928590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_8
+      name: Death_8
       rect:
         serializedVersion: 2
-        x: 1798
-        y: 8
-        width: 212
-        height: 224
+        x: 635
+        y: 32
+        width: 65
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -346,20 +337,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3e51a31b23bfddbb0800000000000000
-      internalID: -4909491823623662109
+      spriteID: 74f96c4432afd9240800000000000000
+      internalID: 4800267807231483719
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_9
+      name: Death_9
       rect:
         serializedVersion: 2
-        x: 2022
-        y: 8
-        width: 212
-        height: 224
+        x: 735
+        y: 32
+        width: 65
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -368,20 +359,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8b90f8eca6a9f0cd0800000000000000
-      internalID: -2589681477192054344
+      spriteID: fe3f5de036c69faa0800000000000000
+      internalID: -6126746645354384401
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_10
+      name: Death_10
       rect:
         serializedVersion: 2
-        x: 2247
-        y: 8
-        width: 208
-        height: 225
+        x: 835
+        y: 32
+        width: 65
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -390,20 +381,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 99a70fe1ea9e9fd70800000000000000
-      internalID: 9077543457994603161
+      spriteID: 1b6d27015ed508920800000000000000
+      internalID: 2990493390978864817
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Agis_11
+      name: Death_11
       rect:
         serializedVersion: 2
-        x: 2471
-        y: 8
-        width: 208
-        height: 226
+        x: 935
+        y: 32
+        width: 65
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -412,74 +403,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ead865fefd110b110800000000000000
-      internalID: 1274538348036656558
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Agis_12
-      rect:
-        serializedVersion: 2
-        x: 2698
-        y: 8
-        width: 205
-        height: 226
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f7f82a068d86e3c60800000000000000
-      internalID: 7799786883195768703
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Agis_13
-      rect:
-        serializedVersion: 2
-        x: 2922
-        y: 8
-        width: 205
-        height: 227
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a6e13dac3f9f36d80800000000000000
-      internalID: -8258482466192155030
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Agis_14
-      rect:
-        serializedVersion: 2
-        x: 3146
-        y: 9
-        width: 207
-        height: 226
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c5546ebb4701537f0800000000000000
-      internalID: -633582079021005476
+      spriteID: 2230b726086f459d0800000000000000
+      internalID: -2786331238167018718
       vertices: []
       indices: 
       edges: []
@@ -498,21 +423,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Agis_0: 858086424201570730
-      Agis_1: -6370931440440523898
-      Agis_10: 9077543457994603161
-      Agis_11: 1274538348036656558
-      Agis_12: 7799786883195768703
-      Agis_13: -8258482466192155030
-      Agis_14: -633582079021005476
-      Agis_2: -8584394610199438716
-      Agis_3: 3078804454902804229
-      Agis_4: -1812118881656161925
-      Agis_5: 8066437687192066556
-      Agis_6: 6701719294234715542
-      Agis_7: -4705481355044263178
-      Agis_8: -4909491823623662109
-      Agis_9: -2589681477192054344
+      Death_0: 6991849013916550155
+      Death_1: -276728812324164698
+      Death_10: 2990493390978864817
+      Death_11: -2786331238167018718
+      Death_2: 3156895337291164288
+      Death_3: 1400002288684528572
+      Death_4: -1891625820773287384
+      Death_5: -5789737788129074030
+      Death_6: 3968659893341466949
+      Death_7: 6495761399759928590
+      Death_8: 4800267807231483719
+      Death_9: -6126746645354384401
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
