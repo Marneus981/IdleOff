@@ -57,6 +57,12 @@ namespace IdleOff.Actions
             public string targetingType;
             [DataMember(IsRequired = false)]
             public string hitboxType;
+            [DataMember(IsRequired = false)]
+            public string projectileVisualID;
+            [DataMember(IsRequired = false)]
+            public string areaVisualID;
+            [DataMember(IsRequired = false)]
+            public string telegraphVisualID;
         }
 #pragma warning restore CS0649
 
@@ -152,7 +158,10 @@ namespace IdleOff.Actions
                 size = new Vector2(Mathf.Max(0f, values.width.GetValueOrDefault()), Mathf.Max(0f, values.height.GetValueOrDefault())),
                 ownerType = ParseEnum(values.ownerType, ActionOwnerType.Any),
                 targetingType = ParseEnum(values.targetingType, ActionTargetingType.ForwardMelee),
-                hitboxType = ParseEnum(values.hitboxType, ActionHitboxType.Box)
+                hitboxType = ParseEnum(values.hitboxType, ActionHitboxType.Box),
+                projectileVisualID = values.projectileVisualID,
+                areaVisualID = values.areaVisualID,
+                telegraphVisualID = values.telegraphVisualID
             };
         }
 

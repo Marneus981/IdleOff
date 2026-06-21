@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using IdleOff.Visuals;
 using UnityEngine;
 
 namespace IdleOff.Actions
@@ -130,6 +131,18 @@ namespace IdleOff.Actions
             renderer.color = active
                 ? new Color32(255, 80, 60, 150)
                 : new Color32(255, 220, 40, 90);
+            var visualID = active ? request.Action.areaVisualID : request.Action.telegraphVisualID;
+            if (!string.IsNullOrWhiteSpace(visualID))
+            {
+                var visual = GetComponent<EntityVisualController>();
+                if (visual == null)
+                {
+                    visual = gameObject.AddComponent<EntityVisualController>();
+                }
+
+                visual.ApplyVisual(visualID, VisualAssetResolver.PortalClosedPlaceholderPath);
+            }
+
             var size = GetSize();
             transform.localScale = new Vector3(size.x, size.y, 1f);
         }

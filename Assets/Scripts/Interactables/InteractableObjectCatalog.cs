@@ -15,6 +15,8 @@ namespace IdleOff.Interactables
             public string name;
             public string description;
             public string type;
+            public string closedVisualID;
+            public string openVisualID;
             public string closedSpritePath;
             public string openSpritePath;
             public ConditionValues condition;
@@ -86,6 +88,8 @@ namespace IdleOff.Interactables
                 name = values.name,
                 description = values.description,
                 type = ParseEnum(values.type, InteractableObjectType.Portal),
+                closedVisualID = values.closedVisualID,
+                openVisualID = values.openVisualID,
                 closedSpritePath = values.closedSpritePath,
                 openSpritePath = values.openSpritePath,
                 condition = new InteractCondition

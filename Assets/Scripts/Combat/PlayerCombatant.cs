@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using IdleOff.Maps;
+using IdleOff.Player;
 using IdleOff.Profiles;
 using UnityEngine;
 
@@ -197,14 +198,7 @@ namespace IdleOff.Combat
 
         private void MoveToRespawnPosition(Vector2 spawnPosition)
         {
-            transform.position = spawnPosition;
-            var body = GetComponent<Rigidbody2D>();
-            if (body != null)
-            {
-                body.position = spawnPosition;
-                body.linearVelocity = Vector2.zero;
-                body.angularVelocity = 0f;
-            }
+            PlayerPlacementUtility.MoveFeetTo(gameObject, spawnPosition);
         }
     }
 }

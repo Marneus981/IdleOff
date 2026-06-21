@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using IdleOff.Visuals;
 using UnityEngine;
 
 namespace IdleOff.Actions
@@ -151,6 +152,13 @@ namespace IdleOff.Actions
                 ? new Color32(80, 180, 255, 255)
                 : new Color32(255, 100, 80, 255);
             renderer.sortingOrder = 20;
+            var visual = GetComponent<EntityVisualController>();
+            if (visual == null)
+            {
+                visual = gameObject.AddComponent<EntityVisualController>();
+            }
+
+            visual.ApplyVisual(request.Action.projectileVisualID, VisualAssetResolver.ProjectilePlaceholderPath);
             transform.localScale = Vector3.one * GetRadius() * 2f;
         }
 

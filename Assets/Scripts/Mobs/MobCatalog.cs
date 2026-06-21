@@ -19,6 +19,8 @@ namespace IdleOff.Mobs
             [DataMember(IsRequired = false)]
             public string description;
             [DataMember(IsRequired = false)]
+            public string visualID;
+            [DataMember(IsRequired = false)]
             public List<string> tags;
             [DataMember(IsRequired = false)]
             public string mobType;
@@ -126,6 +128,7 @@ namespace IdleOff.Mobs
                 mobID = mobID,
                 name = values.name,
                 description = values.description,
+                visualID = values.visualID,
                 tags = values.tags ?? new List<string>(),
                 mobType = ParseMobType(values.mobType),
                 level = Mathf.Max(1, values.level),

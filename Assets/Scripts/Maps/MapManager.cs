@@ -497,15 +497,7 @@ namespace IdleOff.Maps
                 return;
             }
 
-            Player.transform.position = targetPosition;
-            var body = Player.GetComponent<Rigidbody2D>();
-            if (body != null)
-            {
-                body.position = targetPosition;
-                body.linearVelocity = Vector2.zero;
-            }
-
-            Player.transform.position = targetPosition;
+            PlayerPlacementUtility.MoveFeetTo(Player.gameObject, targetPosition);
         }
 
         private void SpawnInteractables(MapDefinition map)

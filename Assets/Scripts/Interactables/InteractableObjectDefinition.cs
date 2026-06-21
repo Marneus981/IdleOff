@@ -9,6 +9,8 @@ namespace IdleOff.Interactables
         public string name;
         public string description;
         public InteractableObjectType type = InteractableObjectType.Portal;
+        public string closedVisualID;
+        public string openVisualID;
         public string closedSpritePath;
         public string openSpritePath;
         public InteractCondition condition = new();
@@ -22,6 +24,8 @@ namespace IdleOff.Interactables
                 name = name,
                 description = description,
                 type = type,
+                closedVisualID = closedVisualID,
+                openVisualID = openVisualID,
                 closedSpritePath = closedSpritePath,
                 openSpritePath = openSpritePath,
                 condition = new InteractCondition

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using IdleOff.Combat;
 using IdleOff.Maps;
+using IdleOff.Visuals;
 using UnityEngine;
 
 namespace IdleOff.Interactables
@@ -15,8 +16,10 @@ namespace IdleOff.Interactables
         [SerializeField, Min(0.01f)] private float interactRange = 1.5f;
 
         private SpriteRenderer spriteRenderer;
+        private EntityVisualController visualController;
         private Sprite closedSprite;
         private Sprite openSprite;
+        private bool? lastOpenVisualState;
 
         public InteractableObjectDefinition Definition { get; private set; }
         public string InstanceID => instanceID;
@@ -27,6 +30,7 @@ namespace IdleOff.Interactables
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            visualController = GetComponent<EntityVisualController>();
         }
 
         private void OnEnable()
@@ -55,6 +59,13 @@ namespace IdleOff.Interactables
             this.closedSprite = closedSprite;
             this.openSprite = openSprite;
             spriteRenderer = GetComponent<SpriteRenderer>();
+            visualController = GetComponent<EntityVisualController>();
+            if (visualController == null)
+            {
+                visualController = gameObject.AddComponent<EntityVisualController>();
+            }
+
+            lastOpenVisualState = null;
             RefreshVisual();
         }
 
@@ -119,7 +130,20 @@ namespace IdleOff.Interactables
             var mapState = MapManager.Instance != null ? MapManager.Instance.CurrentRuntimeState : null;
             var isOpen = mapState != null
                 && (mapState.IsInteractableUnlocked(instanceID) || InteractConditionResolver.IsMet(Definition.condition, MapManager.Instance.Player, mapState));
-            spriteRenderer.sprite = isOpen && openSprite != null ? openSprite : closedSprite;
+            if (visualController != null && lastOpenVisualState != isOpen)
+            {
+                var visualID = isOpen ? Definition.openVisualID : Definition.closedVisualID;
+                var fallbackPath = isOpen
+                    ? VisualAssetResolver.PortalOpenPlaceholderPath
+                    : VisualAssetResolver.PortalClosedPlaceholderPath;
+                visualController.ApplyVisual(visualID, fallbackPath);
+                lastOpenVisualState = isOpen;
+            }
+            else if (visualController == null)
+            {
+                spriteRenderer.sprite = isOpen && openSprite != null ? openSprite : closedSprite;
+            }
+
             spriteRenderer.color = isOpen ? Color.white : Color.white;
         }
     }

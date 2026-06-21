@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using IdleOff.Actions;
 using IdleOff.Maps;
+using IdleOff.Visuals;
 using UnityEngine;
 
 namespace IdleOff.Mobs
@@ -73,6 +74,8 @@ namespace IdleOff.Mobs
             renderer.sprite = mobSprite;
             renderer.color = new Color32(232, 90, 86, 255);
             renderer.sortingOrder = template.mobType == MobType.Basic ? -5 : 5;
+            var visual = mobObject.AddComponent<EntityVisualController>();
+            visual.ApplyVisual(template.visualID, VisualAssetResolver.MobPlaceholderPath);
 
             var collider = mobObject.AddComponent<BoxCollider2D>();
 

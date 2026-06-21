@@ -11,6 +11,7 @@
     "attackScalingPerLevel": 0.02,
     "ownerType": "Player",
     "targetingType": "Projectile",
-    "hitboxType": "Projectile"
+    "hitboxType": "Projectile",
+    "projectileVisualID": "projectile_arrow_placeholder"
   }
 }

@@ -5,6 +5,7 @@ using IdleOff.Drops;
 using IdleOff.Maps;
 using IdleOff.Player;
 using IdleOff.Profiles;
+using IdleOff.Visuals;
 using UnityEngine;
 
 namespace IdleOff.Game
@@ -79,7 +80,31 @@ namespace IdleOff.Game
             player.SetProfile(profile);
             movement.SetProfile(profile);
             actionDriver.SetProfile(profile);
+            var visual = EnsureComponent<EntityVisualController>(player.gameObject);
+            visual.ApplyVisual(
+                VisualCatalog.GetPlayerClassVisualID(profile.ActiveCharacter.CharacterClass.GetClassName()),
+                VisualAssetResolver.PlayerPlaceholderPath);
+            FitColliderToVisual(player.gameObject, visual);
             return player;
+        }
+
+        private static void FitColliderToVisual(GameObject target, EntityVisualController visual)
+        {
+            if (target == null || visual == null)
+            {
+                return;
+            }
+
+            visual.AlignRenderedBoundsToCenter();
+            if (!visual.TryGetRenderedLocalBounds(out var bounds))
+            {
+                return;
+            }
+
+            var collider = EnsureComponent<BoxCollider2D>(target);
+            var nextSize = new Vector2(Mathf.Max(0.01f, bounds.size.x), Mathf.Max(0.01f, bounds.size.y));
+            collider.size = nextSize;
+            collider.offset = new Vector2(bounds.center.x, bounds.center.y);
         }
 
         private static void EnsureCamera(Transform playerTarget)

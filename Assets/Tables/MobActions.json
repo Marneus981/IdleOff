@@ -29,7 +29,8 @@
     "radius": 0.18,
     "ownerType": "Mob",
     "targetingType": "Projectile",
-    "hitboxType": "Projectile"
+    "hitboxType": "Projectile",
+    "projectileVisualID": "projectile_arrow_placeholder"
   },
   "7003": {
     "name": "Boss Ground Zone",
@@ -50,7 +51,9 @@
     "height": 1.0,
     "ownerType": "Mob",
     "targetingType": "Area",
-    "hitboxType": "Area"
+    "hitboxType": "Area",
+    "areaVisualID": "area_warning_placeholder",
+    "telegraphVisualID": "area_warning_placeholder"
   },
   "7004": {
     "name": "Boss Line Blast",
@@ -70,6 +73,8 @@
     "height": 0.7,
     "ownerType": "Mob",
     "targetingType": "Area",
-    "hitboxType": "Area"
+    "hitboxType": "Area",
+    "areaVisualID": "area_warning_placeholder",
+    "telegraphVisualID": "area_warning_placeholder"
   }
 }

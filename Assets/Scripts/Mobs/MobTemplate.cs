@@ -9,6 +9,7 @@ namespace IdleOff.Mobs
         public int mobID;
         public string name;
         public string description;
+        public string visualID;
         public List<string> tags = new();
         public MobType mobType = MobType.Basic;
         public int level = 1;
@@ -37,6 +38,7 @@ namespace IdleOff.Mobs
                 mobID = mobID,
                 name = name,
                 description = description,
+                visualID = visualID,
                 tags = tags == null ? new List<string>() : new List<string>(tags),
                 mobType = mobType,
                 level = level,

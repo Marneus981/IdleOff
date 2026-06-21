@@ -31,6 +31,9 @@ namespace IdleOff.Actions
         public ActionOwnerType ownerType = ActionOwnerType.Any;
         public ActionTargetingType targetingType = ActionTargetingType.ForwardMelee;
         public ActionHitboxType hitboxType = ActionHitboxType.Box;
+        public string projectileVisualID;
+        public string areaVisualID;
+        public string telegraphVisualID;
 
         public bool HasTag(string tag)
         {
@@ -67,7 +70,10 @@ namespace IdleOff.Actions
                 size = size,
                 ownerType = ownerType,
                 targetingType = targetingType,
-                hitboxType = hitboxType
+                hitboxType = hitboxType,
+                projectileVisualID = projectileVisualID,
+                areaVisualID = areaVisualID,
+                telegraphVisualID = telegraphVisualID
             };
         }
     }

@@ -2,6 +2,7 @@
   "6001": {
     "name": "Training Slime",
     "description": "A basic test mob.",
+    "visualID": "mob_training_basic",
     "tags": ["mob", "basic"],
     "mobType": "Basic",
     "level": 1,
@@ -24,6 +25,7 @@
   "6002": {
     "name": "Training Miniboss",
     "description": "A sturdier test mob with aggro range.",
+    "visualID": "mob_training_miniboss",
     "tags": ["mob", "miniboss"],
     "mobType": "Miniboss",
     "level": 5,
@@ -46,6 +48,7 @@
   "6003": {
     "name": "Training Boss",
     "description": "A stationary test boss.",
+    "visualID": "mob_training_boss",
     "tags": ["mob", "boss"],
     "mobType": "Boss",
     "level": 10,
