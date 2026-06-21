@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Reflection;
 using IdleOff.Combat;
 using IdleOff.Game;
@@ -178,6 +179,95 @@ public sealed class GameplayHudTests
         Assert.AreEqual(0.5f, FindRect("XP Bar Fill").anchorMax.x, 0.001f);
     }
 
+    [Test]
+    public void SectionFour_BuildsInventorySkillsAndMenuButtons()
+    {
+        Assert.AreEqual("Inventory", FindText("Inventory Button Text").text);
+        Assert.AreEqual("Skills", FindText("Skills Button Text").text);
+        Assert.AreEqual("Menu", FindText("Menu Button Text").text);
+
+        AssertButtonAnchors("Inventory Button", 0f, 0.30f, 0f, 1f);
+        AssertButtonAnchors("Skills Button", 0.35f, 0.65f, 0f, 1f);
+        AssertButtonAnchors("Menu Button", 0.70f, 1f, 0f, 1f);
+    }
+
+    [Test]
+    public void MenuPanel_BuildsHiddenAboveSectionFourWithExpectedButtons()
+    {
+        var panel = FindRect("HUD Menu Panel");
+
+        Assert.IsFalse(panel.gameObject.activeSelf);
+        Assert.AreEqual(0.705f, panel.anchorMin.x, 0.001f);
+        Assert.AreEqual(0.99f, panel.anchorMax.x, 0.001f);
+        Assert.AreEqual(1f, panel.anchorMin.y, 0.001f);
+        Assert.AreEqual(1f, panel.anchorMax.y, 0.001f);
+        Assert.AreEqual("Title Screen", FindText("Title Screen Button Text").text);
+        Assert.AreEqual("Character Selection", FindText("Character Selection Button Text").text);
+        AssertButtonAnchors("Title Screen Button", 0.05f, 0.95f, 0.05f, 0.475f);
+        AssertButtonAnchors("Character Selection Button", 0.05f, 0.95f, 0.525f, 0.95f);
+    }
+
+    [UnityTest]
+    public IEnumerator MenuButton_OpensExpandablePanelUpward()
+    {
+        var panel = FindRect("HUD Menu Panel");
+        Assert.IsFalse(panel.gameObject.activeSelf);
+
+        FindButton("Menu Button").onClick.Invoke();
+        yield return null;
+        yield return null;
+
+        Assert.IsTrue(panel.gameObject.activeSelf);
+        Assert.Greater(panel.offsetMax.y, 0f);
+    }
+
+    [UnityTest]
+    public IEnumerator CloseMenuImmediate_HidesPanelAndResetsAnimatedHeight()
+    {
+        var panel = FindRect("HUD Menu Panel");
+        FindButton("Menu Button").onClick.Invoke();
+        yield return null;
+
+        hud.CloseMenuImmediate();
+
+        Assert.IsFalse(panel.gameObject.activeSelf);
+        Assert.AreEqual(0f, panel.offsetMax.y, 0.001f);
+    }
+
+    [UnityTest]
+    public IEnumerator RebindingHudAfterLogin_ClosesExpandedMenu()
+    {
+        var panel = FindRect("HUD Menu Panel");
+        FindButton("Menu Button").onClick.Invoke();
+        yield return null;
+
+        hud.gameObject.SetActive(false);
+        yield return null;
+
+        hud.gameObject.SetActive(true);
+        hud.SetCharacter(character);
+        hud.SetPlayer(player);
+
+        Assert.IsFalse(panel.gameObject.activeSelf);
+        Assert.AreEqual(0f, panel.offsetMax.y, 0.001f);
+    }
+
+    [Test]
+    public void TitleScreenButton_WarnsWhenBootFlowIsUnavailable()
+    {
+        LogAssert.Expect(LogType.Warning, "[HUD] Cannot return to title screen because no BootFlowUI instance exists.");
+
+        FindButton("Title Screen Button").onClick.Invoke();
+    }
+
+    [Test]
+    public void CharacterSelectionButton_WarnsWhenBootFlowIsUnavailable()
+    {
+        LogAssert.Expect(LogType.Warning, "[HUD] Cannot return to character selection because no BootFlowUI instance exists.");
+
+        FindButton("Character Selection Button").onClick.Invoke();
+    }
+
     private Text FindText(string objectName)
     {
         Assert.IsNotNull(hud, "Expected the test HUD to exist.");
@@ -206,6 +296,30 @@ public sealed class GameplayHudTests
 
         Assert.Fail($"Expected to find HUD rect object '{objectName}'.");
         return null;
+    }
+
+    private Button FindButton(string objectName)
+    {
+        Assert.IsNotNull(hud, "Expected the test HUD to exist.");
+        foreach (var button in hud.GetComponentsInChildren<Button>(true))
+        {
+            if (button.gameObject.name == objectName)
+            {
+                return button;
+            }
+        }
+
+        Assert.Fail($"Expected to find HUD button object '{objectName}'.");
+        return null;
+    }
+
+    private void AssertButtonAnchors(string objectName, float minX, float maxX, float minY, float maxY)
+    {
+        var rect = FindRect(objectName);
+        Assert.AreEqual(minX, rect.anchorMin.x, 0.001f);
+        Assert.AreEqual(maxX, rect.anchorMax.x, 0.001f);
+        Assert.AreEqual(minY, rect.anchorMin.y, 0.001f);
+        Assert.AreEqual(maxY, rect.anchorMax.y, 0.001f);
     }
 
     private void AssertResourceText(string objectName, float current, float max)

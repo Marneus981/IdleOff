@@ -33,13 +33,29 @@ namespace IdleOff.Game
         private int hatIndex;
         private int starSignIndex;
 
+        public static BootFlowUI Instance { get; private set; }
         private bool HasPrefabView => view != null && view.IsConfigured;
 
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
             DontDestroyOnLoad(gameObject);
             LoadCatalogs();
             BuildCanvas();
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
 
         private void Start()
@@ -428,6 +444,59 @@ namespace IdleOff.Game
             selectedProfile = null;
             GameSession.Clear();
             ShowTitleScreen();
+        }
+
+        public void ReturnToTitleScreenFromGameplay()
+        {
+            SaveGameplaySession();
+            selectedProfile = null;
+            GameSession.Clear();
+            profileManager.LoadProfiles();
+            ReactivateBootUi();
+            ShowTitleScreen();
+        }
+
+        public void ReturnToCharacterSelectionFromGameplay()
+        {
+            SaveGameplaySession();
+            selectedProfile = GameSession.ActiveProfileRecord;
+            if (selectedProfile == null)
+            {
+                profileManager.LoadProfiles();
+                ReactivateBootUi();
+                ShowTitleScreen();
+                return;
+            }
+
+            ReactivateBootUi();
+            ShowCharacterSelect(false);
+        }
+
+        private static void SaveGameplaySession()
+        {
+            MapManager.Instance?.SaveCurrentMapState();
+            GameSession.SaveActiveProfile();
+        }
+
+        private void ReactivateBootUi()
+        {
+            if (GameplayHud.Instance != null)
+            {
+                GameplayHud.Instance.CloseMenuImmediate();
+                GameplayHud.Instance.gameObject.SetActive(false);
+            }
+
+            gameObject.SetActive(true);
+            if (HasPrefabView)
+            {
+                view.gameObject.SetActive(true);
+                return;
+            }
+
+            if (canvas != null)
+            {
+                canvas.gameObject.SetActive(true);
+            }
         }
 
         private void ShowCharacterCreatePopup(bool resetOptions = false)

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using IdleOff.Combat;
@@ -19,6 +20,12 @@ namespace IdleOff.Game
         [SerializeField] private Text characterNameText;
         [SerializeField] private Text characterClassText;
         [SerializeField] private Text characterLevelText;
+        [SerializeField] private Button inventoryButton;
+        [SerializeField] private Button skillsButton;
+        [SerializeField] private Button menuButton;
+        [SerializeField] private RectTransform menuPanel;
+        [SerializeField] private Button titleScreenButton;
+        [SerializeField] private Button characterSelectionButton;
 
         private Font hudFont;
         private CharacterData displayedCharacter;
@@ -27,6 +34,8 @@ namespace IdleOff.Game
         private HudValueBar hpBar;
         private HudValueBar mpBar;
         private HudValueBar xpBar;
+        private Coroutine menuAnimation;
+        private bool menuOpen;
 
         public static GameplayHud Instance { get; private set; }
         public RectTransform Root => root;
@@ -38,6 +47,7 @@ namespace IdleOff.Game
         public void SetCharacter(CharacterData character)
         {
             EnsureBuilt();
+            CloseMenuImmediate();
 
             if (displayedClass != null)
             {
@@ -68,6 +78,7 @@ namespace IdleOff.Game
         public void SetPlayer(PlayerCombatant player)
         {
             EnsureBuilt();
+            CloseMenuImmediate();
 
             if (displayedPlayer != null)
             {
@@ -157,6 +168,16 @@ namespace IdleOff.Game
             }
         }
 
+        private void OnDisable()
+        {
+            CloseMenuImmediate();
+        }
+
+        private void OnEnable()
+        {
+            CloseMenuImmediate();
+        }
+
         private void EnsureBuilt()
         {
             if (root != null && sectionOne != null && sectionTwo != null && sectionThree != null && sectionFour != null)
@@ -210,6 +231,8 @@ namespace IdleOff.Game
             sectionFour = CreateSection("HUD Section 4", 0.705f, 0.99f);
             BuildSectionOneCharacterWidget();
             BuildSectionTwoResourceWidget();
+            BuildSectionFourMenuWidget();
+            BuildExpandableMenuPanel();
         }
 
         private RectTransform CreateSection(string sectionName, float anchorMinX, float anchorMaxX)
@@ -396,6 +419,174 @@ namespace IdleOff.Game
 
             var characterClass = displayedCharacter?.CharacterClass;
             xpBar?.Set(characterClass?.GetCurrentXP() ?? 0f, characterClass?.GetMaxXP() ?? 1f);
+        }
+
+        private void BuildSectionFourMenuWidget()
+        {
+            inventoryButton = CreateHudButton(sectionFour, "Inventory Button", "Inventory", 0f, 0.30f, ShowInventory);
+            skillsButton = CreateHudButton(sectionFour, "Skills Button", "Skills", 0.35f, 0.65f, ShowSkills);
+            menuButton = CreateHudButton(sectionFour, "Menu Button", "Menu", 0.70f, 1f, ShowMenu);
+        }
+
+        private Button CreateHudButton(RectTransform parent, string objectName, string label, float anchorMinX, float anchorMaxX, UnityEngine.Events.UnityAction onClick)
+        {
+            return CreateHudButton(parent, objectName, label, anchorMinX, anchorMaxX, 0f, 1f, onClick);
+        }
+
+        private Button CreateHudButton(RectTransform parent, string objectName, string label, float anchorMinX, float anchorMaxX, float anchorMinY, float anchorMaxY, UnityEngine.Events.UnityAction onClick)
+        {
+            var buttonObject = new GameObject(objectName);
+            buttonObject.transform.SetParent(parent, false);
+            var rect = buttonObject.AddComponent<RectTransform>();
+            rect.anchorMin = new Vector2(anchorMinX, anchorMinY);
+            rect.anchorMax = new Vector2(anchorMaxX, anchorMaxY);
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+
+            var image = buttonObject.AddComponent<Image>();
+            image.color = new Color32(48, 52, 68, 255);
+
+            var button = buttonObject.AddComponent<Button>();
+            button.targetGraphic = image;
+            button.onClick.AddListener(onClick);
+
+            var text = CreatePaddedText(rect, objectName + " Text", label, TextAnchor.MiddleCenter, 0f, 1f, 0.05f);
+            ConfigureResourceTextFit(text);
+            text.raycastTarget = false;
+
+            return button;
+        }
+
+        public void ShowInventory()
+        {
+            Debug.Log("[HUD] Inventory button pressed.");
+        }
+
+        public void ShowSkills()
+        {
+            Debug.Log("[HUD] Skills button pressed.");
+        }
+
+        public void ShowMenu()
+        {
+            SetMenuOpen(!menuOpen);
+        }
+
+        public void ShowTitleScreen()
+        {
+            if (BootFlowUI.Instance == null)
+            {
+                Debug.LogWarning("[HUD] Cannot return to title screen because no BootFlowUI instance exists.");
+                return;
+            }
+
+            BootFlowUI.Instance.ReturnToTitleScreenFromGameplay();
+        }
+
+        public void ShowCharacterSelection()
+        {
+            if (BootFlowUI.Instance == null)
+            {
+                Debug.LogWarning("[HUD] Cannot return to character selection because no BootFlowUI instance exists.");
+                return;
+            }
+
+            BootFlowUI.Instance.ReturnToCharacterSelectionFromGameplay();
+        }
+
+        private void BuildExpandableMenuPanel()
+        {
+            var panelObject = new GameObject("HUD Menu Panel");
+            panelObject.transform.SetParent(root, false);
+            menuPanel = panelObject.AddComponent<RectTransform>();
+            menuPanel.anchorMin = new Vector2(0.705f, 1f);
+            menuPanel.anchorMax = new Vector2(0.99f, 1f);
+            menuPanel.pivot = new Vector2(0.5f, 0f);
+            menuPanel.offsetMin = Vector2.zero;
+            menuPanel.offsetMax = Vector2.zero;
+
+            var image = panelObject.AddComponent<Image>();
+            image.color = new Color32(24, 27, 38, 255);
+
+            titleScreenButton = CreateHudButton(menuPanel, "Title Screen Button", "Title Screen", 0.05f, 0.95f, 0.05f, 0.475f, ShowTitleScreen);
+            characterSelectionButton = CreateHudButton(menuPanel, "Character Selection Button", "Character Selection", 0.05f, 0.95f, 0.525f, 0.95f, ShowCharacterSelection);
+            menuPanel.gameObject.SetActive(false);
+        }
+
+        private void SetMenuOpen(bool open)
+        {
+            EnsureBuilt();
+            if (menuPanel == null)
+            {
+                return;
+            }
+
+            menuOpen = open;
+            if (menuAnimation != null)
+            {
+                StopCoroutine(menuAnimation);
+            }
+
+            menuAnimation = StartCoroutine(AnimateMenuPanel(open));
+        }
+
+        public void CloseMenuImmediate()
+        {
+            menuOpen = false;
+            if (menuAnimation != null)
+            {
+                StopCoroutine(menuAnimation);
+                menuAnimation = null;
+            }
+
+            if (menuPanel == null)
+            {
+                return;
+            }
+
+            SetMenuPanelHeight(0f);
+            menuPanel.gameObject.SetActive(false);
+        }
+
+        private IEnumerator AnimateMenuPanel(bool open)
+        {
+            const float duration = 0.15f;
+            var targetHeight = GetMenuPanelTargetHeight();
+            var startHeight = menuPanel.offsetMax.y;
+            var endHeight = open ? targetHeight : 0f;
+
+            menuPanel.gameObject.SetActive(true);
+            for (var elapsed = 0f; elapsed < duration; elapsed += Time.unscaledDeltaTime)
+            {
+                var t = Mathf.Clamp01(elapsed / duration);
+                t = t * t * (3f - 2f * t);
+                SetMenuPanelHeight(Mathf.Lerp(startHeight, endHeight, t));
+                yield return null;
+            }
+
+            SetMenuPanelHeight(endHeight);
+            if (!open)
+            {
+                menuPanel.gameObject.SetActive(false);
+            }
+
+            menuAnimation = null;
+        }
+
+        private float GetMenuPanelTargetHeight()
+        {
+            if (root != null && root.rect.height > 0f)
+            {
+                return root.rect.height * 1.1f;
+            }
+
+            return 120f;
+        }
+
+        private void SetMenuPanelHeight(float height)
+        {
+            menuPanel.offsetMin = Vector2.zero;
+            menuPanel.offsetMax = new Vector2(0f, Mathf.Max(0f, height));
         }
 
         private sealed class HudValueBar
