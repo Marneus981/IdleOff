@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 678d17d2ea095e24fa8ac6319c42babc
+guid: 3c833c94b6f11e44fb17f0ee3120e981
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3743957659742367504
-    second: Move_0
+      213: 8383388497487750666
+    second: Moving_0
+  - first:
+      213: -6025730124729799805
+    second: Moving_1
+  - first:
+      213: -4394547580005827180
+    second: Moving_2
+  - first:
+      213: -6528231397746495835
+    second: Moving_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Move_0
+      name: Moving_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 48
-        height: 5
+        x: 13
+        y: 18
+        width: 25
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +137,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 01feb0bb7a535f330800000000000000
-      internalID: 3743957659742367504
+      spriteID: a066adedb67c75470800000000000000
+      internalID: 8383388497487750666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moving_1
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 18
+        width: 28
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38b2c13906e406ca0800000000000000
+      internalID: -6025730124729799805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moving_2
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 18
+        width: 30
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49d3331624e6303c0800000000000000
+      internalID: -4394547580005827180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moving_3
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 18
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5aea4cdb1201765a0800000000000000
+      internalID: -6528231397746495835
       vertices: []
       indices: 
       edges: []
@@ -148,7 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Move_0: 3743957659742367504
+      Moving_0: 8383388497487750666
+      Moving_1: -6025730124729799805
+      Moving_2: -4394547580005827180
+      Moving_3: -6528231397746495835
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
