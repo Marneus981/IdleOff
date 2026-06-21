@@ -24,6 +24,12 @@ namespace IdleOff.Combat
             current = Mathf.Clamp(value, 0f, max);
         }
 
+        public void SetMax(float maxValue)
+        {
+            max = Mathf.Max(1f, maxValue);
+            current = Mathf.Clamp(current, 0f, max);
+        }
+
         public void TakeDamage(float amount)
         {
             if (amount <= 0f || !IsAlive)

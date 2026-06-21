@@ -23,6 +23,7 @@ namespace IdleOff.Profiles
         private Dictionary<int, StarSignModifier> inactiveStarSignModifiers = new();
         private Dictionary<int, ItemModifier> inactiveItemModifiers = new();
         [NonSerialized] private CharacterProfile parentProfile;
+        [field: NonSerialized] public event Action StatsChanged;
 
         public string CharacterID
         {
@@ -114,6 +115,7 @@ namespace IdleOff.Profiles
             LoadStats(); //may reset saved values for the character
             mainStats.Update();
             secondaryStats.Update();
+            StatsChanged?.Invoke();
         }
 
         internal void SetParentProfile(CharacterProfile profile)
@@ -243,6 +245,7 @@ namespace IdleOff.Profiles
             LoadStats();
             if (mainStats.UpdateByStatID(statID) || secondaryStats.UpdateByStatID(statID))
             {
+                StatsChanged?.Invoke();
                 return;
             }
 

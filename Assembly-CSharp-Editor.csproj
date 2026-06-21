@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\Phase89ActionPatternTests.cs" />
+    <Compile Include="Assets\Editor\GameplayHudTests.cs" />
     <Compile Include="Assets\Editor\CombatSystemTests.cs" />
     <Compile Include="Assets\Editor\CrossSystemRuntimeTests.cs" />
     <Compile Include="Assets\Editor\IdleOffTestSceneBuilder.cs" />

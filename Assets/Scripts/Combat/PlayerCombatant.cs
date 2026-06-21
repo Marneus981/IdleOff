@@ -15,6 +15,8 @@ namespace IdleOff.Combat
         [SerializeField] private PlayerDeathRespawnMode deathRespawnMode = PlayerDeathRespawnMode.HubSpawn;
 
         private static readonly IReadOnlyList<string> EmptyTags = new List<string>();
+        private CharacterData observedCharacter;
+        public event System.Action ResourcesChanged;
 
         public CharacterData Character => profile != null ? profile.ActiveCharacter : null;
         public string DisplayName => Character != null ? Character.CharacterName : "Player";
@@ -33,9 +35,29 @@ namespace IdleOff.Combat
 
         public void SetProfile(CharacterProfile characterProfile)
         {
+            if (observedCharacter != null)
+            {
+                observedCharacter.StatsChanged -= HandleCharacterStatsChanged;
+            }
+
             profile = characterProfile;
+            observedCharacter = Character;
+            if (observedCharacter != null)
+            {
+                observedCharacter.StatsChanged += HandleCharacterStatsChanged;
+            }
+
             ResetHpToMax();
             ResetMpToMax();
+            NotifyResourcesChanged();
+        }
+
+        private void OnDestroy()
+        {
+            if (observedCharacter != null)
+            {
+                observedCharacter.StatsChanged -= HandleCharacterStatsChanged;
+            }
         }
 
         private void Update()
@@ -53,7 +75,12 @@ namespace IdleOff.Combat
 
             if (health.IsAlive)
             {
+                var before = health.Current;
                 health.Heal(GetMaxHp() * healthRegenPercentPerSecond * Mathf.Max(0f, deltaTime));
+                if (!Mathf.Approximately(before, health.Current))
+                {
+                    NotifyResourcesChanged();
+                }
             }
         }
 
@@ -66,7 +93,12 @@ namespace IdleOff.Combat
 
             if (health.IsAlive)
             {
+                var before = mana.Current;
                 mana.Heal(GetMaxMp() * manaRegenPercentPerSecond * Mathf.Max(0f, deltaTime));
+                if (!Mathf.Approximately(before, mana.Current))
+                {
+                    NotifyResourcesChanged();
+                }
             }
         }
 
@@ -88,6 +120,7 @@ namespace IdleOff.Combat
             }
 
             health.TakeDamage(result.FinalDamage);
+            NotifyResourcesChanged();
             Debug.Log($"[Combat] {DisplayName} took {result.FinalDamage:0.##} damage from {result.Attacker?.DisplayName ?? "unknown attacker"}. HP {health.Current:0.##}/{health.Max:0.##}.");
             if (!health.IsAlive)
             {
@@ -98,11 +131,38 @@ namespace IdleOff.Combat
         public void ResetHpToMax()
         {
             health.Reset(GetMaxHp());
+            NotifyResourcesChanged();
         }
 
         public void ResetMpToMax()
         {
             mana.Reset(GetMaxMp());
+            NotifyResourcesChanged();
+        }
+
+        public void NotifyResourcesChanged()
+        {
+            ResourcesChanged?.Invoke();
+        }
+
+        private void HandleCharacterStatsChanged()
+        {
+            var wasHealthUninitialized = health.Max <= 0f;
+            var wasManaUninitialized = mana.Max <= 0f;
+            health.SetMax(GetMaxHp());
+            mana.SetMax(GetMaxMp());
+
+            if (wasHealthUninitialized)
+            {
+                ResetHpToMax();
+            }
+
+            if (wasManaUninitialized)
+            {
+                ResetMpToMax();
+            }
+
+            NotifyResourcesChanged();
         }
 
         private float GetMaxHp()
