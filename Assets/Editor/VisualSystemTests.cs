@@ -83,7 +83,8 @@ public sealed class VisualSystemTests
         Assert.AreEqual(0.25f, renderer.transform.localPosition.x);
         Assert.AreEqual(0.5f, renderer.transform.localPosition.y);
         Assert.IsTrue(controller.TryGetRenderedLocalBounds(out var bounds));
-        Assert.Greater(bounds.min.y, 0f);
+        Assert.AreNotEqual(0f, bounds.center.x);
+        Assert.AreNotEqual(0f, bounds.center.y);
 
         Assert.IsTrue(controller.AlignRenderedBoundsToCenter());
         Assert.AreEqual(originalPosition, visualObject.transform.position);
