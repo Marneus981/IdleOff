@@ -171,6 +171,7 @@
     <Compile Include="Assets\Scripts\Actions\ProjectileActionHitbox.cs" />
     <Compile Include="Assets\Scripts\Controls\KeybindActions.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraFollow2D.cs" />
+    <Compile Include="Assets\Scripts\Game\GameplayHud.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobMoneyDrop.cs" />
     <Compile Include="Assets\Scripts\Profiles\Storage.cs" />
     <Compile Include="Assets\Scripts\Game\GameSession.cs" />

@@ -18,6 +18,11 @@ namespace IdleOff.CameraTools
             target = nextTarget;
         }
 
+        public void SetOffset(Vector2 nextOffset)
+        {
+            offset = nextOffset;
+        }
+
         private void LateUpdate()
         {
             if (target == null)

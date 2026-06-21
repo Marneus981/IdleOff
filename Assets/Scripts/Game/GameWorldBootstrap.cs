@@ -12,6 +12,8 @@ namespace IdleOff.Game
     public static class GameWorldBootstrap
     {
         public const int HubMapID = 1000;
+        private const float GameplayCameraOrthographicSize = 5.75f;
+        private static readonly Vector2 GameplayCameraOffset = new(0f, 2f);
 
         public static void EnterHub(CharacterProfile profile)
         {
@@ -22,6 +24,7 @@ namespace IdleOff.Game
 
             var player = EnsurePlayer(profile);
             EnsureCamera(player.transform);
+            GameplayHud.EnsureExists();
             EnsureWorldDropSpawner();
 
             var mapManager = EnsureMapManager();
@@ -87,12 +90,14 @@ namespace IdleOff.Game
                 cameraObject.transform.position = new Vector3(0f, 0f, -10f);
                 camera = cameraObject.AddComponent<Camera>();
                 camera.orthographic = true;
-                camera.orthographicSize = 5f;
                 cameraObject.AddComponent<AudioListener>();
             }
 
+            camera.orthographic = true;
+            camera.orthographicSize = GameplayCameraOrthographicSize;
             var follow = EnsureComponent<CameraFollow2D>(camera.gameObject);
             follow.SetTarget(playerTarget);
+            follow.SetOffset(GameplayCameraOffset);
         }
 
         private static void EnsureWorldDropSpawner()

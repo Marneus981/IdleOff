@@ -84,11 +84,12 @@ namespace IdleOff.Editor
             GameObject cameraObject = new GameObject("Main Camera");
             Camera camera = cameraObject.AddComponent<Camera>();
             camera.orthographic = true;
-            camera.orthographicSize = 4.5f;
+            camera.orthographicSize = 5.175f;
             camera.backgroundColor = new Color32(35, 41, 49, 255);
             cameraObject.tag = "MainCamera";
-            cameraObject.transform.position = new Vector3(1f, -0.5f, -10f);
-            cameraObject.AddComponent<CameraFollow2D>();
+            cameraObject.transform.position = new Vector3(1f, 0.175f, -10f);
+            var follow = cameraObject.AddComponent<CameraFollow2D>();
+            follow.SetOffset(new Vector2(0f, 0.675f));
         }
 
         private static void CreatePlayer(CharacterProfile profile, Sprite sprite)
