@@ -56,7 +56,6 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DropRate.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionOwnerType.cs" />
     <Compile Include="Assets\Scripts\Game\FloatingFeedbackRequest.cs" />
-    <Compile Include="Assets\Scripts\Profiles\Inventory.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractEffectType.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerActionDriver.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DamageFlatBonus.cs" />
@@ -65,6 +64,7 @@
     <Compile Include="Assets\Scripts\Interactables\InteractableObjectEntity.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractConditionType.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\ClassXPRate.cs" />
+    <Compile Include="Assets\Scripts\Profiles\Modifiers\ItemModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Money.cs" />
     <Compile Include="Assets\Scripts\Maps\MapLayoutDefinition.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement2D.cs" />
@@ -75,13 +75,16 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\CritChance.cs" />
     <Compile Include="Assets\Scripts\Actions\MeleeActionHitbox.cs" />
     <Compile Include="Assets\Scripts\Combat\IMobCombatant.cs" />
+    <Compile Include="Assets\Scripts\Profiles\Bags\Inventory.cs" />
     <Compile Include="Assets\Scripts\Combat\CombatHealth.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DamageMultiplier.cs" />
     <Compile Include="Assets\Scripts\Profiles\ItemIconResolver.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats.cs" />
+    <Compile Include="Assets\Scripts\Profiles\Bags\Equipment.cs" />
     <Compile Include="Assets\Scripts\Maps\MapManager.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\MaxMp.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionHitResolver.cs" />
+    <Compile Include="Assets\Scripts\Profiles\Bags\Storage.cs" />
     <Compile Include="Assets\Scripts\Mobs\BossPatternOriginMode.cs" />
     <Compile Include="Assets\Scripts\Profiles\Bag.cs" />
     <Compile Include="Assets\Scripts\Maps\CharacterMapStateStore.cs" />
@@ -108,7 +111,7 @@
     <Compile Include="Assets\Scripts\Profiles\MainStats\Luck.cs" />
     <Compile Include="Assets\Scripts\Actions\AreaActionHitbox.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\CritDamage.cs" />
-    <Compile Include="Assets\Scripts\Profiles\ItemModifier.cs" />
+    <Compile Include="Assets\Scripts\Profiles\Modifiers\ClassModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\CharacterGender.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobEntity.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractableObjectCatalog.cs" />
@@ -155,8 +158,7 @@
     <Compile Include="Assets\Scripts\Interactables\InteractableObjectType.cs" />
     <Compile Include="Assets\Scripts\Drops\WorldDrop.cs" />
     <Compile Include="Assets\Scripts\Game\BootFlowUI.cs" />
-    <Compile Include="Assets\Scripts\Profiles\ClassModifier.cs" />
-    <Compile Include="Assets\Scripts\Profiles\Equipment.cs" />
+    <Compile Include="Assets\Scripts\Profiles\Modifiers\StarSignModifier.cs" />
     <Compile Include="Assets\Scripts\Actions\ActionCatalog.cs" />
     <Compile Include="Assets\Scripts\Maps\MapBoundaryDefinition.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Speed.cs" />
@@ -167,7 +169,6 @@
     <Compile Include="Assets\Scripts\Maps\MapCatalog.cs" />
     <Compile Include="Assets\Scripts\World\LadderZone.cs" />
     <Compile Include="Assets\Scripts\Mobs\BossPatternStep.cs" />
-    <Compile Include="Assets\Scripts\Profiles\StarSignModifier.cs" />
     <Compile Include="Assets\Scripts\Profiles\Modifier.cs" />
     <Compile Include="Assets\Scripts\Game\GameState.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobSpawner.cs" />
@@ -181,7 +182,6 @@
     <Compile Include="Assets\Scripts\Camera\CameraFollow2D.cs" />
     <Compile Include="Assets\Scripts\Game\GameplayHud.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobMoneyDrop.cs" />
-    <Compile Include="Assets\Scripts\Profiles\Storage.cs" />
     <Compile Include="Assets\Scripts\Game\GameSession.cs" />
     <Compile Include="Assets\Scripts\Combat\PlayerCombatant.cs" />
     <Compile Include="Assets\Scripts\Maps\MapPlatformDefinition.cs" />
