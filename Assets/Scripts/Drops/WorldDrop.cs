@@ -1,6 +1,8 @@
 using IdleOff.Combat;
+using IdleOff.Game;
 using IdleOff.Profiles;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace IdleOff.Drops
 {
@@ -11,6 +13,7 @@ namespace IdleOff.Drops
         [SerializeField] private Sprite moneySprite;
         [SerializeField] private float despawnSeconds = 300f;
         private float ageSeconds;
+        private bool itemTooltipVisible;
 
         public WorldDropPayload Payload => payload;
         public event System.Action<WorldDrop> Collected;
@@ -49,6 +52,7 @@ namespace IdleOff.Drops
         private void Update()
         {
             TickDespawn(Time.deltaTime);
+            UpdateItemTooltipHover();
         }
 
         public bool TryCollect(CharacterData character)
@@ -97,6 +101,16 @@ namespace IdleOff.Drops
             }
         }
 
+        private void OnMouseEnter()
+        {
+            ShowItemTooltipAtDropPosition();
+        }
+
+        private void OnMouseExit()
+        {
+            HideItemTooltip();
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             var player = other.GetComponentInParent<PlayerCombatant>();
@@ -123,8 +137,98 @@ namespace IdleOff.Drops
             gameObject.name = payload != null && payload.isMoney ? "Money Drop" : "Item Drop";
         }
 
+        private bool TryCreateTooltipItem(out Item item)
+        {
+            item = null;
+            if (payload == null || payload.isMoney || payload.itemID <= 0)
+            {
+                return false;
+            }
+
+            GlobalItemCatalog.EnsureLoaded();
+            if (!GlobalItemCatalog.Items.TryGetValue(payload.itemID, out var template))
+            {
+                return false;
+            }
+
+            item = template.Clone(payload.quantity);
+            return true;
+        }
+
+        private void UpdateItemTooltipHover()
+        {
+            if (payload == null || payload.isMoney)
+            {
+                HideItemTooltip();
+                return;
+            }
+
+            var mouse = Mouse.current;
+            var camera = Camera.main;
+            if (mouse == null || camera == null)
+            {
+                HideItemTooltip();
+                return;
+            }
+
+            var screenPosition = mouse.position.ReadValue();
+            var worldPosition = camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, -camera.transform.position.z));
+            var isHovering = IsWorldPositionOverDrop(worldPosition);
+            if (!isHovering)
+            {
+                HideItemTooltip();
+                return;
+            }
+
+            if (TryCreateTooltipItem(out var item))
+            {
+                itemTooltipVisible = true;
+                ItemInfoTooltip.Show(this, item, screenPosition);
+            }
+        }
+
+        private bool IsWorldPositionOverDrop(Vector2 worldPosition)
+        {
+            foreach (var collider in GetComponents<Collider2D>())
+            {
+                if (collider != null && collider.enabled && collider.OverlapPoint(worldPosition))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void ShowItemTooltipAtDropPosition()
+        {
+            if (!TryCreateTooltipItem(out var item))
+            {
+                return;
+            }
+
+            var camera = Camera.main;
+            var screenPosition = camera != null
+                ? (Vector2)camera.WorldToScreenPoint(transform.position)
+                : Vector2.zero;
+            itemTooltipVisible = true;
+            ItemInfoTooltip.Show(this, item, screenPosition);
+        }
+
+        private void HideItemTooltip()
+        {
+            if (!itemTooltipVisible)
+            {
+                return;
+            }
+
+            itemTooltipVisible = false;
+            ItemInfoTooltip.Hide(this);
+        }
+
         private void DestroyDrop()
         {
+            HideItemTooltip();
             if (Application.isPlaying)
             {
                 Destroy(gameObject);

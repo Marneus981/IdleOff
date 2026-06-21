@@ -88,6 +88,7 @@
     <Compile Include="Assets\Scripts\Profiles\MainStats\Wis.cs" />
     <Compile Include="Assets\Scripts\Combat\ICombatant.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractCondition.cs" />
+    <Compile Include="Assets\Scripts\Game\ItemInfoTooltip.cs" />
     <Compile Include="Assets\Scripts\Maps\MapRuntimeState.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Damage.cs" />
     <Compile Include="Assets\Scripts\Combat\CombatResolver.cs" />

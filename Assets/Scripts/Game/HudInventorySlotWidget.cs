@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace IdleOff.Game
 {
-    public sealed class HudInventorySlotWidget : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    public sealed class HudInventorySlotWidget : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
     {
         private GameplayHud owner;
         private Bag bag;
@@ -38,6 +38,36 @@ namespace IdleOff.Game
         public void OnDrop(PointerEventData eventData)
         {
             owner?.DropInventorySlotOn(this);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (TryGetItem(out var item))
+            {
+                ItemInfoTooltip.Show(item, eventData.position);
+            }
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            ItemInfoTooltip.Hide();
+        }
+
+        public void OnPointerMove(PointerEventData eventData)
+        {
+            ItemInfoTooltip.Move(eventData.position);
+        }
+
+        private bool TryGetItem(out Item item)
+        {
+            item = null;
+            if (bag == null || !bag.TryGetSlot(slotIndex, out var slot) || slot.IsEmpty)
+            {
+                return false;
+            }
+
+            item = slot.item;
+            return item != null;
         }
     }
 }
