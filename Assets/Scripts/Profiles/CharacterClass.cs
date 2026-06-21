@@ -38,6 +38,7 @@ namespace IdleOff.Profiles
         private Dictionary<int, ClassModifier> classModifiersByID = new();
         private Dictionary<int, GameAction> classActionsByID = new();
         [NonSerialized] private CharacterData owner;
+        [field: NonSerialized] public event Action Changed;
         #endregion
         #region Constructors and Class Creators
         public CharacterClass()
@@ -80,7 +81,14 @@ namespace IdleOff.Profiles
 
         public void SetClassName(string value)
         {
-            className = string.IsNullOrWhiteSpace(value) ? "Wandering Soul" : value;
+            var nextClassName = string.IsNullOrWhiteSpace(value) ? "Wandering Soul" : value;
+            if (className == nextClassName)
+            {
+                return;
+            }
+
+            className = nextClassName;
+            NotifyChanged();
         }
 
         public int GetLevelNumber()
@@ -90,7 +98,14 @@ namespace IdleOff.Profiles
 
         public void SetLevelNumber(int value)
         {
-            levelNumber = Mathf.Max(1, value);
+            var nextLevel = Mathf.Max(1, value);
+            if (levelNumber == nextLevel)
+            {
+                return;
+            }
+
+            levelNumber = nextLevel;
+            NotifyChanged();
         }
 
         public float GetCurrentXP()
@@ -100,7 +115,14 @@ namespace IdleOff.Profiles
 
         public void SetCurrentXP(float value)
         {
-            currentXP = Mathf.Max(0f, value);
+            var nextXP = Mathf.Max(0f, value);
+            if (Mathf.Approximately(currentXP, nextXP))
+            {
+                return;
+            }
+
+            currentXP = nextXP;
+            NotifyChanged();
         }
 
         public void AddCurrentXP(float value)
@@ -138,6 +160,24 @@ namespace IdleOff.Profiles
             ClassTalentPoints = Mathf.Max(0, value);
         }
 
+        internal void SetClassModifierLevel(int modifierID, int level)
+        {
+            EnsureClassModifiersLoaded();
+            if (classModifiersByID.TryGetValue(modifierID, out var modifier))
+            {
+                modifier.level = Mathf.Clamp(level, 0, modifier.maxLevel);
+            }
+        }
+
+        internal void SetClassActionLevel(int actionID, int level)
+        {
+            EnsureClassActionsLoaded();
+            if (classActionsByID.TryGetValue(actionID, out var action))
+            {
+                action.level = Mathf.Clamp(level, 0, action.maxLevel);
+            }
+        }
+
         public IReadOnlyList<ClassModifier> GetClassModifiers()
         {
             EnsureClassModifiersLoaded();
@@ -166,6 +206,7 @@ namespace IdleOff.Profiles
             currentXP = Mathf.Max(0f, overflowXP);
             BaseTalentPoints = BaseTalentPoints + 3;
             ClassTalentPoints= ClassTalentPoints + 3;
+            NotifyChanged();
         }
         public void ChangeClass(string targetClass)
         {
@@ -246,6 +287,13 @@ namespace IdleOff.Profiles
                     loadedAction.level = previousAction.Value.level;
                 }
             }
+
+            NotifyChanged();
+        }
+
+        private void NotifyChanged()
+        {
+            Changed?.Invoke();
         }
 
         public void SetOwner(CharacterData owner)

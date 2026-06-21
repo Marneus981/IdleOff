@@ -24,7 +24,7 @@ namespace IdleOff.Game
 
             var player = EnsurePlayer(profile);
             EnsureCamera(player.transform);
-            GameplayHud.EnsureExists();
+            GameplayHud.EnsureExists().SetCharacter(profile.ActiveCharacter);
             EnsureWorldDropSpawner();
 
             var mapManager = EnsureMapManager();

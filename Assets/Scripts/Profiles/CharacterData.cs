@@ -131,6 +131,46 @@ namespace IdleOff.Profiles
             }
         }
 
+        internal void RestoreInventorySlot(int slotIndex, Item item)
+        {
+            EnsureBagsLoaded();
+            inventory.SetSlotItem(slotIndex, item);
+        }
+
+        internal void RestoreEquipmentSlot(int slotIndex, Item item)
+        {
+            EnsureBagsLoaded();
+            equipment.SetSlotItem(slotIndex, item);
+            RebuildEquipmentModifiers();
+        }
+
+        internal void RestoreStorageSlot(int slotIndex, Item item)
+        {
+            EnsureBagsLoaded();
+            storage.SetSlotItem(slotIndex, item);
+        }
+
+        internal void ClearBags()
+        {
+            EnsureBagsLoaded();
+            inventory.ClearItems();
+            equipment.ClearItems();
+            storage.ClearItems();
+            RebuildEquipmentModifiers();
+        }
+
+        internal void SetInventoryMoney(Money money)
+        {
+            EnsureBagsLoaded();
+            inventory.SetMoney(money);
+        }
+
+        internal void SetStorageMoney(Money money)
+        {
+            EnsureBagsLoaded();
+            storage.SetMoney(money);
+        }
+
         private CharacterClass GetCharacterClass()
         {
             characterClass ??= CharacterClass.CreateWanderingSoul();

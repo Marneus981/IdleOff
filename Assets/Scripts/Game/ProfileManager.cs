@@ -26,8 +26,33 @@ namespace IdleOff.Game
             public string className;
             public int level = 1;
             public float currentXP;
+            public float maxXP = 100f;
+            public int baseTalentPoints = 3;
+            public int classTalentPoints = 3;
             public int starSignModifierID = 3002;
             public int startingHatItemID = 5001;
+            public Money inventoryMoney;
+            public Money storageMoney;
+            public List<SlotSaveData> inventorySlots = new();
+            public List<SlotSaveData> equipmentSlots = new();
+            public List<SlotSaveData> storageSlots = new();
+            public List<LevelSaveData> classModifiers = new();
+            public List<LevelSaveData> classActions = new();
+        }
+
+        [Serializable]
+        private sealed class SlotSaveData
+        {
+            public int slotIndex;
+            public int itemID;
+            public int quantity;
+        }
+
+        [Serializable]
+        private sealed class LevelSaveData
+        {
+            public int id;
+            public int level;
         }
 
         private const string ProfilesFolderName = "Profiles";
@@ -68,6 +93,11 @@ namespace IdleOff.Game
         }
 
         public void SaveProfile(ProfileRecord record)
+        {
+            SaveRecord(record);
+        }
+
+        public static void SaveRecord(ProfileRecord record)
         {
             if (record == null)
             {
@@ -133,16 +163,28 @@ namespace IdleOff.Game
                     continue;
                 }
 
+                character.UpdateStats();
+                var characterClass = character.CharacterClass;
                 saveData.Add(new CharacterSaveData
                 {
                     characterID = character.CharacterID,
                     characterName = character.CharacterName,
                     gender = character.Gender,
-                    className = character.CharacterClass.GetClassName(),
+                    className = characterClass.GetClassName(),
                     level = character.Level,
-                    currentXP = character.CharacterClass.GetCurrentXP(),
+                    currentXP = characterClass.GetCurrentXP(),
+                    maxXP = characterClass.GetMaxXP(),
+                    baseTalentPoints = characterClass.GetBaseTalentPoints(),
+                    classTalentPoints = characterClass.GetClassTalentPoints(),
                     starSignModifierID = character.StarSignModifier?.modifierID ?? 3002,
-                    startingHatItemID = GetEquippedHatID(character)
+                    startingHatItemID = GetEquippedHatID(character),
+                    inventoryMoney = character.Inventory.Money,
+                    storageMoney = character.Storage.Money,
+                    inventorySlots = CreateSlotSaveData(character.Inventory),
+                    equipmentSlots = CreateSlotSaveData(character.Equipment),
+                    storageSlots = CreateSlotSaveData(character.Storage),
+                    classModifiers = CreateModifierLevelSaveData(characterClass),
+                    classActions = CreateActionLevelSaveData(characterClass)
                 });
             }
 
@@ -161,8 +203,124 @@ namespace IdleOff.Game
             character.SetCharacterID(saveData?.characterID);
             character.CharacterClass.SetLevelNumber(Mathf.Max(1, saveData?.level ?? 1));
             character.CharacterClass.SetCurrentXP(Mathf.Max(0f, saveData?.currentXP ?? 0f));
+            character.CharacterClass.SetMaxXP(saveData?.maxXP > 0f ? saveData.maxXP : 100f);
+            character.CharacterClass.SetBaseTalentPoints(Mathf.Max(0, saveData?.baseTalentPoints ?? 3));
+            character.CharacterClass.SetClassTalentPoints(Mathf.Max(0, saveData?.classTalentPoints ?? 3));
+            RestoreClassLevels(character.CharacterClass, saveData);
+            RestoreBags(character, saveData);
             character.UpdateStats();
             return character;
+        }
+
+        private static List<SlotSaveData> CreateSlotSaveData(Bag bag)
+        {
+            var slots = new List<SlotSaveData>();
+            if (bag == null)
+            {
+                return slots;
+            }
+
+            for (var i = 0; i < bag.Slots.Count; i++)
+            {
+                var slot = bag.Slots[i];
+                if (slot == null || slot.IsEmpty)
+                {
+                    continue;
+                }
+
+                slots.Add(new SlotSaveData
+                {
+                    slotIndex = i,
+                    itemID = slot.item.itemID,
+                    quantity = slot.item.quantity
+                });
+            }
+
+            return slots;
+        }
+
+        private static List<LevelSaveData> CreateModifierLevelSaveData(CharacterClass characterClass)
+        {
+            var levels = new List<LevelSaveData>();
+            foreach (var modifier in characterClass.GetClassModifiers())
+            {
+                if (modifier != null)
+                {
+                    levels.Add(new LevelSaveData { id = modifier.modifierID, level = modifier.level });
+                }
+            }
+
+            return levels;
+        }
+
+        private static List<LevelSaveData> CreateActionLevelSaveData(CharacterClass characterClass)
+        {
+            var levels = new List<LevelSaveData>();
+            foreach (var action in characterClass.GetClassActions())
+            {
+                if (action != null)
+                {
+                    levels.Add(new LevelSaveData { id = action.actionID, level = action.level });
+                }
+            }
+
+            return levels;
+        }
+
+        private static void RestoreClassLevels(CharacterClass characterClass, CharacterSaveData saveData)
+        {
+            if (saveData?.classModifiers != null)
+            {
+                foreach (var modifier in saveData.classModifiers)
+                {
+                    characterClass.SetClassModifierLevel(modifier.id, modifier.level);
+                }
+            }
+
+            if (saveData?.classActions != null)
+            {
+                foreach (var action in saveData.classActions)
+                {
+                    characterClass.SetClassActionLevel(action.id, action.level);
+                }
+            }
+        }
+
+        private static void RestoreBags(CharacterData character, CharacterSaveData saveData)
+        {
+            if (saveData == null)
+            {
+                return;
+            }
+
+            character.ClearBags();
+            character.SetInventoryMoney(saveData.inventoryMoney);
+            character.SetStorageMoney(saveData.storageMoney);
+            RestoreSlots(saveData.inventorySlots, character.RestoreInventorySlot);
+            RestoreSlots(saveData.equipmentSlots, character.RestoreEquipmentSlot);
+            RestoreSlots(saveData.storageSlots, character.RestoreStorageSlot);
+        }
+
+        private static void RestoreSlots(List<SlotSaveData> slots, Action<int, Item> restore)
+        {
+            if (slots == null || restore == null)
+            {
+                return;
+            }
+
+            GlobalItemCatalog.EnsureLoaded();
+            foreach (var savedSlot in slots)
+            {
+                if (savedSlot == null || savedSlot.itemID <= 0 || savedSlot.quantity <= 0)
+                {
+                    continue;
+                }
+
+                if (GlobalItemCatalog.Items.TryGetValue(savedSlot.itemID, out var template))
+                {
+                    restore(savedSlot.slotIndex, template.Clone(savedSlot.quantity));
+                }
+            }
         }
 
         private static CharacterClass CreateClass(string className)

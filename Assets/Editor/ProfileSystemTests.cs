@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using IdleOff.Game;
 using IdleOff.Profiles;
 using NUnit.Framework;
 using UnityEngine;
@@ -278,6 +279,59 @@ public sealed class ProfileSystemTests
         finally
         {
             UnityEngine.Object.DestroyImmediate(profile);
+        }
+    }
+
+    [Test]
+    public void ProfileManager_SaveLoad_PreservesFullCharacterProgressionAndBags()
+    {
+        var manager = new ProfileManager();
+        var record = manager.CreateProfile("Full Save Test " + Guid.NewGuid().ToString("N"));
+        try
+        {
+            var character = new CharacterData("Saved Hero", CharacterGender.Unspecified, CharacterClass.CreateWildHunter(), 3004, 5001);
+            Assert.IsTrue(record.Profile.TryAddCharacter(character));
+            record.Profile.SetActiveCharacterIndex(0);
+
+            character.CharacterClass.SetLevelNumber(7);
+            character.CharacterClass.SetCurrentXP(42f);
+            character.CharacterClass.SetMaxXP(900f);
+            character.CharacterClass.SetBaseTalentPoints(11);
+            character.CharacterClass.SetClassTalentPoints(13);
+            character.CharacterClass.GetModifier(2001).level = 3;
+            character.CharacterClass.GetClassActions()[0].level = 4;
+            character.AddItem(5019, 12);
+            character.AddMoney(new Money(1, 2, 3));
+            Assert.IsTrue(character.MoveMoney(new Money(0, 1, 0), character.Inventory, character.Storage));
+            Assert.IsTrue(character.AddItem(5002, 1));
+            Assert.IsTrue(character.EquipItem(5002));
+            Assert.IsTrue(character.MoveItem(5019, character.Inventory, character.Storage));
+
+            manager.SaveProfile(record);
+
+            var loadedManager = new ProfileManager();
+            loadedManager.LoadProfiles();
+            var loadedRecord = loadedManager.Profiles.First(profile => profile.ProfileID == record.ProfileID);
+            var loaded = loadedRecord.Profile.ActiveCharacter;
+
+            Assert.AreEqual(character.CharacterID, loaded.CharacterID);
+            Assert.AreEqual("Saved Hero", loaded.CharacterName);
+            Assert.AreEqual("Wild Hunter", loaded.CharacterClass.GetClassName());
+            Assert.AreEqual(7, loaded.Level);
+            Assert.AreEqual(42f, loaded.CharacterClass.GetCurrentXP(), 0.001f);
+            Assert.AreEqual(900f, loaded.CharacterClass.GetMaxXP(), 0.001f);
+            Assert.AreEqual(11, loaded.CharacterClass.GetBaseTalentPoints());
+            Assert.AreEqual(13, loaded.CharacterClass.GetClassTalentPoints());
+            Assert.AreEqual(3, loaded.CharacterClass.GetModifier(2001).level);
+            Assert.AreEqual(4, loaded.CharacterClass.GetClassActions()[0].level);
+            Assert.AreEqual(1, loaded.Equipment.GetItemQuantity(5002));
+            Assert.AreEqual(12, loaded.Storage.GetItemQuantity(5019));
+            Assert.AreEqual(new Money(1, 1, 3).TotalCopper, loaded.Inventory.Money.TotalCopper);
+            Assert.AreEqual(new Money(0, 1, 0).TotalCopper, loaded.Storage.Money.TotalCopper);
+        }
+        finally
+        {
+            manager.DeleteProfile(record);
         }
     }
 }

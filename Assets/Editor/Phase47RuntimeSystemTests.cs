@@ -533,6 +533,33 @@ public sealed class Phase47RuntimeSystemTests
     }
 
     [Test]
+    public void MobSpawner_RespawnsOnlyOneMobPerElapsedTimer()
+    {
+        var spawnerObject = new GameObject("Single Respawn Timer Spawner");
+        try
+        {
+            var spawner = spawnerObject.AddComponent<MobSpawner>();
+            spawner.Initialize(new MapMobSpawnerDefinition { mobID = 6001, maxActive = 3, respawnSeconds = 2f }, CreateSprite(Color.red));
+
+            spawner.ActiveMobs[0].ReceiveDamage(new DamageResult(null, spawner.ActiveMobs[0], true, 1f, 999f, 999f, 0));
+            spawner.ActiveMobs[0].ReceiveDamage(new DamageResult(null, spawner.ActiveMobs[0], true, 1f, 999f, 999f, 0));
+            Assert.AreEqual(1, spawner.ActiveCount);
+
+            spawner.Tick(2f);
+
+            Assert.AreEqual(2, spawner.ActiveCount);
+
+            spawner.Tick(2f);
+
+            Assert.AreEqual(3, spawner.ActiveCount);
+        }
+        finally
+        {
+            Object.DestroyImmediate(spawnerObject);
+        }
+    }
+
+    [Test]
     public void MobSpawner_ThrowsForUnknownMobID()
     {
         var spawnerObject = new GameObject("Unknown Mob Spawner");

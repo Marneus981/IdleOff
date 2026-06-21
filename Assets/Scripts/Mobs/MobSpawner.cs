@@ -43,7 +43,7 @@ namespace IdleOff.Mobs
             respawnTimer -= Mathf.Max(0f, deltaTime);
             if (respawnTimer <= 0f)
             {
-                SpawnMissingMobs();
+                activeMobs.Add(SpawnMob());
                 respawnTimer = respawnSeconds;
             }
         }

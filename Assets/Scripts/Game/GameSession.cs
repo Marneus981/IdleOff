@@ -13,6 +13,11 @@ namespace IdleOff.Game
             ActiveProfileRecord = record;
         }
 
+        public static void SaveActiveProfile()
+        {
+            ProfileManager.SaveRecord(ActiveProfileRecord);
+        }
+
         public static void Clear()
         {
             ActiveProfileRecord = null;

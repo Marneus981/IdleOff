@@ -191,6 +191,40 @@ namespace IdleOff.Profiles
             return canHoldMoney && money.TrySubtract(value);
         }
 
+        internal void ClearItems()
+        {
+            foreach (var slot in slots)
+            {
+                slot.item = null;
+            }
+
+            RebuildLookup();
+        }
+
+        internal void SetMoney(Money value)
+        {
+            if (canHoldMoney)
+            {
+                money = value;
+            }
+        }
+
+        internal void SetSlotItem(int index, Item item)
+        {
+            if (index < 0 || index >= slots.Count)
+            {
+                return;
+            }
+
+            if (item != null && !slots[index].Allows(item))
+            {
+                return;
+            }
+
+            slots[index].item = item;
+            RebuildLookup();
+        }
+
         protected void RebuildLookup()
         {
             slotsByItemID = new Dictionary<int, BagSlot>();

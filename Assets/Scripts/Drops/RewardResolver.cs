@@ -1,4 +1,5 @@
 using IdleOff.Combat;
+using IdleOff.Game;
 using IdleOff.Mobs;
 using UnityEngine;
 
@@ -42,6 +43,8 @@ namespace IdleOff.Drops
             {
                 characterClass.LevelUp(player.Character);
             }
+
+            GameSession.SaveActiveProfile();
         }
 
         private static void ResolveItemDrops(
