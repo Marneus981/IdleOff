@@ -268,6 +268,116 @@ public sealed class GameplayHudTests
         FindButton("Character Selection Button").onClick.Invoke();
     }
 
+    [Test]
+    public void CharacterClass_TryUpgradeBaseModifier_SpendsBasePointAndUpdatesStats()
+    {
+        var characterClass = character.CharacterClass;
+        var modifier = characterClass.GetModifier(2001);
+        var initialLevel = modifier.level;
+        var initialBasePoints = characterClass.GetBaseTalentPoints();
+        var initialClassPoints = characterClass.GetClassTalentPoints();
+        var initialMaxHp = character.GetStatValueByID(1011);
+
+        Assert.IsTrue(characterClass.TryUpgradeModifier(modifier));
+
+        Assert.AreEqual(initialLevel + 1, modifier.level);
+        Assert.AreEqual(initialBasePoints - 1, characterClass.GetBaseTalentPoints());
+        Assert.AreEqual(initialClassPoints, characterClass.GetClassTalentPoints());
+        Assert.AreEqual(initialMaxHp + 3f, character.GetStatValueByID(1011), 0.001f);
+    }
+
+    [Test]
+    public void CharacterClass_TryUpgradeBaseModifier_CanSpendClassPointWhenBasePointsAreUnavailable()
+    {
+        var characterClass = character.CharacterClass;
+        var modifier = characterClass.GetModifier(2001);
+        characterClass.SetBaseTalentPoints(0);
+        characterClass.SetClassTalentPoints(1);
+
+        Assert.IsTrue(characterClass.TryUpgradeModifier(modifier));
+
+        Assert.AreEqual(1, modifier.level);
+        Assert.AreEqual(0, characterClass.GetBaseTalentPoints());
+        Assert.AreEqual(0, characterClass.GetClassTalentPoints());
+    }
+
+    [Test]
+    public void CharacterClass_TryUpgradeAction_SpendsClassPointAndRaisesSkillLevel()
+    {
+        var characterClass = character.CharacterClass;
+        var action = characterClass.GetAction(2001);
+        var initialLevel = action.level;
+        var initialBasePoints = characterClass.GetBaseTalentPoints();
+        var initialClassPoints = characterClass.GetClassTalentPoints();
+
+        Assert.IsTrue(characterClass.TryUpgradeAction(action));
+
+        Assert.AreEqual(initialLevel + 1, action.level);
+        Assert.AreEqual(initialBasePoints, characterClass.GetBaseTalentPoints());
+        Assert.AreEqual(initialClassPoints - 1, characterClass.GetClassTalentPoints());
+    }
+
+    [Test]
+    public void CharacterClass_UpgradeFailsWhenTalentPointsAreInsufficient()
+    {
+        var characterClass = character.CharacterClass;
+        var modifier = characterClass.GetModifier(2001);
+        var action = characterClass.GetAction(2001);
+        characterClass.SetBaseTalentPoints(0);
+        characterClass.SetClassTalentPoints(0);
+
+        Assert.IsFalse(characterClass.TryUpgradeModifier(modifier));
+        Assert.IsFalse(characterClass.TryUpgradeAction(action));
+        Assert.AreEqual(0, modifier.level);
+        Assert.AreEqual(1, action.level);
+    }
+
+    [Test]
+    public void SkillsPanel_ModifierUpgradeButton_UsesTalentPipelineAndRefreshesEntry()
+    {
+        var characterClass = character.CharacterClass;
+        var modifier = characterClass.GetModifier(2001);
+
+        FindButton("Modifier Skill Entry 2001 Upgrade Button").onClick.Invoke();
+
+        Assert.AreEqual(1, modifier.level);
+        Assert.AreEqual(2, characterClass.GetBaseTalentPoints());
+        Assert.AreEqual(3, characterClass.GetClassTalentPoints());
+        Assert.AreEqual("2", FindText("Base Skill Points Value").text);
+        Assert.AreEqual("3", FindText("Class Skill Points Value").text);
+        Assert.AreEqual("LVL\n1\n100", FindText("Modifier Skill Entry 2001 Level").text);
+    }
+
+    [Test]
+    public void SkillsPanel_ActionUpgradeButton_UsesTalentPipelineAndRefreshesEntry()
+    {
+        var characterClass = character.CharacterClass;
+        var action = characterClass.GetAction(2001);
+
+        FindButton("Action Skill Entry 2001 Upgrade Button").onClick.Invoke();
+
+        Assert.AreEqual(2, action.level);
+        Assert.AreEqual(3, characterClass.GetBaseTalentPoints());
+        Assert.AreEqual(2, characterClass.GetClassTalentPoints());
+        Assert.AreEqual("3", FindText("Base Skill Points Value").text);
+        Assert.AreEqual("2", FindText("Class Skill Points Value").text);
+        Assert.AreEqual("LVL\n2\n100", FindText("Action Skill Entry 2001 Level").text);
+    }
+
+    [Test]
+    public void SkillsPanel_UpgradeButtonsAreDisabledWhenTalentPointsAreInsufficient()
+    {
+        var characterClass = character.CharacterClass;
+        characterClass.SetBaseTalentPoints(0);
+        characterClass.SetClassTalentPoints(0);
+        hud.SetCharacter(character);
+
+        Assert.IsFalse(FindButton("Modifier Skill Entry 2001 Upgrade Button").interactable);
+        Assert.IsFalse(FindButton("Action Skill Entry 2001 Upgrade Button").interactable);
+        Assert.AreEqual("0", FindText("Base Skill Points Value").text);
+        Assert.AreEqual("0", FindText("Class Skill Points Value").text);
+    }
+
     private Text FindText(string objectName)
     {
         Assert.IsNotNull(hud, "Expected the test HUD to exist.");

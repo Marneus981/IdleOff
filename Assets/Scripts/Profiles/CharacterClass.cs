@@ -160,6 +160,68 @@ namespace IdleOff.Profiles
             ClassTalentPoints = Mathf.Max(0, value);
         }
 
+        public bool CanUpgradeModifier(ClassModifier modifier)
+        {
+            return modifier != null
+                && modifier.level < modifier.maxLevel
+                && (ClassTalentPoints > 0 || modifier.HasTag("base") && BaseTalentPoints > 0);
+        }
+
+        public bool TryUpgradeModifier(ClassModifier modifier)
+        {
+            if (!CanUpgradeModifier(modifier))
+            {
+                return false;
+            }
+
+            var spendBasePoint = modifier.HasTag("base") && BaseTalentPoints > 0;
+            if (modifier.ModifierLevelChange(1) != 0)
+            {
+                return false;
+            }
+
+            if (spendBasePoint)
+            {
+                BaseTalentPoints = Mathf.Max(0, BaseTalentPoints - 1);
+            }
+            else
+            {
+                ClassTalentPoints = Mathf.Max(0, ClassTalentPoints - 1);
+            }
+
+            NotifyChanged();
+            return true;
+        }
+
+        public bool CanUpgradeAction(GameAction action)
+        {
+            return action != null
+                && action.level < action.maxLevel
+                && (ClassTalentPoints > 0 || action.HasTag("base") && BaseTalentPoints > 0);
+        }
+
+        public bool TryUpgradeAction(GameAction action)
+        {
+            if (!CanUpgradeAction(action))
+            {
+                return false;
+            }
+
+            var spendBasePoint = action.HasTag("base") && BaseTalentPoints > 0;
+            action.level = Mathf.Clamp(action.level + 1, 0, action.maxLevel);
+            if (spendBasePoint)
+            {
+                BaseTalentPoints = Mathf.Max(0, BaseTalentPoints - 1);
+            }
+            else
+            {
+                ClassTalentPoints = Mathf.Max(0, ClassTalentPoints - 1);
+            }
+
+            NotifyChanged();
+            return true;
+        }
+
         internal void SetClassModifierLevel(int modifierID, int level)
         {
             EnsureClassModifiersLoaded();

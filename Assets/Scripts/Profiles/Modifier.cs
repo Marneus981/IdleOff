@@ -33,6 +33,11 @@ namespace IdleOff.Profiles
             return tags;
         }
 
+        public bool HasTag(string tag)
+        {
+            return !string.IsNullOrWhiteSpace(tag) && tags != null && tags.Contains(tag);
+        }
+
         internal void SetTags(List<string> tags)
         {
             // Modifier table loaders assign tags through this method while keeping the serialized field protected.

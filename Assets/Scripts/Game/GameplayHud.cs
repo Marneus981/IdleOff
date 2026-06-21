@@ -24,6 +24,12 @@ namespace IdleOff.Game
         [SerializeField] private Button skillsButton;
         [SerializeField] private Button menuButton;
         [SerializeField] private RectTransform menuPanel;
+        [SerializeField] private RectTransform skillsPanel;
+        [SerializeField] private RectTransform skillsContent;
+        [SerializeField] private RectTransform skillsBottomCanvas;
+        [SerializeField] private ScrollRect skillsScrollRect;
+        [SerializeField] private Text baseTalentPointsText;
+        [SerializeField] private Text classTalentPointsText;
         [SerializeField] private Button titleScreenButton;
         [SerializeField] private Button characterSelectionButton;
 
@@ -35,7 +41,9 @@ namespace IdleOff.Game
         private HudValueBar mpBar;
         private HudValueBar xpBar;
         private Coroutine menuAnimation;
+        private Coroutine skillsAnimation;
         private bool menuOpen;
+        private bool skillsOpen;
 
         public static GameplayHud Instance { get; private set; }
         public RectTransform Root => root;
@@ -47,7 +55,7 @@ namespace IdleOff.Game
         public void SetCharacter(CharacterData character)
         {
             EnsureBuilt();
-            CloseMenuImmediate();
+            CloseExpandablePanelsImmediate();
 
             if (displayedClass != null)
             {
@@ -78,7 +86,7 @@ namespace IdleOff.Game
         public void SetPlayer(PlayerCombatant player)
         {
             EnsureBuilt();
-            CloseMenuImmediate();
+            CloseExpandablePanelsImmediate();
 
             if (displayedPlayer != null)
             {
@@ -107,6 +115,7 @@ namespace IdleOff.Game
                 displayedCharacter.CharacterClass.GetClassName(),
                 $"LVL {displayedCharacter.Level:00}");
             RefreshResourceBars();
+            RefreshSkillsPanel();
         }
 
         public static GameplayHud EnsureExists()
@@ -170,12 +179,12 @@ namespace IdleOff.Game
 
         private void OnDisable()
         {
-            CloseMenuImmediate();
+            CloseExpandablePanelsImmediate();
         }
 
         private void OnEnable()
         {
-            CloseMenuImmediate();
+            CloseExpandablePanelsImmediate();
         }
 
         private void EnsureBuilt()
@@ -233,6 +242,7 @@ namespace IdleOff.Game
             BuildSectionTwoResourceWidget();
             BuildSectionFourMenuWidget();
             BuildExpandableMenuPanel();
+            BuildExpandableSkillsPanel();
         }
 
         private RectTransform CreateSection(string sectionName, float anchorMinX, float anchorMaxX)
@@ -464,7 +474,7 @@ namespace IdleOff.Game
 
         public void ShowSkills()
         {
-            Debug.Log("[HUD] Skills button pressed.");
+            SetSkillsOpen(!skillsOpen);
         }
 
         public void ShowMenu()
@@ -513,12 +523,261 @@ namespace IdleOff.Game
             menuPanel.gameObject.SetActive(false);
         }
 
+        private void BuildExpandableSkillsPanel()
+        {
+            var panelObject = new GameObject("HUD Skills Panel");
+            panelObject.transform.SetParent(root, false);
+            skillsPanel = panelObject.AddComponent<RectTransform>();
+            skillsPanel.anchorMin = new Vector2(0.41f, 1f);
+            skillsPanel.anchorMax = new Vector2(0.99f, 1f);
+            skillsPanel.pivot = new Vector2(0.5f, 0f);
+            skillsPanel.offsetMin = Vector2.zero;
+            skillsPanel.offsetMax = Vector2.zero;
+
+            var image = panelObject.AddComponent<Image>();
+            image.color = new Color32(24, 27, 38, 255);
+
+            var innerCanvas = new GameObject("HUD Skills Canvas");
+            innerCanvas.transform.SetParent(skillsPanel, false);
+            var innerCanvasRect = innerCanvas.AddComponent<RectTransform>();
+            innerCanvasRect.anchorMin = new Vector2(0.05f, 0.05f);
+            innerCanvasRect.anchorMax = new Vector2(0.95f, 0.95f);
+            innerCanvasRect.offsetMin = Vector2.zero;
+            innerCanvasRect.offsetMax = Vector2.zero;
+            innerCanvas.AddComponent<Image>().color = new Color32(28, 31, 42, 255);
+
+            var scrollField = new GameObject("HUD Skills Scroll Field");
+            scrollField.transform.SetParent(innerCanvasRect, false);
+            var scrollFieldRect = scrollField.AddComponent<RectTransform>();
+            scrollFieldRect.anchorMin = new Vector2(0f, 0.20f);
+            scrollFieldRect.anchorMax = Vector2.one;
+            scrollFieldRect.offsetMin = Vector2.zero;
+            scrollFieldRect.offsetMax = Vector2.zero;
+            scrollField.AddComponent<Image>().color = new Color32(12, 14, 20, 255);
+            skillsScrollRect = scrollField.AddComponent<ScrollRect>();
+            skillsScrollRect.horizontal = false;
+            skillsScrollRect.vertical = true;
+            skillsScrollRect.movementType = ScrollRect.MovementType.Clamped;
+
+            var viewport = new GameObject("HUD Skills Viewport");
+            viewport.transform.SetParent(scrollFieldRect, false);
+            var viewportRect = viewport.AddComponent<RectTransform>();
+            viewportRect.anchorMin = Vector2.zero;
+            viewportRect.anchorMax = Vector2.one;
+            viewportRect.offsetMin = Vector2.zero;
+            viewportRect.offsetMax = Vector2.zero;
+            viewport.AddComponent<Image>().color = new Color32(0, 0, 0, 1);
+            viewport.AddComponent<Mask>().showMaskGraphic = false;
+
+            var content = new GameObject("HUD Skills Content");
+            content.transform.SetParent(viewportRect, false);
+            skillsContent = content.AddComponent<RectTransform>();
+            skillsContent.anchorMin = new Vector2(0f, 1f);
+            skillsContent.anchorMax = new Vector2(1f, 1f);
+            skillsContent.pivot = new Vector2(0.5f, 1f);
+            skillsContent.anchoredPosition = Vector2.zero;
+            skillsContent.sizeDelta = new Vector2(0f, 0f);
+
+            skillsScrollRect.viewport = viewportRect;
+            skillsScrollRect.content = skillsContent;
+
+            var bottomCanvas = new GameObject("HUD Skills Bottom Canvas");
+            bottomCanvas.transform.SetParent(innerCanvasRect, false);
+            skillsBottomCanvas = bottomCanvas.AddComponent<RectTransform>();
+            skillsBottomCanvas.anchorMin = Vector2.zero;
+            skillsBottomCanvas.anchorMax = new Vector2(1f, 0.15f);
+            skillsBottomCanvas.offsetMin = Vector2.zero;
+            skillsBottomCanvas.offsetMax = Vector2.zero;
+            bottomCanvas.AddComponent<Image>().color = new Color32(36, 40, 54, 255);
+
+            BuildSkillsPointSummary();
+            RefreshSkillsPanel();
+            skillsPanel.gameObject.SetActive(false);
+        }
+
+        private void BuildSkillsPointSummary()
+        {
+            CreatePaddedText(skillsBottomCanvas, "Base Skill Points Label", "Base Skill Points", TextAnchor.MiddleCenter, 0f, 0.2125f, 0.05f);
+            baseTalentPointsText = CreatePaddedText(skillsBottomCanvas, "Base Skill Points Value", "0", TextAnchor.MiddleCenter, 0.2625f, 0.375f, 0.05f);
+            CreatePaddedText(skillsBottomCanvas, "Class Skill Points Label", "Class Skill Points", TextAnchor.MiddleCenter, 0.425f, 0.7375f, 0.05f);
+            classTalentPointsText = CreatePaddedText(skillsBottomCanvas, "Class Skill Points Value", "0", TextAnchor.MiddleCenter, 0.7875f, 1f, 0.05f);
+
+            foreach (var text in skillsBottomCanvas.GetComponentsInChildren<Text>(true))
+            {
+                ConfigureResourceTextFit(text);
+            }
+        }
+
+        private void RefreshSkillsPanel()
+        {
+            if (skillsContent == null)
+            {
+                return;
+            }
+
+            ClearChildren(skillsContent);
+            var characterClass = displayedCharacter?.CharacterClass;
+            if (characterClass == null)
+            {
+                SetSkillsPointSummary(0, 0);
+                return;
+            }
+
+            SetSkillsPointSummary(characterClass.GetBaseTalentPoints(), characterClass.GetClassTalentPoints());
+            var rowIndex = 0;
+            foreach (var modifier in characterClass.GetClassModifiers())
+            {
+                if (modifier == null)
+                {
+                    continue;
+                }
+
+                CreateSkillEntry(
+                    "Modifier Skill Entry " + modifier.modifierID,
+                    modifier.name,
+                    modifier.description,
+                    modifier.level,
+                    modifier.maxLevel,
+                    characterClass.CanUpgradeModifier(modifier),
+                    rowIndex++,
+                    () =>
+                    {
+                        if (characterClass.TryUpgradeModifier(modifier))
+                        {
+                            displayedCharacter?.UpdateStats();
+                            RefreshDisplayedCharacter();
+                        }
+                    });
+            }
+
+            foreach (var action in characterClass.GetClassActions())
+            {
+                if (action == null)
+                {
+                    continue;
+                }
+
+                CreateSkillEntry(
+                    "Action Skill Entry " + action.actionID,
+                    action.name,
+                    action.description,
+                    action.level,
+                    action.maxLevel,
+                    characterClass.CanUpgradeAction(action),
+                    rowIndex++,
+                    () =>
+                    {
+                        if (characterClass.TryUpgradeAction(action))
+                        {
+                            RefreshDisplayedCharacter();
+                        }
+                    });
+            }
+
+            var rowCount = Mathf.CeilToInt(rowIndex / 2f);
+            skillsContent.sizeDelta = new Vector2(0f, Mathf.Max(0f, rowCount * 43f));
+        }
+
+        private static void ClearChildren(RectTransform parent)
+        {
+            if (parent == null)
+            {
+                return;
+            }
+
+            for (var i = parent.childCount - 1; i >= 0; i--)
+            {
+                var child = parent.GetChild(i);
+                if (child != null)
+                {
+                    DestroyHudObject(child.gameObject);
+                }
+            }
+        }
+
+        private static void DestroyHudObject(GameObject target)
+        {
+            if (target == null)
+            {
+                return;
+            }
+
+            if (Application.isPlaying)
+            {
+                Destroy(target);
+            }
+            else
+            {
+                DestroyImmediate(target);
+            }
+        }
+
+        private void SetSkillsPointSummary(int basePoints, int classPoints)
+        {
+            if (baseTalentPointsText != null)
+            {
+                baseTalentPointsText.text = basePoints.ToString();
+            }
+
+            if (classTalentPointsText != null)
+            {
+                classTalentPointsText.text = classPoints.ToString();
+            }
+        }
+
+        private void CreateSkillEntry(string objectName, string entryName, string description, int level, int maxLevel, bool canUpgrade, int rowIndex, UnityEngine.Events.UnityAction onUpgrade)
+        {
+            var rowObject = new GameObject(objectName);
+            rowObject.transform.SetParent(skillsContent, false);
+            var row = rowObject.AddComponent<RectTransform>();
+            var column = rowIndex % 2;
+            var gridRow = rowIndex / 2;
+            row.anchorMin = new Vector2(column == 0 ? 0f : 0.525f, 1f);
+            row.anchorMax = new Vector2(column == 0 ? 0.475f : 1f, 1f);
+            row.pivot = new Vector2(0.5f, 1f);
+            row.sizeDelta = new Vector2(0f, 40f);
+            row.anchoredPosition = new Vector2(0f, -gridRow * 43f);
+            rowObject.AddComponent<Image>().color = new Color32(32, 36, 48, 255);
+
+            var levelText = CreatePaddedText(row, objectName + " Level", $"LVL\n{level}\n{maxLevel}", TextAnchor.MiddleCenter, 0f, 0.15f, 0.05f);
+            ConfigureResourceTextFit(levelText);
+
+            var detailArea = new GameObject(objectName + " Details");
+            detailArea.transform.SetParent(row, false);
+            var detailRect = detailArea.AddComponent<RectTransform>();
+            detailRect.anchorMin = new Vector2(0.20f, 0f);
+            detailRect.anchorMax = new Vector2(0.75f, 1f);
+            detailRect.offsetMin = Vector2.zero;
+            detailRect.offsetMax = Vector2.zero;
+
+            var nameText = CreatePaddedText(detailRect, objectName + " Name", string.IsNullOrWhiteSpace(entryName) ? "Unnamed" : entryName, TextAnchor.MiddleLeft, 0f, 1f, 0.05f);
+            nameText.rectTransform.anchorMin = new Vector2(0.05f, 0.5f);
+            nameText.rectTransform.anchorMax = new Vector2(0.95f, 0.95f);
+            ConfigureResourceTextFit(nameText);
+
+            var descriptionText = CreatePaddedText(detailRect, objectName + " Description", string.IsNullOrWhiteSpace(description) ? "No description." : description, TextAnchor.MiddleLeft, 0f, 1f, 0.05f);
+            descriptionText.rectTransform.anchorMin = new Vector2(0.05f, 0.05f);
+            descriptionText.rectTransform.anchorMax = new Vector2(0.95f, 0.5f);
+            ConfigureResourceTextFit(descriptionText);
+
+            var upgradeButton = CreateHudButton(row, objectName + " Upgrade Button", "Upgrade", 0.80f, 1f, 0.05f, 0.95f, onUpgrade);
+            upgradeButton.interactable = canUpgrade;
+            upgradeButton.GetComponent<Image>().color = canUpgrade
+                ? new Color32(74, 86, 112, 255)
+                : new Color32(70, 70, 76, 255);
+        }
+
         private void SetMenuOpen(bool open)
         {
             EnsureBuilt();
             if (menuPanel == null)
             {
                 return;
+            }
+
+            if (open)
+            {
+                CloseSkillsImmediate();
             }
 
             menuOpen = open;
@@ -528,6 +787,28 @@ namespace IdleOff.Game
             }
 
             menuAnimation = StartCoroutine(AnimateMenuPanel(open));
+        }
+
+        private void SetSkillsOpen(bool open)
+        {
+            EnsureBuilt();
+            if (skillsPanel == null)
+            {
+                return;
+            }
+
+            if (open)
+            {
+                CloseMenuImmediate();
+            }
+
+            skillsOpen = open;
+            if (skillsAnimation != null)
+            {
+                StopCoroutine(skillsAnimation);
+            }
+
+            skillsAnimation = StartCoroutine(AnimateSkillsPanel(open));
         }
 
         public void CloseMenuImmediate()
@@ -546,6 +827,30 @@ namespace IdleOff.Game
 
             SetMenuPanelHeight(0f);
             menuPanel.gameObject.SetActive(false);
+        }
+
+        public void CloseExpandablePanelsImmediate()
+        {
+            CloseMenuImmediate();
+            CloseSkillsImmediate();
+        }
+
+        public void CloseSkillsImmediate()
+        {
+            skillsOpen = false;
+            if (skillsAnimation != null)
+            {
+                StopCoroutine(skillsAnimation);
+                skillsAnimation = null;
+            }
+
+            if (skillsPanel == null)
+            {
+                return;
+            }
+
+            SetSkillsPanelHeight(0f);
+            skillsPanel.gameObject.SetActive(false);
         }
 
         private IEnumerator AnimateMenuPanel(bool open)
@@ -573,6 +878,31 @@ namespace IdleOff.Game
             menuAnimation = null;
         }
 
+        private IEnumerator AnimateSkillsPanel(bool open)
+        {
+            const float duration = 0.15f;
+            var targetHeight = GetSkillsPanelTargetHeight();
+            var startHeight = skillsPanel.offsetMax.y;
+            var endHeight = open ? targetHeight : 0f;
+
+            skillsPanel.gameObject.SetActive(true);
+            for (var elapsed = 0f; elapsed < duration; elapsed += Time.unscaledDeltaTime)
+            {
+                var t = Mathf.Clamp01(elapsed / duration);
+                t = t * t * (3f - 2f * t);
+                SetSkillsPanelHeight(Mathf.Lerp(startHeight, endHeight, t));
+                yield return null;
+            }
+
+            SetSkillsPanelHeight(endHeight);
+            if (!open)
+            {
+                skillsPanel.gameObject.SetActive(false);
+            }
+
+            skillsAnimation = null;
+        }
+
         private float GetMenuPanelTargetHeight()
         {
             if (root != null && root.rect.height > 0f)
@@ -583,10 +913,26 @@ namespace IdleOff.Game
             return 120f;
         }
 
+        private float GetSkillsPanelTargetHeight()
+        {
+            if (root != null && root.rect.height > 0f)
+            {
+                return root.rect.height * 3.6f;
+            }
+
+            return 390f;
+        }
+
         private void SetMenuPanelHeight(float height)
         {
             menuPanel.offsetMin = Vector2.zero;
             menuPanel.offsetMax = new Vector2(0f, Mathf.Max(0f, height));
+        }
+
+        private void SetSkillsPanelHeight(float height)
+        {
+            skillsPanel.offsetMin = Vector2.zero;
+            skillsPanel.offsetMax = new Vector2(0f, Mathf.Max(0f, height));
         }
 
         private sealed class HudValueBar

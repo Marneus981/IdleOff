@@ -482,7 +482,7 @@ namespace IdleOff.Game
         {
             if (GameplayHud.Instance != null)
             {
-                GameplayHud.Instance.CloseMenuImmediate();
+                GameplayHud.Instance.CloseExpandablePanelsImmediate();
                 GameplayHud.Instance.gameObject.SetActive(false);
             }
 
