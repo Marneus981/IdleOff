@@ -164,6 +164,32 @@ public sealed class ProfileSystemTests
     }
 
     [Test]
+    public void SlotMove_StacksMatchingItemsWhenUnderMaxStack()
+    {
+        var character = new CharacterData("Tester", CharacterGender.Unspecified, 1);
+        Assert.IsTrue(character.AddItem(5019, 103));
+        Assert.IsTrue(character.Inventory.TryRemoveItem(5019, 95, out _));
+
+        Assert.IsTrue(character.TryMoveSlotItem(character.Inventory, 0, character.Inventory, 1));
+
+        Assert.IsTrue(character.Inventory.Slots[0].IsEmpty);
+        Assert.AreEqual(5019, character.Inventory.Slots[1].item.itemID);
+        Assert.AreEqual(8, character.Inventory.Slots[1].item.quantity);
+    }
+
+    [Test]
+    public void SlotMove_RejectsMatchingItemStackWhenOverMaxStack()
+    {
+        var character = new CharacterData("Tester", CharacterGender.Unspecified, 1);
+        Assert.IsTrue(character.AddItem(5019, 120));
+
+        Assert.IsFalse(character.TryMoveSlotItem(character.Inventory, 0, character.Inventory, 1));
+
+        Assert.AreEqual(99, character.Inventory.Slots[0].item.quantity);
+        Assert.AreEqual(21, character.Inventory.Slots[1].item.quantity);
+    }
+
+    [Test]
     public void SlotMove_EquipsMatchingItemAndRebuildsEquipmentModifiers()
     {
         var character = new CharacterData("Tester", CharacterGender.Unspecified, 1);

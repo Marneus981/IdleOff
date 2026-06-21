@@ -474,6 +474,26 @@ public sealed class GameplayHudTests
     }
 
     [Test]
+    public void InventoryPanel_DropOnMatchingInventorySlotStacksItemsAndRefreshesUi()
+    {
+        Assert.IsTrue(character.AddItem(5019, 103));
+        Assert.IsTrue(character.Inventory.TryRemoveItem(5019, 95, out _));
+        hud.SetCharacter(character);
+        hud.ShowInventory();
+        var source = FindSlotWidget("HUD Inventory Slot 0");
+        var destination = FindSlotWidget("HUD Inventory Slot 1");
+
+        hud.BeginInventorySlotDrag(source);
+        hud.DropInventorySlotOn(destination);
+        hud.EndInventorySlotDrag(null);
+
+        Assert.IsTrue(character.Inventory.Slots[0].IsEmpty);
+        Assert.AreEqual(8, character.Inventory.Slots[1].item.quantity);
+        Assert.IsFalse(TryFindImage("HUD Inventory Slot 0 Icon", out _));
+        Assert.AreEqual("8", FindText("HUD Inventory Slot 1 Quantity").text);
+    }
+
+    [Test]
     public void InventoryPanel_DropOnEquipmentSlotEquipsMatchingItemAndRefreshesUi()
     {
         Assert.IsTrue(character.AddItem(5002, 1));

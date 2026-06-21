@@ -226,7 +226,7 @@
     "iconPath": "Assets/Art/Placeholders/Item_Drop.png",
     "tags": [ "item", "key", "bossKey" ],
     "quantity": 0,
-    "maxStack": 1,
+    "maxStack": 99,
     "unitPrice": [ 0, 0, 0 ],
     "modifier": 0
   }

@@ -285,6 +285,11 @@ namespace IdleOff.Profiles
                 return false;
             }
 
+            if (destinationItem != null && destinationItem.itemID == sourceItem.itemID)
+            {
+                return TryStackMatchingSlotItems(sourceSlot, destinationSlot, destination);
+            }
+
             if (destinationItem != null && !sourceSlot.Allows(destinationItem))
             {
                 return false;
@@ -292,6 +297,32 @@ namespace IdleOff.Profiles
 
             sourceSlot.item = destinationItem;
             destinationSlot.item = sourceItem;
+            RebuildLookup();
+            if (!ReferenceEquals(this, destination))
+            {
+                destination.RebuildLookup();
+            }
+
+            return true;
+        }
+
+        private bool TryStackMatchingSlotItems(BagSlot sourceSlot, BagSlot destinationSlot, Bag destination)
+        {
+            var sourceItem = sourceSlot.item;
+            var destinationItem = destinationSlot.item;
+            if (sourceItem == null || destinationItem == null || sourceItem.itemID != destinationItem.itemID)
+            {
+                return false;
+            }
+
+            var maxStack = Mathf.Max(1, destinationItem.maxStack);
+            if (destinationItem.quantity + sourceItem.quantity > maxStack)
+            {
+                return false;
+            }
+
+            destinationItem.quantity += sourceItem.quantity;
+            sourceSlot.item = null;
             RebuildLookup();
             if (!ReferenceEquals(this, destination))
             {

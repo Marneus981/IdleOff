@@ -21,23 +21,39 @@ namespace IdleOff.Drops
             random ??= UnityRandomSource.Shared;
             var xpRate = Mathf.Max(0f, player.GetStatValueByID(CombatStatIDs.ClassXPRate));
             result.XpReward = Mathf.RoundToInt(mob.RuntimeData.Template.xpReward * (1f + xpRate));
-            GrantClassXP(player, result.XpReward);
+            var levelReward = GrantClassXP(player, result.XpReward);
+            FloatingFeedbackService.ShowXpGain(player, result.XpReward);
+            for (var i = 0; i < levelReward.LevelsGained; i++)
+            {
+                FloatingFeedbackService.ShowLevelUp(player);
+            }
+
+            FloatingFeedbackService.ShowBaseTalentPoints(player, levelReward.BaseTalentPointsGained);
+            FloatingFeedbackService.ShowClassTalentPoints(player, levelReward.ClassTalentPointsGained);
             Debug.Log($"[Reward] {player.DisplayName} gained {result.XpReward} class XP from {mob.DisplayName} (base {mob.RuntimeData.Template.xpReward}, rate +{xpRate:P0}).");
 
             var dropRate = Mathf.Max(0f, player.GetStatValueByID(CombatStatIDs.DropRate));
             ResolveItemDrops(mob.RuntimeData.Template, dropRate, random, result);
             ResolveMoneyDrops(mob.RuntimeData.Template, dropRate, random, result);
+            foreach (var drop in result.Drops)
+            {
+                FloatingFeedbackService.ShowDropName(player, drop);
+            }
+
             return result;
         }
 
-        private static void GrantClassXP(PlayerCombatant player, int xpReward)
+        private static LevelRewardFeedback GrantClassXP(PlayerCombatant player, int xpReward)
         {
             if (xpReward <= 0 || player.Character == null)
             {
-                return;
+                return default;
             }
 
             var characterClass = player.Character.CharacterClass;
+            var previousBasePoints = characterClass.GetBaseTalentPoints();
+            var previousClassPoints = characterClass.GetClassTalentPoints();
+            var previousLevel = player.Character.Level;
             characterClass.AddCurrentXP(xpReward);
             while (characterClass.GetCurrentXP() >= characterClass.GetMaxXP())
             {
@@ -45,6 +61,10 @@ namespace IdleOff.Drops
             }
 
             GameSession.SaveActiveProfile();
+            return new LevelRewardFeedback(
+                Mathf.Max(0, player.Character.Level - previousLevel),
+                Mathf.Max(0, characterClass.GetBaseTalentPoints() - previousBasePoints),
+                Mathf.Max(0, characterClass.GetClassTalentPoints() - previousClassPoints));
         }
 
         private static void ResolveItemDrops(
@@ -101,6 +121,20 @@ namespace IdleOff.Drops
             var guaranteed = Mathf.FloorToInt(effectiveChance);
             var fractional = effectiveChance - guaranteed;
             return guaranteed + (random.Value < fractional ? 1 : 0);
+        }
+
+        private readonly struct LevelRewardFeedback
+        {
+            public LevelRewardFeedback(int levelsGained, int baseTalentPointsGained, int classTalentPointsGained)
+            {
+                LevelsGained = levelsGained;
+                BaseTalentPointsGained = baseTalentPointsGained;
+                ClassTalentPointsGained = classTalentPointsGained;
+            }
+
+            public int LevelsGained { get; }
+            public int BaseTalentPointsGained { get; }
+            public int ClassTalentPointsGained { get; }
         }
     }
 }

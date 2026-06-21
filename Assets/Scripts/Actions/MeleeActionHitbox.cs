@@ -55,29 +55,14 @@ namespace IdleOff.Actions
                     continue;
                 }
 
-                TryResolveHit(hit);
+                TryResolveHit(hit, center);
             }
         }
 
-        private void TryResolveHit(Collider2D collider)
+        private void TryResolveHit(Collider2D collider, Vector2 hitboxCenter)
         {
-            var target = ActionHitResolver.FindCombatant(collider);
-            if (target == null || ReferenceEquals(target, request.Owner) || hitTargets.Contains(target))
-            {
-                return;
-            }
-
-            hitTargets.Add(target);
-            if (request.Owner.IsPlayerControlled && target is IMobCombatant mob)
-            {
-                CombatResolver.ResolvePlayerAction(request.Owner, mob, request.Action);
-                return;
-            }
-
-            if (request.Owner is IMobCombatant attacker)
-            {
-                CombatResolver.ResolveMobAction(attacker, target, request.Action);
-            }
+            var impactPoint = collider != null ? collider.ClosestPoint(hitboxCenter) : hitboxCenter;
+            ActionHitResolver.TryResolveHit(request, collider, hitTargets, impactPoint);
         }
 
         private void OnDrawGizmosSelected()
