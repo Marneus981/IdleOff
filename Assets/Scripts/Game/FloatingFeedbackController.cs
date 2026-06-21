@@ -32,7 +32,11 @@ namespace IdleOff.Game
             }
 
             var controllerObject = new GameObject("Floating Feedback Controller");
-            DontDestroyOnLoad(controllerObject);
+            if (Application.isPlaying)
+            {
+                DontDestroyOnLoad(controllerObject);
+            }
+
             Instance = controllerObject.AddComponent<FloatingFeedbackController>();
             Instance.EnsureBuilt();
             return Instance;
@@ -67,11 +71,24 @@ namespace IdleOff.Game
         {
             if (Instance != null && Instance != this)
             {
-                Destroy(gameObject);
+                if (Application.isPlaying)
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    DestroyImmediate(gameObject);
+                }
+
                 return;
             }
 
             Instance = this;
+            if (Application.isPlaying)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+
             EnsureBuilt();
         }
 
