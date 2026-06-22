@@ -16,7 +16,21 @@
     "basicActionID": 7001,
     "xpReward": 100,
     "itemDrops": [
-      { "itemID": 5021, "chance": 0.30 }
+      { "itemID": 5021, "chance": 0.15 },
+      { "itemID": 5005, "chance": 0.05 },
+      { "itemID": 5006, "chance": 0.05 },
+      { "itemID": 5007, "chance": 0.05 },
+      { "itemID": 5008, "chance": 0.05 },
+      { "itemID": 5009, "chance": 0.05 },
+      { "itemID": 5010, "chance": 0.05 },
+      { "itemID": 5011, "chance": 0.05 },
+      { "itemID": 5012, "chance": 0.05 },
+      { "itemID": 5013, "chance": 0.05 },
+      { "itemID": 5014, "chance": 0.05 },
+      { "itemID": 5015, "chance": 0.05 },
+      { "itemID": 5016, "chance": 0.05 },
+      { "itemID": 5017, "chance": 0.05 },
+      { "itemID": 5018, "chance": 0.05 }
     ],
     "moneyDrops": [
       { "money": [0, 0, 5], "chance": 0.5 }
@@ -52,7 +66,7 @@
     "tags": ["mob", "boss"],
     "mobType": "Boss",
     "level": 10,
-    "maxHp": 100.0,
+    "maxHp": 20.0,
     "damage": 5.0,
     "defense": 5.0,
     "ac": 10.0,
