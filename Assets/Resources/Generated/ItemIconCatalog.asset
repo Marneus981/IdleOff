@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42145f7d3a50a6641b5bdfb6a19806b6, type: 3}
+  m_Name: ItemIconCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::IdleOff.Profiles.ItemIconCatalogAsset
+  icons:
+  - itemID: 0
+    iconPath: Assets/Art/Placeholders/Item_Drop.png
+    icon: {fileID: 2296704500559088249, guid: 570cd2a59d8553f4d9a2593141d28c40, type: 3}
+  - itemID: 5001
+    iconPath: Assets/Art/Icons/fb1852.png
+    icon: {fileID: 4018911282529075257, guid: a22388677dc4db543aff61f3065c077c, type: 3}
+  - itemID: 5002
+    iconPath: Assets/Art/Icons/fb2080.png
+    icon: {fileID: 2443628898405658391, guid: 7c375305f37c428458107e620f58f3e5, type: 3}
+  - itemID: 5003
+    iconPath: Assets/Art/Icons/fb1840.png
+    icon: {fileID: 7313772714582249640, guid: 51a38cc483a743940b76ea303271c578, type: 3}
+  - itemID: 5004
+    iconPath: Assets/Art/Icons/fb1953.png
+    icon: {fileID: -8631994317671954448, guid: 99fc8df6a71bcc74ba467a657b137695, type: 3}
+  - itemID: 5005
+    iconPath: Assets/Art/Icons/fb2050.png
+    icon: {fileID: 7649620176861400332, guid: 6d2a1016bed8aea48b651ccab1614cc8, type: 3}
+  - itemID: 5006
+    iconPath: Assets/Art/Icons/fb1826.png
+    icon: {fileID: 6043318018681811131, guid: 6f5e0316832a5094b80b741db28085c7, type: 3}
+  - itemID: 5007
+    iconPath: Assets/Art/Icons/fb1969.png
+    icon: {fileID: 4772093823035508729, guid: 251b21d043f621243b29aedb6b0d7aa5, type: 3}
+  - itemID: 5008
+    iconPath: Assets/Art/Placeholders/Item_Drop.png
+    icon: {fileID: 2296704500559088249, guid: 570cd2a59d8553f4d9a2593141d28c40, type: 3}
+  - itemID: 5009
+    iconPath: Assets/Art/Placeholders/Item_Drop.png
+    icon: {fileID: 2296704500559088249, guid: 570cd2a59d8553f4d9a2593141d28c40, type: 3}
+  - itemID: 5010
+    iconPath: Assets/Art/Placeholders/Item_Drop.png
+    icon: {fileID: 2296704500559088249, guid: 570cd2a59d8553f4d9a2593141d28c40, type: 3}
+  - itemID: 5011
+    iconPath: Assets/Art/Icons/fb2057.png
+    icon: {fileID: 2812464171319830566, guid: 1d7d6164d0f50004cabcdf3755aec45b, type: 3}
+  - itemID: 5012
+    iconPath: Assets/Art/Icons/fb1854.png
+    icon: {fileID: -3136951956175555271, guid: 30a00b33d0a243c4e84b6b8ea59265fc, type: 3}
+  - itemID: 5013
+    iconPath: Assets/Art/Icons/fb1992.png
+    icon: {fileID: -1223381140604441428, guid: d35bc216e28b8984580e755af542ecac, type: 3}
+  - itemID: 5014
+    iconPath: Assets/Art/Icons/fb156.png
+    icon: {fileID: 7216809120891807888, guid: 4c9e9f13bad8c764899df5d352939cfb, type: 3}
+  - itemID: 5015
+    iconPath: Assets/Art/Icons/fb157.png
+    icon: {fileID: 1465770143017614206, guid: 3d940c15e564eb749863eeac6fbc3d05, type: 3}
+  - itemID: 5016
+    iconPath: Assets/Art/Icons/fb1466.png
+    icon: {fileID: -6336547034837610958, guid: a2b002fd366c7b34bb645402eecac2a3, type: 3}
+  - itemID: 5017
+    iconPath: Assets/Art/Icons/fb1484.png
+    icon: {fileID: -7633922977297607636, guid: d2d2a03c76bca8b48a978194fb8acfbf, type: 3}
+  - itemID: 5018
+    iconPath: Assets/Art/Placeholders/Item_Drop.png
+    icon: {fileID: 2296704500559088249, guid: 570cd2a59d8553f4d9a2593141d28c40, type: 3}
+  - itemID: 5019
+    iconPath: Assets/Art/Icons/fb265.png
+    icon: {fileID: -5657401987075167349, guid: dc94deb2e4580f4449ed99dd4357cd8d, type: 3}
+  - itemID: 5020
+    iconPath: Assets/Art/Icons/fb265.png
+    icon: {fileID: -5657401987075167349, guid: dc94deb2e4580f4449ed99dd4357cd8d, type: 3}
+  - itemID: 5021
+    iconPath: Assets/Art/Icons/fb97.png
+    icon: {fileID: -823422419244896748, guid: e9151672af36aed49aa5213b6b9a397b, type: 3}

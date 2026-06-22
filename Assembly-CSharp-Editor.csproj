@@ -53,11 +53,13 @@
     <Compile Include="Assets\Editor\Phase89ActionPatternTests.cs" />
     <Compile Include="Assets\Editor\GameplayHudTests.cs" />
     <Compile Include="Assets\Editor\CombatSystemTests.cs" />
+    <Compile Include="Assets\Editor\ItemIconCatalogAssetGenerator.cs" />
     <Compile Include="Assets\Editor\CrossSystemRuntimeTests.cs" />
     <Compile Include="Assets\Editor\IdleOffTestSceneBuilder.cs" />
     <Compile Include="Assets\Editor\MapInteractableSystemTests.cs" />
     <Compile Include="Assets\Editor\Phase47RuntimeSystemTests.cs" />
     <Compile Include="Assets\Editor\ProfileSystemTests.cs" />
+    <Compile Include="Assets\Editor\VisualCatalogAssetGenerator.cs" />
     <Compile Include="Assets\Editor\TableBuildPostprocessor.cs" />
   </ItemGroup>
   <ItemGroup>

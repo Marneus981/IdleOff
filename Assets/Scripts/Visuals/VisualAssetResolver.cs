@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -48,6 +49,23 @@ namespace IdleOff.Visuals
             if (animation == null)
             {
                 return Array.Empty<Sprite>();
+            }
+
+            if (animation.frames != null && animation.frames.Count > 0)
+            {
+                var referencedFrames = new List<Sprite>();
+                foreach (var frame in animation.frames)
+                {
+                    if (frame != null)
+                    {
+                        referencedFrames.Add(frame);
+                    }
+                }
+
+                if (referencedFrames.Count > 0)
+                {
+                    return referencedFrames.ToArray();
+                }
             }
 
             if (animation.framePaths != null && animation.framePaths.Count > 0)
@@ -104,7 +122,8 @@ namespace IdleOff.Visuals
                 return AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
             }
 #endif
-            return Resources.Load<Sprite>(spritePath);
+            var sprite = Resources.Load<Sprite>(spritePath);
+            return sprite != null ? sprite : LoadLooseSprite(spritePath);
         }
 
         private static Sprite[] LoadSprites(string spritePath)
@@ -132,7 +151,58 @@ namespace IdleOff.Visuals
             }
 #endif
             var loaded = Resources.LoadAll<Sprite>(spritePath);
-            return loaded == null ? Array.Empty<Sprite>() : loaded;
+            if (loaded != null && loaded.Length > 0)
+            {
+                return loaded;
+            }
+
+            var looseSprite = LoadLooseSprite(spritePath);
+            return looseSprite == null ? Array.Empty<Sprite>() : new[] { looseSprite };
+        }
+
+        private static Sprite LoadLooseSprite(string spritePath)
+        {
+            if (string.IsNullOrWhiteSpace(spritePath))
+            {
+                return null;
+            }
+
+            var resolvedPath = ResolveLooseAssetPath(spritePath);
+            if (string.IsNullOrWhiteSpace(resolvedPath) || !File.Exists(resolvedPath))
+            {
+                return null;
+            }
+
+            var bytes = File.ReadAllBytes(resolvedPath);
+            var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            texture.filterMode = FilterMode.Point;
+            if (!texture.LoadImage(bytes))
+            {
+                UnityEngine.Object.Destroy(texture);
+                return null;
+            }
+
+            return Sprite.Create(
+                texture,
+                new Rect(0f, 0f, texture.width, texture.height),
+                new Vector2(0.5f, 0.5f),
+                100f);
+        }
+
+        private static string ResolveLooseAssetPath(string assetPath)
+        {
+            if (Path.IsPathRooted(assetPath))
+            {
+                return assetPath;
+            }
+
+            var currentDirectoryPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), assetPath));
+            if (File.Exists(currentDirectoryPath))
+            {
+                return currentDirectoryPath;
+            }
+
+            return Path.GetFullPath(Path.Combine(Application.dataPath, "..", assetPath));
         }
 
         private static Sprite GetGeneratedFallbackSprite()

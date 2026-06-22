@@ -9,6 +9,7 @@ namespace IdleOff.Visuals
     {
         public string visualID;
         public string spritePath;
+        public Sprite sprite;
         public string sortingLayer = "Default";
         public int sortingOrder;
         public Vector2 scale = Vector2.one;
@@ -22,6 +23,7 @@ namespace IdleOff.Visuals
             {
                 visualID = visualID,
                 spritePath = spritePath,
+                sprite = sprite,
                 sortingLayer = sortingLayer,
                 sortingOrder = sortingOrder,
                 scale = scale,

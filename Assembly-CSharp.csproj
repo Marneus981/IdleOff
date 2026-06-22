@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\DamageMultiplier.cs" />
     <Compile Include="Assets\Scripts\Profiles\ItemIconResolver.cs" />
     <Compile Include="Assets\Scripts\Profiles\MainStats.cs" />
+    <Compile Include="Assets\Scripts\Profiles\ItemIconCatalogAsset.cs" />
     <Compile Include="Assets\Scripts\Profiles\Bags\Equipment.cs" />
     <Compile Include="Assets\Scripts\Maps\MapManager.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\MaxMp.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Assets\Scripts\Profiles\CharacterProfile.cs" />
     <Compile Include="Assets\Scripts\Game\BootFlowUIView.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\UnarmedWeaponPower.cs" />
+    <Compile Include="Assets\Scripts\Visuals\VisualCatalogAsset.cs" />
     <Compile Include="Assets\Scripts\Maps\MapInteractableSpawn.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\Mp.cs" />
     <Compile Include="Assets\Scripts\Profiles\Item.cs" />

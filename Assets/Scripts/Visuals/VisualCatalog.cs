@@ -45,6 +45,7 @@ namespace IdleOff.Visuals
 #pragma warning restore CS0649
 
         private const string VisualsPath = "Assets/Tables/Visuals.json";
+        private const string GeneratedCatalogResourcePath = "Generated/VisualCatalog";
 
         public static Dictionary<string, VisualDefinition> Visuals { get; private set; } = new();
 
@@ -64,6 +65,13 @@ namespace IdleOff.Visuals
 
         public static void LoadVisuals()
         {
+#if !UNITY_EDITOR
+            if (TryLoadGeneratedCatalog())
+            {
+                return;
+            }
+#endif
+
             var resolvedPath = ResolvePath(VisualsPath);
             if (!File.Exists(resolvedPath))
             {
@@ -87,6 +95,28 @@ namespace IdleOff.Visuals
 
                 Visuals[entry.Key] = CreateVisual(entry.Key, entry.Value);
             }
+        }
+
+        private static bool TryLoadGeneratedCatalog()
+        {
+            var catalog = Resources.Load<VisualCatalogAsset>(GeneratedCatalogResourcePath);
+            if (catalog == null || catalog.Visuals == null || catalog.Visuals.Count == 0)
+            {
+                return false;
+            }
+
+            Visuals = new Dictionary<string, VisualDefinition>();
+            foreach (var record in catalog.Visuals)
+            {
+                if (record == null || string.IsNullOrWhiteSpace(record.visualID))
+                {
+                    continue;
+                }
+
+                Visuals[record.visualID] = record.ToRuntimeDefinition();
+            }
+
+            return Visuals.Count > 0;
         }
 
         public static bool TryGet(string visualID, out VisualDefinition definition)

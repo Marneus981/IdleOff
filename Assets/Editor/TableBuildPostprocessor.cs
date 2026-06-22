@@ -8,6 +8,7 @@ namespace IdleOff.Editor
     public sealed class TableBuildPostprocessor : IPostprocessBuildWithReport
     {
         private const string SourceTablesPath = "Assets/Tables";
+        private const string SourceArtPath = "Assets/Art";
 
         public int callbackOrder => 0;
 
@@ -26,6 +27,12 @@ namespace IdleOff.Editor
                 return;
             }
 
+            CopyJsonTables(outputDirectory);
+            CopyArtPngs(outputDirectory);
+        }
+
+        private static void CopyJsonTables(string outputDirectory)
+        {
             var targetTablesPath = Path.Combine(outputDirectory, SourceTablesPath);
             Directory.CreateDirectory(targetTablesPath);
 
@@ -33,6 +40,27 @@ namespace IdleOff.Editor
             {
                 var fileName = Path.GetFileName(sourcePath);
                 File.Copy(sourcePath, Path.Combine(targetTablesPath, fileName), true);
+            }
+        }
+
+        private static void CopyArtPngs(string outputDirectory)
+        {
+            if (!Directory.Exists(SourceArtPath))
+            {
+                return;
+            }
+
+            foreach (var sourcePath in Directory.GetFiles(SourceArtPath, "*.png", SearchOption.AllDirectories))
+            {
+                var relativePath = sourcePath.Replace('\\', '/');
+                var targetPath = Path.Combine(outputDirectory, relativePath);
+                var targetDirectory = Path.GetDirectoryName(targetPath);
+                if (!string.IsNullOrWhiteSpace(targetDirectory))
+                {
+                    Directory.CreateDirectory(targetDirectory);
+                }
+
+                File.Copy(sourcePath, targetPath, true);
             }
         }
     }

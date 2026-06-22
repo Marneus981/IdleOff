@@ -70,7 +70,9 @@ namespace IdleOff.Visuals
             }
             else
             {
-                SetSprite(VisualAssetResolver.GetSprite(currentVisual.spritePath, fallbackSpritePath));
+                SetSprite(currentVisual.sprite != null
+                    ? currentVisual.sprite
+                    : VisualAssetResolver.GetSprite(currentVisual.spritePath, fallbackSpritePath));
             }
 
             return true;
@@ -91,7 +93,12 @@ namespace IdleOff.Visuals
             currentFrames = VisualAssetResolver.GetAnimationFrames(currentAnimation, currentVisual.spritePath);
             if (currentFrames == null || currentFrames.Length == 0)
             {
-                return false;
+                if (currentVisual.sprite == null)
+                {
+                    return false;
+                }
+
+                currentFrames = new[] { currentVisual.sprite };
             }
 
             currentAnimationName = animationName;
