@@ -12,6 +12,6 @@
     "ownerType": "Player",
     "targetingType": "Projectile",
     "hitboxType": "Projectile",
-    "projectileVisualID": "projectile_arrow_placeholder"
+    "projectileVisualID": "projectile_magic_placeholder"
   }
 }

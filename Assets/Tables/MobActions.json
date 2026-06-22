@@ -30,7 +30,7 @@
     "ownerType": "Mob",
     "targetingType": "Projectile",
     "hitboxType": "Projectile",
-    "projectileVisualID": "projectile_arrow_placeholder"
+    "projectileVisualID": "projectile_fireball_placeholder"
   },
   "7003": {
     "name": "Boss Ground Zone",
