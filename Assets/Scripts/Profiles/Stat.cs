@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using IdleOff.Data;
 using UnityEngine;
 
 
@@ -188,12 +189,7 @@ namespace IdleOff.Profiles
 
         protected static string ResolveStatsPath(string statsJsonPath)
         {
-            if (Path.IsPathRooted(statsJsonPath))
-            {
-                return statsJsonPath;
-            }
-
-            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), statsJsonPath));
+            return TablePathResolver.Resolve(statsJsonPath);
         }
     }
 }

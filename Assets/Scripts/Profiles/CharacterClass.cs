@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using IdleOff.Data;
 using UnityEngine;
 using GameAction = IdleOff.Actions.Action;
 using ActionCatalog = IdleOff.Actions.ActionCatalog;
@@ -584,12 +585,7 @@ namespace IdleOff.Profiles
 
         private static string ResolveClassModifiersPath(string modifiersPath)
         {
-            if (Path.IsPathRooted(modifiersPath))
-            {
-                return modifiersPath;
-            }
-
-            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), modifiersPath));
+            return TablePathResolver.Resolve(modifiersPath);
         }
     }
 

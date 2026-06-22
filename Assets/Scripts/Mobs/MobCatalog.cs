@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using IdleOff.Data;
 using IdleOff.Profiles;
 using UnityEngine;
 
@@ -214,12 +215,7 @@ namespace IdleOff.Mobs
 
         private static string ResolveMobsPath(string mobsPath)
         {
-            if (Path.IsPathRooted(mobsPath))
-            {
-                return mobsPath;
-            }
-
-            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), mobsPath));
+            return TablePathResolver.Resolve(mobsPath);
         }
     }
 }

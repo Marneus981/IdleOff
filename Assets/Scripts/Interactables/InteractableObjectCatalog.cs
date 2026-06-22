@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using IdleOff.Data;
 using UnityEngine;
 
 namespace IdleOff.Interactables
@@ -118,9 +119,7 @@ namespace IdleOff.Interactables
 
         private static string ResolvePath(string path)
         {
-            return Path.IsPathRooted(path)
-                ? path
-                : Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), path));
+            return TablePathResolver.Resolve(path);
         }
     }
 }

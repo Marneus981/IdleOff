@@ -120,6 +120,7 @@
     <Compile Include="Assets\Scripts\Interactables\InteractableObjectCatalog.cs" />
     <Compile Include="Assets\Scripts\Profiles\SecondaryStats\BossDamage.cs" />
     <Compile Include="Assets\Scripts\Mobs\MobType.cs" />
+    <Compile Include="Assets\Scripts\Data\TablePathResolver.cs" />
     <Compile Include="Assets\Scripts\Maps\MapLadderDefinition.cs" />
     <Compile Include="Assets\Scripts\Game\FloatingFeedbackService.cs" />
     <Compile Include="Assets\Scripts\Interactables\InteractConditionResolver.cs" />

@@ -58,6 +58,7 @@
     <Compile Include="Assets\Editor\MapInteractableSystemTests.cs" />
     <Compile Include="Assets\Editor\Phase47RuntimeSystemTests.cs" />
     <Compile Include="Assets\Editor\ProfileSystemTests.cs" />
+    <Compile Include="Assets\Editor\TableBuildPostprocessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

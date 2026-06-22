@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using IdleOff.Data;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -160,12 +161,7 @@ namespace IdleOff.Controls
 
         private static string ResolveKeybindsPath(string keybindsPath)
         {
-            if (Path.IsPathRooted(keybindsPath))
-            {
-                return keybindsPath;
-            }
-
-            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), keybindsPath));
+            return TablePathResolver.Resolve(keybindsPath);
         }
     }
 }

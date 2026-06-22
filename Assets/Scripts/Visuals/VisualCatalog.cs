@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using IdleOff.Data;
 using UnityEngine;
 
 namespace IdleOff.Visuals
@@ -160,9 +161,7 @@ namespace IdleOff.Visuals
 
         private static string ResolvePath(string path)
         {
-            return Path.IsPathRooted(path)
-                ? path
-                : Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), path));
+            return TablePathResolver.Resolve(path);
         }
     }
 }
