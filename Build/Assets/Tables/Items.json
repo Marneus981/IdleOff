@@ -1,0 +1,233 @@
+{
+  "5001": {
+    "itemID": 5001,
+    "Name": "4 Leaf Circlet",
+    "Description": "Silver circlet adorned with a green gemstone clover. Increases LUCK by 5 and Accuracy by 2. Despite its age it boasts a strange lack of aging",
+    "iconPath": "Assets/Art/Icons/fb1852.png",
+    "tags": [ "item", "equipment", "hat" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 25 ],
+    "modifier": 4001
+  },
+  "5002": {
+    "itemID": 5002,
+    "Name": "Ancient Mask",
+    "Description": "Crumbling mask, almost unusable. Increases STR by 5 and Accuracy by 2",
+    "iconPath": "Assets/Art/Icons/fb2080.png",
+    "tags": [ "item", "equipment", "hat" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 0 ],
+    "modifier": 4002
+  },
+  "5003": {
+    "itemID": 5003,
+    "Name": "Ancient Hood",
+    "Description": "Moth-eaten hood, almost unusable. Increases AGI by 5 and Accuracy by 2",
+    "iconPath": "Assets/Art/Icons/fb1840.png",
+    "tags": [ "item", "equipment", "hat" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 0 ],
+    "modifier": 4003
+  },
+  "5004": {
+    "itemID": 5004,
+    "Name": "Ancient Veil",
+    "Description": "Fading veil, almost unusable. Increases WIS by 5 and Accuracy by 2",
+    "iconPath": "Assets/Art/Icons/fb1953.png",
+    "tags": [ "item", "equipment", "hat" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 0 ],
+    "modifier": 4004
+  },
+  "5005": {
+    "itemID": 5005,
+    "Name": "Ancient Cuirass",
+    "Description": "Crumbling cuirass, almost unusable. Increases STR by 5 and Defense by 2",
+    "iconPath": "Assets/Art/Icons/fb2050.png",
+    "tags": [ "item", "equipment", "top" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 50 ],
+    "modifier": 4005
+  },
+  "5006": {
+    "itemID": 5006,
+    "Name": "Ancient Harness",
+    "Description": "Moth-eaten harness, almost unusable. Increases AGI by 5 and Defense by 2",
+    "iconPath": "Assets/Art/Icons/fb1826.png",
+    "tags": [ "item", "equipment", "top" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 50 ],
+    "modifier": 4006
+  },
+  "5007": {
+    "itemID": 5007,
+    "Name": "Ancient Tunic",
+    "Description": "Fading tunic, almost unusable. Increases WIS by 5 and Defense by 2",
+    "iconPath": "Assets/Art/Icons/fb1969.png",
+    "tags": [ "item", "equipment", "top" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 50 ],
+    "modifier": 4007
+  },
+  "5008": {
+    "itemID": 5008,
+    "Name": "Ancient Culottes",
+    "Description": "Crumbling culottes, almost unusable. Increases STR by 6",
+    "iconPath": "Assets/Art/Placeholders/Item_Drop.png",
+    "tags": [ "item", "equipment", "bot" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 25 ],
+    "modifier": 4008
+  },
+  "5009": {
+    "itemID": 5009,
+    "Name": "Ancient Subligar",
+    "Description": "Moth-eaten subligar, almost unusable. Increases AGI by 6",
+    "iconPath": "Assets/Art/Placeholders/Item_Drop.png",
+    "tags": [ "item", "equipment", "bot" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 25 ],
+    "modifier": 4009
+  },
+  "5010": {
+    "itemID": 5010,
+    "Name": "Ancient Gaskins",
+    "Description": "Fading gaskins, almost unusable. Increases WIS by 6",
+    "iconPath": "Assets/Art/Placeholders/Item_Drop.png",
+    "tags": [ "item", "equipment", "bot" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 25 ],
+    "modifier": 4010
+  },
+  "5011": {
+    "itemID": 5011,
+    "Name": "Ancient Sabatons",
+    "Description": "Crumbling Sabatons, almost unusable. Increases STR by 5 and final Speed by 1%",
+    "iconPath": "Assets/Art/Icons/fb2057.png",
+    "tags": [ "item", "equipment", "shoes" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 25 ],
+    "modifier": 4011
+  },
+  "5012": {
+    "itemID": 5012,
+    "Name": "Ancient Longboots",
+    "Description": "Moth-eaten Longboots, almost unusable. Increases AGI by 5 and Accuracy by 2 and final Speed by 1%",
+    "iconPath": "Assets/Art/Icons/fb1854.png",
+    "tags": [ "item", "equipment", "shoes" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 25 ],
+    "modifier": 4012
+  },
+  "5013": {
+    "itemID": 5013,
+    "Name": "Ancient Boots",
+    "Description": "Fading Boots, almost unusable. Increases WIS by 5 and Accuracy by 2 and final Speed by 1%",
+    "iconPath": "Assets/Art/Icons/fb1992.png",
+    "tags": [ "item", "equipment", "shoes" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 1, 25 ],
+    "modifier": 4013
+  },
+  "5014": {
+    "itemID": 5014,
+    "Name": "Rusty Knife",
+    "Description": "Do not cut yourself with it, unless you wanna die a slow death. Has a Weapon Power of 6. Increases LUCK by 2",
+    "iconPath": "Assets/Art/Icons/fb156.png",
+    "tags": [ "item", "equipment", "mainHand" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 2, 0 ],
+    "modifier": 4014
+  },
+  "5015": {
+    "itemID": 5015,
+    "Name": "Ancient Sword",
+    "Description": "Aged sword, almost unusable. Has a Weapon Power of 7. Increases LUCK by 5",
+    "iconPath": "Assets/Art/Icons/fb157.png",
+    "tags": [ "item", "equipment", "mainHand" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 2, 50 ],
+    "modifier": 4015
+  },
+  "5016": {
+    "itemID": 5016,
+    "Name": "Ancient Axe",
+    "Description": "Aged axe, almost unusable. Has a Weapon Power of 10. Increases STR by 5",
+    "iconPath": "Assets/Art/Icons/fb1466.png",
+    "tags": [ "item", "equipment", "mainHand" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 2, 50 ],
+    "modifier": 4016
+  },
+  "5017": {
+    "itemID": 5017,
+    "Name": "Ancient Bow",
+    "Description": "Aged bow, almost unusable. Has a Weapon Power of 10. Increases AGI by 5",
+    "iconPath": "Assets/Art/Icons/fb1484.png",
+    "tags": [ "item", "equipment", "mainHand" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 2, 50 ],
+    "modifier": 4017
+  },
+  "5018": {
+    "itemID": 5018,
+    "Name": "Ancient Grimoire",
+    "Description": "Aged grimoire, almost unusable. Has a Weapon Power of 10. Increases WIS by 5",
+    "iconPath": "Assets/Art/Placeholders/Item_Drop.png",
+    "tags": [ "item", "equipment", "mainHand" ],
+    "quantity": 0,
+    "maxStack": 1,
+    "unitPrice": [ 0, 2, 50 ],
+    "modifier": 4018
+  },
+  "5019": {
+    "itemID": 5019,
+    "Name": "Health Potion",
+    "Description": "Restores 50 health when health drops below 50%",
+    "iconPath": "Assets/Art/Icons/fb265.png",
+    "tags": [ "item", "consumable", "potion", "health" ],
+    "quantity": 0,
+    "maxStack": 99,
+    "unitPrice": [ 0, 0, 25 ],
+    "modifier": 0
+  },
+  "5020": {
+    "itemID": 5020,
+    "Name": "Mana Potion",
+    "Description": "Restores 50 mana when mana drops below 50%",
+    "iconPath": "Assets/Art/Icons/fb265.png",
+    "tags": [ "item", "consumable", "potion", "mana" ],
+    "quantity": 0,
+    "maxStack": 99,
+    "unitPrice": [ 0, 0, 25 ],
+    "modifier": 0
+  },
+  "5021": {
+    "itemID": 5021,
+    "Name": "Oblivion's Egress Vol 1",
+    "Description": "The first volume of calamity manifest. The beginning of the end...",
+    "iconPath": "Assets/Art/Icons/fb97.png",
+    "tags": [ "item", "key", "bossKey" ],
+    "quantity": 0,
+    "maxStack": 99,
+    "unitPrice": [ 0, 0, 0 ],
+    "modifier": 0
+  }
+}

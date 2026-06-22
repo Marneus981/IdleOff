@@ -1,0 +1,397 @@
+{
+  "1000": {
+    "name": "Hub",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [],
+      "ladders": [],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -10.0, "y": -6.65 },
+        { "anchorID": "hub_training_portal", "x": 11.0, "y": -6.15 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "hub_training_portal", "interactableID": 8003, "anchorID": "hub_training_portal" }
+    ],
+    "mobSpawners": [],
+    "pickups": []
+  },
+  "1001": {
+    "name": "Training Grounds",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
+      ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.65 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_return_portal", "interactableID": 8004, "anchorID": "player_start" },
+      { "instanceID": "training_exit_portal", "interactableID": 8001, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 5, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1002": {
+    "name": "Training Grounds 2",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
+      ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.65 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_1002_return_portal", "interactableID": 8005, "anchorID": "player_start" },
+      { "instanceID": "training_1002_exit_portal", "interactableID": 8013, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_1002_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 5, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1003": {
+    "name": "Training Grounds 3",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
+      ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.65 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_1003_return_portal", "interactableID": 8006, "anchorID": "player_start" },
+      { "instanceID": "training_1003_exit_portal", "interactableID": 8014, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_1003_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 5, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1004": {
+    "name": "Training Grounds 4",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
+      ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.65 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_1004_return_portal", "interactableID": 8007, "anchorID": "player_start" },
+      { "instanceID": "training_1004_exit_portal", "interactableID": 8015, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_1004_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 5, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1005": {
+    "name": "Training Grounds 5",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
+      ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.65 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_1005_return_portal", "interactableID": 8008, "anchorID": "player_start" },
+      { "instanceID": "training_1005_exit_portal", "interactableID": 8016, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_1005_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 5, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1006": {
+    "name": "Training Grounds 6",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
+      ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.65 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_1006_return_portal", "interactableID": 8009, "anchorID": "player_start" },
+      { "instanceID": "training_1006_exit_portal", "interactableID": 8017, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_1006_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 5, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1007": {
+    "name": "Training Grounds 7",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
+      ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.65 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_1007_return_portal", "interactableID": 8010, "anchorID": "player_start" },
+      { "instanceID": "training_1007_exit_portal", "interactableID": 8018, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_1007_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 5, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1008": {
+    "name": "Training Grounds 8",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [
+        { "anchorID": "lower_platform", "x": 0.0, "y": -2.5, "width": 9.0, "height": 0.5 },
+        { "anchorID": "upper_platform", "x": 2.75, "y": 1.0, "width": 5.5, "height": 0.5 }
+      ],
+      "ladders": [
+        { "anchorID": "main_ladder", "x": 2.75, "y": -0.5, "width": 0.55, "height": 3.5 },
+        { "anchorID": "spawn_floor_ladder", "x": -3.0, "y": -4.5, "width": 0.55, "height": 4.5 }
+      ],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -3.0, "y": -1.65 },
+        { "anchorID": "training_slime_spawn", "x": 0.5, "y": -1.75 },
+        { "anchorID": "exit_portal", "x": 3.75, "y": -1.65 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "training_1008_return_portal", "interactableID": 8011, "anchorID": "player_start" },
+      { "instanceID": "training_1008_boss_key_portal", "interactableID": 8019, "anchorID": "exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_1008_slime_spawner", "mobID": 6001, "anchorID": "training_slime_spawn", "maxActive": 5, "respawnSeconds": 5.0 }
+    ],
+    "pickups": []
+  },
+  "1009": {
+    "name": "Training Boss Arena",
+    "sceneName": "Test",
+    "playerSpawnAnchor": "player_start",
+    "layout": {
+      "platforms": [],
+      "ladders": [],
+      "boundaries": {
+        "enabled": true,
+        "floorThickness": 1.5,
+        "wallThickness": 1.0,
+        "leftAnchorID": "boundary_left",
+        "rightAnchorID": "boundary_right",
+        "floorAnchorID": "boundary_floor",
+        "ceilingAnchorID": "boundary_ceiling"
+      },
+      "anchors": [
+        { "anchorID": "player_start", "x": -10.0, "y": -6.65 },
+        { "anchorID": "boss_arena_entry_portal", "x": -11.0, "y": -6.15 },
+        { "anchorID": "boss_arena_exit_portal", "x": 11.0, "y": -6.15 },
+        { "anchorID": "boss_spawn", "x": 0.0, "y": -6.0 },
+        { "anchorID": "boundary_left", "x": -12.0, "y": 0.0 },
+        { "anchorID": "boundary_right", "x": 12.0, "y": 0.0 },
+        { "anchorID": "boundary_floor", "x": 0.0, "y": -7.5 },
+        { "anchorID": "boundary_ceiling", "x": 0.0, "y": 7.5 }
+      ]
+    },
+    "interactables": [
+      { "instanceID": "boss_arena_entry_portal", "interactableID": 8012, "anchorID": "boss_arena_entry_portal" },
+      { "instanceID": "boss_arena_exit_portal", "interactableID": 8020, "anchorID": "boss_arena_exit_portal" }
+    ],
+    "mobSpawners": [
+      { "spawnerID": "training_boss_spawner", "mobID": 6003, "anchorID": "boss_spawn", "maxActive": 1, "respawnSeconds": 60.0 }
+    ],
+    "pickups": []
+  }
+}

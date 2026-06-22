@@ -1,0 +1,9 @@
+{
+  "MoveLeft": { "keys": ["A", "LeftArrow"] },
+  "MoveRight": { "keys": ["D", "RightArrow"] },
+  "MoveUp": { "keys": ["W", "UpArrow"] },
+  "MoveDown": { "keys": ["S", "DownArrow"] },
+  "Jump": { "keys": ["Space"] },
+  "AttackPrimary": { "keys": ["LeftCtrl"] },
+  "Interact": { "keys": ["E"] }
+}

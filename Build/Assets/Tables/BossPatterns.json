@@ -1,0 +1,57 @@
+{
+  "9001": {
+    "name": "Training Boss Line Blast",
+    "bossMobID": 6003,
+    "cooldown": 2.5,
+    "loop": false,
+    "steps": [
+      {
+        "delay": 0.35,
+        "actionID": 7004,
+        "originMode": "BossPosition",
+        "directionMode": "TowardTarget",
+        "count": 1,
+        "repeatCount": 1,
+        "telegraphDurationOverride": 0.35
+      }
+    ]
+  },
+  "9002": {
+    "name": "Training Boss Projectile Spread",
+    "bossMobID": 6003,
+    "cooldown": 3.0,
+    "loop": false,
+    "steps": [
+      {
+        "delay": 0.0,
+        "actionID": 7002,
+        "originMode": "BossPosition",
+        "directionMode": "SpreadTowardTarget",
+        "count": 5,
+        "spreadAngle": 45.0,
+        "repeatCount": 1
+      }
+    ]
+  },
+  "9003": {
+    "name": "Training Boss Repeated Ground Zones",
+    "bossMobID": 6003,
+    "cooldown": 4.0,
+    "loop": false,
+    "steps": [
+      {
+        "delay": 0.5,
+        "actionID": 7003,
+        "originMode": "TargetPosition",
+        "directionMode": "FixedDirection",
+        "directionX": 1.0,
+        "directionY": 0.0,
+        "count": 3,
+        "spacing": 1.25,
+        "repeatCount": 2,
+        "repeatInterval": 0.75,
+        "telegraphDurationOverride": 0.5
+      }
+    ]
+  }
+}

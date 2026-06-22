@@ -1,0 +1,232 @@
+{
+  "player_wanderingsoul": {
+    "spritePath": "Assets/Art/Sprites/Character/WanderingSoul/Idle.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 20,
+    "scale": [0.05, 0.05],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/WanderingSoul/Idle.png",
+        "fps": 10.0,
+        "loop": true
+      }
+    }
+  },
+  "player_errantknight": {
+    "spritePath": "Assets/Art/Sprites/Character/ErrantKnight/Idle.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 20,
+    "scale": [0.04, 0.04],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/ErrantKnight/Idle.png",
+        "fps": 10.0,
+        "loop": true
+      }
+    }
+  },
+  "player_voidwhisperer": {
+    "spritePath": "Assets/Art/Sprites/Character/VoidWhisperer/Idle.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 20,
+    "scale": [0.035, 0.035],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/VoidWhisperer/Idle.png",
+        "fps": 10.0,
+        "loop": true
+      }
+    }
+  },
+  "player_wildhunter": {
+    "spritePath": "Assets/Art/Sprites/Character/WildHunter/Idle.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 20,
+    "scale": [0.05, 0.05],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/WildHunter/Idle.png",
+        "fps": 8.0,
+        "loop": true
+      },
+      "run": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/WildHunter/Run.png",
+        "fps": 10.0,
+        "loop": true
+      },
+      "attack": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/WildHunter/Attack.png",
+        "fps": 12.0,
+        "loop": false
+      },
+      "jump": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/WildHunter/Jump.png",
+        "fps": 8.0,
+        "loop": false
+      },
+      "fall": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/WildHunter/Fall.png",
+        "fps": 8.0,
+        "loop": true
+      },
+      "hit": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/WildHunter/Get Hit.png",
+        "fps": 10.0,
+        "loop": false
+      },
+      "death": {
+        "spriteSheetPath": "Assets/Art/Sprites/Character/WildHunter/Death.png",
+        "fps": 8.0,
+        "loop": false
+      }
+    }
+  },
+  "mob_training_basic": {
+    "spritePath": "Assets/Art/Sprites/Mobs/Slime/idle.png",
+    "sortingLayer": "Default",
+    "sortingOrder": -5,
+    "scale": [0.05, 0.05],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "spriteSheetPath": "Assets/Art/Sprites/Mobs/Slime/idle.png",
+        "fps": 14.0,
+        "loop": true
+      }
+    }
+  },
+  "mob_training_miniboss": {
+    "spritePath": "Assets/Art/Placeholders/Mob_Box.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 5,
+    "scale": [1.0, 1.0],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "framePaths": ["Assets/Art/Placeholders/Mob_Box.png"],
+        "fps": 1.0,
+        "loop": true
+      }
+    }
+  },
+  "mob_training_boss": {
+    "spritePath": "Assets/Art/Sprites/Mobs/B1FireWorm/Idle.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 5,
+    "scale": [0.1, 0.1],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "spriteSheetPath": "Assets/Art/Sprites/Mobs/B1FireWorm/Idle.png",
+        "fps": 11.0,
+        "loop": true
+      }
+    }
+  },
+  "portal_closed_placeholder": {
+    "spritePath": "Assets/Art/Sprites/Portal/Portal.png",
+    "sortingLayer": "Default",
+    "sortingOrder": -6,
+    "scale": [0.02, 0.02],
+    "offset": [0.0, 0.7],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "framePaths": ["Assets/Art/Sprites/Portal/Portal.png"],
+        "fps": 1.0,
+        "loop": true
+      }
+    }
+  },
+  "portal_open_placeholder": {
+    "spritePath": "Assets/Art/Sprites/Portal/Portal.png",
+    "sortingLayer": "Default",
+    "sortingOrder": -6,
+    "scale": [0.02, 0.02],
+    "offset": [0.0, 0.7],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "spriteSheetPath": "Assets/Art/Sprites/Portal/Portal.png",
+        "fps": 6.0,
+        "loop": true
+      }
+    }
+  },
+  "projectile_magic_placeholder": {
+    "spritePath": "Assets/Art/Sprites/Projectiles/DefaultMagic/Moving.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 20,
+    "scale": [0.05, 0.05],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "move",
+    "animations": {
+      "move": {
+        "spriteSheetPath": "Assets/Art/Sprites/Projectiles/DefaultMagic/Moving.png",
+        "fps": 4.0,
+        "loop": true
+      }
+    }
+  },
+  "projectile_arrow_placeholder": {
+    "spritePath": "Assets/Art/Sprites/Projectiles/Arrow/Static.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 20,
+    "scale": [0.05, 0.05],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "static",
+    "animations": {
+      "move": {
+        "spriteSheetPath": "Assets/Art/Sprites/Projectiles/Arrow/Move.png",
+        "fps": 2.0,
+        "loop": true
+      },
+      "static": {
+        "spriteSheetPath": "Assets/Art/Sprites/Projectiles/Arrow/Static.png",
+        "fps": 1.0,
+        "loop": true
+      }
+    }
+  },
+  "projectile_fireball_placeholder": {
+    "spritePath": "Assets/Art/Sprites/Projectiles/FireBall/Move.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 20,
+    "scale": [0.075, 0.075],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "move",
+    "animations": {
+      "move": {
+        "spriteSheetPath": "Assets/Art/Sprites/Projectiles/FireBall/Move.png",
+        "fps": 6.0,
+        "loop": true
+      }
+    }
+  },
+  "area_warning_placeholder": {
+    "spritePath": "Assets/Art/Placeholders/Portal_Closed.png",
+    "sortingLayer": "Default",
+    "sortingOrder": 15,
+    "scale": [1.0, 1.0],
+    "offset": [0.0, 0.0],
+    "defaultAnimation": "idle",
+    "animations": {
+      "idle": {
+        "framePaths": ["Assets/Art/Placeholders/Portal_Closed.png"],
+        "fps": 1.0,
+        "loop": true
+      }
+    }
+  }
+}

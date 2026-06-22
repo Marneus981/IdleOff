@@ -1,0 +1,16 @@
+{
+  "2101": {
+    "name": "Knight Slash",
+    "description": "A basic Errant Knight attack.",
+    "tags": ["attack", "melee", "physical"],
+    "level": 1,
+    "maxLevel": 100,
+    "cooldown": 0.75,
+    "range": 1.45,
+    "attackScaling": 1.05,
+    "attackScalingPerLevel": 0.025,
+    "ownerType": "Player",
+    "targetingType": "ForwardMelee",
+    "hitboxType": "Box"
+  }
+}

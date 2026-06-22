@@ -1,0 +1,69 @@
+{
+  "6001": {
+    "name": "Training Slime",
+    "description": "A basic test mob.",
+    "tags": ["mob", "basic"],
+    "mobType": "Basic",
+    "level": 1,
+    "maxHp": 5.0,
+    "damage": 1.0,
+    "defense": 0.0,
+    "ac": 3.0,
+    "moveSpeed": 1.2,
+    "aggroRange": 0.0,
+    "attackRange": 1.25,
+    "basicActionID": 7001,
+    "xpReward": 100,
+    "itemDrops": [
+      { "itemID": 5021, "chance": 0.30 }
+    ],
+    "moneyDrops": [
+      { "money": [0, 0, 5], "chance": 0.5 }
+    ]
+  },
+  "6002": {
+    "name": "Training Miniboss",
+    "description": "A sturdier test mob with aggro range.",
+    "tags": ["mob", "miniboss"],
+    "mobType": "Miniboss",
+    "level": 5,
+    "maxHp": 120.0,
+    "damage": 12.0,
+    "defense": 2.0,
+    "ac": 8.0,
+    "moveSpeed": 1.0,
+    "aggroRange": 5.0,
+    "attackRange": 1.5,
+    "basicActionID": 7001,
+    "xpReward": 400,
+    "itemDrops": [
+      { "itemID": 5019, "chance": 0.45 }
+    ],
+    "moneyDrops": [
+      { "money": [0, 1, 0], "chance": 0.75 }
+    ]
+  },
+  "6003": {
+    "name": "Training Boss",
+    "description": "A stationary test boss.",
+    "tags": ["mob", "boss"],
+    "mobType": "Boss",
+    "level": 10,
+    "maxHp": 500.0,
+    "damage": 25.0,
+    "defense": 5.0,
+    "ac": 12.0,
+    "moveSpeed": 0.0,
+    "aggroRange": 12.0,
+    "attackRange": 8.0,
+    "basicActionID": 7002,
+    "bossPatternIDs": [9001, 9002, 9003],
+    "xpReward": 2000,
+    "itemDrops": [
+      { "itemID": 5019, "chance": 1.0 }
+    ],
+    "moneyDrops": [
+      { "money": [0, 5, 0], "chance": 1.0 }
+    ]
+  }
+}

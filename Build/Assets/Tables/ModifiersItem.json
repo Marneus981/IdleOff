@@ -1,0 +1,197 @@
+{
+  "4001": {
+    "name": "4 Leaf Circlet",
+    "description": "Silver circlet adorned with a green gemstone clover. Increases LUCK by 5 and Accuracy by 2. Despite its age it boasts a strange lack of aging",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "head" ],
+    "indexIncreaseByStatID": {
+      "1004": { "index": 4, "increase": 5 },
+      "1005": { "index": 4, "increase": 2 }
+    }
+  },
+    "4002": {
+    "name": "Ancient Mask",
+    "description": "Crumbling mask, almost unusable. Increases STR by 5 and Accuracy by 2",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "head" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 4, "increase": 5 },
+      "1005": { "index": 4, "increase": 2 }
+    }
+  },
+    "4003": {
+    "name": "Ancient Hood",
+    "description": "Moth-eaten hood, almost unusable. Increases AGI by 5 and Accuracy by 2",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "head" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 4, "increase": 5 },
+      "1005": { "index": 4, "increase": 2 }
+    }
+  },
+    "4004": {
+    "name": "Ancient Veil",
+    "description": "Fading veil, almost unusable. Increases WIS by 5 and Accuracy by 2",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "head" ],
+    "indexIncreaseByStatID": {
+      "1003": { "index": 4, "increase": 5 },
+      "1005": { "index": 4, "increase": 2 }
+    }
+  },
+    "4005": {
+    "name": "Ancient Cuirass",
+    "description": "Crumbling cuirass, almost unusable. Increases STR by 5 and Defense by 2",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "top" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 4, "increase": 5 },
+      "1009": { "index": 4, "increase": 2 }
+    }
+  },
+    "4006": {
+    "name": "Ancient Harness",
+    "description": "Moth-eaten harness, almost unusable. Increases AGI by 5 and Defense by 2",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "top" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 4, "increase": 5 },
+      "1009": { "index": 4, "increase": 2 }
+    }
+  },
+    "4007": {
+    "name": "Ancient Tunic",
+    "description": "Fading tunic, almost unusable. Increases WIS by 5 and Defense by 2",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "top" ],
+    "indexIncreaseByStatID": {
+      "1003": { "index": 4, "increase": 5 },
+      "1009": { "index": 4, "increase": 2 }
+    }
+  },
+    "4008": {
+    "name": "Ancient Culottes",
+    "description": "Crumbling culottes, almost unusable. Increases STR by 6",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "bot" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 4, "increase": 6 }
+    }
+  },
+    "4009": {
+    "name": "Ancient Subligar",
+    "description": "Moth-eaten subligar, almost unusable. Increases AGI by 6",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "bot" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 4, "increase": 6 }
+    }
+  },
+    "4010": {
+    "name": "Ancient Gaskins",
+    "description": "Fading gaskins, almost unusable. Increases WIS by 6",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "bot" ],
+    "indexIncreaseByStatID": {
+      "1003": { "index": 4, "increase": 6 }
+    }
+  },
+    "4011": {
+    "name": "Ancient Sabatons",
+    "description": "Crumbling Sabatons, almost unusable. Increases STR by 5 and final Speed by 1%",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "shoes" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 4, "increase": 5 },
+      "1021": { "index": 8, "increase": 0.01 }
+    }
+  },
+    "4012": {
+    "name": "Ancient Longboots",
+    "description": "Moth-eaten Longboots, almost unusable. Increases AGI by 5 and Accuracy by 2 and final Speed by 1%",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "shoes" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 4, "increase": 5 },
+      "1021": { "index": 8, "increase": 0.01 }
+    }
+  },
+    "4013": {
+    "name": "Ancient Boots",
+    "description": "Fading Boots, almost unusable. Increases WIS by 5 and Accuracy by 2 and final Speed by 1%",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "shoes" ],
+    "indexIncreaseByStatID": {
+      "1003": { "index": 4, "increase": 5 },
+      "1021": { "index": 8, "increase": 0.01 }
+    }
+  },
+  "4014": {
+    "name": "Rusty Knife",
+    "description": "Do not cut yourself  with it, unless you wanna die a slow death. Has a Weapon Power of 6. Increases LUCK by 2",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "mainHand" ],
+    "indexIncreaseByStatID": {
+      "1004": { "index": 4, "increase": 2 },
+      "1007": { "index": 4, "increase": 6 }
+    }
+  },
+    "4015": {
+    "name": "Ancient Sword",
+    "description": "Aged sword, almost unusable. Has a Weapon Power of 7. Increases LUCK by 5",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "mainHand" ],
+    "indexIncreaseByStatID": {
+      "1004": { "index": 4, "increase": 5 },
+      "1007": { "index": 4, "increase": 7 }
+    }
+  },
+    "4016": {
+    "name": "Ancient Axe",
+    "description": "Aged axe, almost unusable. Has a Weapon Power of 10. Increases STR by 5",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "mainHand" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 4, "increase": 5 },
+      "1007": { "index": 4, "increase": 10 }
+    }
+  },
+    "4017": {
+    "name": "Ancient Bow",
+    "description": "Aged bow, almost unusable. Has a Weapon Power of 10. Increases AGI by 5",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "mainHand" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 4, "increase": 5 },
+      "1007": { "index": 4, "increase": 10 }
+    }
+  },
+    "4018": {
+    "name": "Ancient Gromire",
+    "description": "Aged grimoire, almost unusable. Has a Weapon Power of 10. Increases WIS by 5",
+    "level": 1,
+    "maxLevel": 1,
+    "tags": [ "item", "mainHand" ],
+    "indexIncreaseByStatID": {
+      "1003": { "index": 4, "increase": 5 },
+      "1007": { "index": 4, "increase": 10 }
+    }
+  }
+}

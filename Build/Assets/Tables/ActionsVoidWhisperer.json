@@ -1,0 +1,17 @@
+{
+  "2301": {
+    "name": "Void Spark",
+    "description": "A basic Void Whisperer attack.",
+    "tags": ["attack", "ranged", "magic"],
+    "level": 1,
+    "maxLevel": 100,
+    "cooldown": 0.9,
+    "range": 4.5,
+    "attackScaling": 1.0,
+    "attackScalingPerLevel": 0.02,
+    "ownerType": "Player",
+    "targetingType": "Projectile",
+    "hitboxType": "Projectile",
+    "projectileVisualID": "projectile_magic_placeholder"
+  }
+}

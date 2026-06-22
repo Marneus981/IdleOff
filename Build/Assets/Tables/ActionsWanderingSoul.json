@@ -1,0 +1,16 @@
+{
+  "2001": {
+    "name": "Soul Strike",
+    "description": "A basic Wandering Soul attack.",
+    "tags": ["attack", "melee", "physical"],
+    "level": 1,
+    "maxLevel": 100,
+    "cooldown": 0.8,
+    "range": 1.35,
+    "attackScaling": 1.0,
+    "attackScalingPerLevel": 0.02,
+    "ownerType": "Player",
+    "targetingType": "ForwardMelee",
+    "hitboxType": "Box"
+  }
+}

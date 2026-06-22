@@ -1,0 +1,194 @@
+{
+  "2001": {
+    "name": "Wanderer's Body",
+    "description": "Increase HP by +3 per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1011": { "index": 0, "increase": 3 }
+    }
+  },
+  "2002": {
+    "name": "Wanderer's Mind",
+    "description": "Increase MP by +1.5 per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1013": { "index": 0, "increase": 1.5 }
+    }
+  },
+  "2003": {
+    "name": "Wanderer's Resolve",
+    "description": "Increase total Defense by +1% per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1009": { "index": 8, "increase": 0.01}
+    }
+  },
+  "2004": {
+    "name": "Wanderer's Force",
+    "description": "Increase base Damage by +1 per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1014": { "index": 0, "increase": 1 }
+    }
+  },
+  "2005": {
+    "name": "Wanderer's Might",
+    "description": "Increase STR by +1 per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 1 }
+    }
+  },
+  "2006": {
+    "name": "Wanderer's Nimbleness",
+    "description": "Increase AGI by +1 per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 0, "increase": 1 }
+    }
+  },
+  "2007": {
+    "name": "Wanderer's Wisdom",
+    "description": "Increase WIS by +1 per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1003": { "index": 0, "increase": 1 }
+    }
+  },
+  "2008": {
+    "name": "Wanderer's Fortune",
+    "description": "Increase LUCK by +1 per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1004": { "index": 0, "increase": 1 }
+    }
+  },
+  "2009": {
+    "name": "Wanderer's Aggravation",
+    "description": "Increase total Damage multiplier by +1.5% per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1015": { "index": 0, "increase": 0.015 }
+    }
+  },
+  "2010": {
+    "name": "Wanderer's Memory",
+    "description": "Increase main damage-scaling stat effective scaling by 0.015% per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1022": { "index": 9, "increase": 0.015 }
+    }
+  },
+  "2011": {
+    "name": "Wanderer's Edge",
+    "description": "Increase Critical Damage Chance by 0.15% and Damage by 0.30% per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class", "base" ],
+    "indexIncreaseByStatID": {
+      "1016": { "index": 0, "increase": 0.0015 },
+      "1017": { "index": 0, "increase": 0.003 }
+    }
+  },
+  "2023": {
+    "name": "Body and Mind",
+    "description": "Increase Maximum MP and Maximum HP by 0.5% per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class" ],
+    "indexIncreaseByStatID": {
+      "1011": { "index": 8, "increase": 0.005 },
+      "1013": { "index": 8, "increase": 0.005 }
+    }
+  },
+  "2024": {
+    "name": "WildHunter02",
+    "description": "Disabled",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0 }
+    }
+  },
+  "2025": {
+    "name": "Acrobatic Shots",
+    "description": "Increase AGI impact on damage by 2% per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class" ],
+    "indexIncreaseByStatID": {
+      "1022": { "index": 9, "increase": 0.02 }
+    }
+  },
+  "2026": {
+    "name": "Material Attunement",
+    "description": "Increase AGI given by equipment by 2% per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 6, "increase": 0.02 }
+    }
+  },
+  "2027": {
+    "name": "Magicked Quiver",
+    "description": "Increase Weapon Power impact on damage by 1.5% per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class" ],
+    "indexIncreaseByStatID": {
+      "1022": { "index": 0, "increase": 0.015 }
+    }
+  },
+  "2028": {
+    "name": "Whispering Wyld",
+    "description": "Increase AGI by 1 per level",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class" ],
+    "indexIncreaseByStatID": {
+      "1002": { "index": 0, "increase": 1 }
+    }
+  },
+  "2029": {
+    "name": "WildHunter07",
+    "description": "Disabled",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0 }
+    }
+  },
+  "2030": {
+    "name": "WildHunter08",
+    "description": "Disabled",
+    "level": 0,
+    "maxLevel": 100,
+    "tags": [ "class" ],
+    "indexIncreaseByStatID": {
+      "1001": { "index": 0, "increase": 0 }
+    }
+  }
+}
